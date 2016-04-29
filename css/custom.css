@@ -1,0 +1,111 @@
+/****************** Fichier CSS ******************/
+/********** Parc National du Mercantour **********/
+/**************** BUENO - CHOCHON ****************/
+
+
+/****************** GENERAL ******************/
+/*********************************************/
+
+	html, body {
+        height: 98%;
+	}
+	#map {
+        width:100%;
+        height:100%;
+    }
+	
+	
+/****************** Info Secteur-Communes ******************/
+/***********************************************************/
+	.info_secteurs {
+		padding: 6px 8px;
+		font: 14px/16px Arial, Helvetica, sans-serif;
+		background: white;
+		background: rgba(255,255,255,0.8);
+		box-shadow: 0 0 15px rgba(0,0,0,0.2);
+		border-radius: 5px;
+	}
+	.info_secteurs h4 {
+		margin: 0 0 5px;
+		color: #777;
+	}
+	
+	
+	.info {
+		padding: 6px 8px;
+		font: 14px/16px Arial, Helvetica, sans-serif;
+		background: white;
+		background: rgba(255,255,255,0.8);
+		box-shadow: 0 0 15px rgba(0,0,0,0.2);
+		border-radius: 5px;
+	}
+
+	
+/****************** Légende dans le controle des couches ******************/
+/**************************************************************************/
+/*
+Définit le rectangle de couleur de la légende
+La couleur en elle même est définit en html
+directement dans le fichier js.
+
+Le principe est de transformer la div qui est
+normallement un block, en inline block pour
+permettre de garder notre rectangle de couleur
+sur la même ligne que le contenu du controle
+des couches.
+*/
+	.rectangle {
+		display: inline-block;
+		line-height: normal;
+		vertical-align:middle;
+		height: 16px;
+		width: 24px;
+		margin-right: 8px;
+	}
+	
+/* 
+Définit le style du rectangle pour les 
+couches avec bordure de 2 pixels.
+
+Idem que la class rectangle, mais on change
+le width et le height puisque les bordures
+se mettent à l'extèrieur du rectangle.
+Cela permet de garder en apparence des rectangles
+d'a peu près la même largeur et hauteur.
+*/
+	.rectangle_bordure2 {
+		display: inline-block;
+		line-height: normal;
+		vertical-align:middle;
+		height: 12px;
+		width: 20px;
+		margin-right: 8px;
+	}
+	
+/* 
+Définit le style du rectangle pour les 
+couches avec bordure de 3 pixels.
+
+Idem que rectangle_bordure2.
+*/
+	.rectangle_bordure3 {
+		display: inline-block;
+		line-height: normal;
+		vertical-align:middle;
+		height: 11px;
+		width: 19px;
+		margin-right: 8px;
+	}
+
+/*
+Définit le style du texte du controle des couches.
+
+Le principe est le même que pour les rectangles
+sauf qu'en plus on aligne verticalement le texte
+sur le milieu du rectangle.
+*/
+	.content_legende {
+		display: inline-block;
+		line-height: normal;
+		vertical-align:middle;
+	}
