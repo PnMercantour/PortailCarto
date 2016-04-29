@@ -1,10 +1,10 @@
 # Portail carto
 
-Portail carto est une application WEB intégrant différentes couches et thématiques du Parc national du Mercantour. 
-Les agents du parc ont le besoin de consulter rapidement en quelques clics les couches d'informations géograpiques, des fichiers (images, pdf) et égalements des fonds de carte (cadastraux, géologiques, orthophotographies,topographiques)
-Ce portail cartographique est dédiée à un usage interne.
+Portail carto est une application WEB développée par Le Parc national du Mercantour. Elle intègre différentes couches et thématiques de travail relatives au Parc national du Mercantour. 
 
-Développée par Le Parc national du Mercantour, cette application utilise les librairies AngularJS et Leaflet.
+Les agents du parc ont le besoin de consulter rapidement en quelques clics des couches d'informations géograpiques, des fichiers (images, pdf) et égalements des fonds de carte (cadastraux, géologiques, orthophotographies,topographiques)
+
+Ce portail cartographique est dédiée à un usage interne.
 
 # Technologies
 
