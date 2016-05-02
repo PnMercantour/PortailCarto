@@ -1,5 +1,7 @@
 /*
+ *
  *CRÉATION DU CONTENU DE LA MAP
+ *
  */
 
 	app.service('map', function(api_postgis){
@@ -60,22 +62,19 @@
 					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				});
 
-		/*********************************** Chargement du WMS géologie ************************************/
-		// var geol_wms = L.tileLayer.wms("http://geoservices.brgm.fr/geologie", {
-			// layers: 'GEOLOGIE',
-			// format: 'image/png',
-			// transparent: true
-		// });
 
-		/*********************************** Chargement du WMS CLC ************************************/
+		//Chargement du WMS CLC
+
 		var clc_wms = L.tileLayer.wms("http://CLC.developpement-durable.gouv.fr/geoserver/wms", {
 			layers: 'clc:CLC12',
 			format: 'image/png',
 			transparent: true
 		});
 
-		/*********************************** Chargement du WFS CLC ************************************/
-		// var clc_wfs = new L.WFST({
+
+ 		//Chargement du WFS CLC
+
+ 		// var clc_wfs = new L.WFST({
 			// url: 'http://CLC.developpement-durable.gouv.fr/geoserver/wfs',
 			// //typeNS: 'donnees_france', //uri geoserver
 			// typeName: 'clc:CLC12', //couche geoserver
@@ -93,8 +92,12 @@
 		//geol_wms.addTo(map);
 		//clc_wms.addTo(map);
 
-/***************************************** CHARGEMENT DES STYLES ******************************************/
-/**********************************************************************************************************/
+
+
+/*
+ *CHARGEMENT DES STYLES
+ */
+
 		var icone_communes =new L.Icon({
 			iconSize: [20, 20],
 			iconAnchor: [13, 40],
@@ -110,9 +113,12 @@
 			}
 
 
+/*
+ *
+ *CHARGEMENT DES COUCHES
+ *
+ */
 
-/**************************************** CHARGEMENT DES COUCHES *****************************************/
-/*********************************************************************************************************/
 	var layers = {};
 
 	var control_geol_wms = {};
@@ -124,7 +130,10 @@
 	var control_couche_hab_vipere = {};
 
 
-		/*********************************** Chargement du WMS géologie ************************************/
+/*
+ *WMS Géologie BRGM
+ */
+
 		var opacitySlider = new L.Control.opacitySlider();
 			//map.addControl(opacitySlider);
 
@@ -140,7 +149,11 @@
 		map.addLayer(geol_wms);
 		control_geol_wms = geol_wms;
 
-		/*********************************** communes pnm bdtopo *************************************/
+
+/*
+ *Communes PNM BDTOPO
+ */
+
 		api_postgis.getJsonLayer('limregl.communes_pnmbdtopo', ['nom'])
 			.then (function(response){
 			// on récupère les données JSON et on créé un layer
@@ -193,7 +206,11 @@
 						couche_communes_pnmbdtopo.resetStyle(e.target);
 					}
 
-					/**************** Outil de recherche sur la couche commune **********************/
+
+		/*
+		 *Outil recherche sur la couche commune
+		 */
+
 					var searchControl = new L.Control.Search({layer: couche_communes_pnmbdtopo, propertyName: 'nom', circleLocation:false});
 						searchControl.on('search_locationfound', function(e) {
 								// si objet trouvé, on change son apparence et on ouvre une infobulle
@@ -212,7 +229,11 @@
 								});
 			map.addControl( searchControl );
 
-		/************************************ pnm coeur 25 topo ******************************************/
+
+/*
+ *PNM Coeur 25 topo
+ */
+
 		return api_postgis.getJsonLayer('limregl.pnm_coeur_25topo')
 		}).then(function(response){
 			var couche_pnm_coeur_25topo = L.geoJson(response.data, {
@@ -230,8 +251,10 @@
 			control_couche_pnm_coeur_25topo = couche_pnm_coeur_25topo;
 
 
+/*
+ *PNM aa 25 topo
+ */
 
-		/*************************************** pnm aa 25 topo ****************************************/
 		return api_postgis.getJsonLayer('limregl.pnm_aa_25topo');
 		}).then(function(response){
 
@@ -247,7 +270,11 @@
 			map.addLayer(couche_pnm_aa_25topo);
 			control_couche_pnm_aa_25topo = couche_pnm_aa_25topo;
 
-		/*************************************** pnm secteurs ******************************************/
+
+/*
+ *PNM secteurs
+ */
+
 		return api_postgis.getJsonLayer('limregl.pnm_secteurs_topo', ['nom']);
 		}).then(function(response){
 
@@ -302,8 +329,10 @@
 				info_secteurs.addTo(map);
 
 
+/*
+ *Grille vipère - impossible a charger, bcp trop lourde... Test via Geoserver ?
+ */
 
-		/************************************ grille vipère *******************************************/
 		// return api_postgis.getJsonLayer('faune.vipere_orsini_grille_pnm', ['numero_id']);
 		// }).then (function(response){
 
@@ -319,14 +348,15 @@
 			// layers["Grille Vipère d'Orsini"] = couche_grille_vipere;
 
 
+/*
+ *Sites prio
+ */
 
-		/**************************************** Sites prio ****************************************/
 		return api_postgis.getJsonLayer('limregl.site_prio', ['nom_site', 'url']);
 		}).then (function(response){
 
 			var couche_sites_prio = L.geoJson(response.data, {
 				style: {
-					//color:"#000000",
 					fillColor:"#ff0000",
 					weight:0,
 					fillOpacity: 0.5
@@ -363,13 +393,16 @@
 						couche_sites_prio.resetStyle(e.target);
 					}
 
-		/******************************* Lacs **********************************/
+
+/*
+ *Lacs
+ */
+
 		return api_postgis.getJsonLayer('limregl.lacs', ['nom_yago', 'id_pdf']);
 		}).then (function(response){
 
 			var couche_lacs = L.geoJson(response.data, {
 				style: {
-					//color:"#000000",
 					fillColor:"#2668c5",
 					weight:0,
 					fillOpacity: 0.4
@@ -407,15 +440,15 @@
 					}
 
 
+/*
+ *Modélisatiopn habs favorables vipères
+ */
 
-
-		/******************************* habitats favorables vipère **********************************/
 		return api_postgis.getJsonLayer('faune.vipere_orsini_hab_fav');
 		}).then (function(response){
 
 			var couche_hab_vipere = L.geoJson(response.data, {
 				style: {
-					//color:"#000000",
 					fillColor:"#f1e755",
 					weight:0,
 					fillOpacity: 0.75
@@ -425,7 +458,10 @@
 			control_couche_hab_vipere = couche_hab_vipere;
 
 
-		/******************************* ongulés comptages quartiers **********************************/
+/*
+ *Ongulés comptages des quartiers
+ */
+
 		return api_postgis.getJsonLayer('faune.ongules_comptages_quartiers', ['id_quartie', 'nom']);
 		}).then (function(response){
 
@@ -468,8 +504,14 @@
 						couche_ongules_comptages_quartiers.resetStyle(e.target);
 					}
 
-/*************************************** CONTROLE DES COUCHES *****************************************/
-/******************************************************************************************************/
+
+
+/*
+ *
+ *CONTROLE DES COUCHES LEAFLET
+ *
+ */
+
 		}).then(function(){
 			//Une fois toutes les couches chargées on affiche le controle des couches qui va servir de légende
 			L.control.layers({
