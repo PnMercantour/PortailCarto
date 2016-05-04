@@ -1,15 +1,21 @@
 var app = angular.module('PortailApp', ['ngRoute']);
 
 /*
- * Configuration des routes
+ * Configuration de la table de routage
  */
 
-app.config(function($routeProvider){
-    $routeProvider
-        .when('/', {
-            controller: 'mapCrtl'
-        })
-        .otherwise({
-        	redirectTo: '/'
-        });
-});
+app.config(['$routeProvider',
+	function($routeProvider){
+	$routeProvider
+		//.when('/', {
+			//templateUrl:'templates/home.html',
+			//controller: 'mapCtrl'
+		//})
+		.when('/', {
+			templateUrl:'templates/faune.html',
+			controller: 'mapCtrl'
+		})
+		.otherwise({
+			redirectTo: '/'
+		});
+}]);
