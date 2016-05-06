@@ -5,13 +5,9 @@
 		<title>Portail PNM</title>
 		<link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon.png">
 
-		</head>
-			<body ng-app="PortailApp">
-				<div ng-view></div>
-
 				<!-- Angular -->
 				<script src="vendors/angular/angular-1.5.5.min.js"></script>
-				<script src="vendors/angular/angular-route.min.js"></script>
+				<script src="vendors/angular/angular-route.js"></script>
 
 				<!-- Custom -->
 				<link rel="stylesheet" href="css/custom.css" />
@@ -41,11 +37,17 @@
 				<script src="js/app.js"></script>
 
 				<!-- Controllers -->
+				<script src="js/controllers/homeCtrl.js"></script>
 				<script src="js/controllers/mapCtrl.js"></script>
 
 				<!-- Services -->
 				<script src="js/services/api_postgis.js"></script>
 				<script src="js/services/layers_loaded.js"></script>
 
-			</body>
+
+	</head>
+
+		<body ng-app="PortailApp">
+			<div ng-view></div>
+		</body>
 </html>

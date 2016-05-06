@@ -13,8 +13,8 @@
         width:100%;
         height:100%;
     }
-	
-	
+
+
 /****************** Info Secteur-Communes ******************/
 /***********************************************************/
 	.info_secteurs {
@@ -29,8 +29,8 @@
 		margin: 0 0 5px;
 		color: #777;
 	}
-	
-	
+
+
 	.info {
 		padding: 6px 8px;
 		font: 14px/16px Arial, Helvetica, sans-serif;
@@ -40,7 +40,7 @@
 		border-radius: 5px;
 	}
 
-	
+
 /****************** Légende dans le controle des couches ******************/
 /**************************************************************************/
 /*
@@ -62,9 +62,9 @@ des couches.
 		width: 24px;
 		margin-right: 8px;
 	}
-	
-/* 
-Définit le style du rectangle pour les 
+
+/*
+Définit le style du rectangle pour les
 couches avec bordure de 2 pixels.
 
 Idem que la class rectangle, mais on change
@@ -81,9 +81,9 @@ d'a peu près la même largeur et hauteur.
 		width: 20px;
 		margin-right: 8px;
 	}
-	
-/* 
-Définit le style du rectangle pour les 
+
+/*
+Définit le style du rectangle pour les
 couches avec bordure de 3 pixels.
 
 Idem que rectangle_bordure2.

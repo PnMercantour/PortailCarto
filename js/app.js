@@ -7,11 +7,11 @@ var app = angular.module('PortailApp', ['ngRoute']);
 app.config(['$routeProvider',
 	function($routeProvider){
 	$routeProvider
-		//.when('/', {
-			//templateUrl:'templates/home.html',
-			//controller: 'mapCtrl'
-		//})
 		.when('/', {
+			templateUrl:'templates/home.html',
+			controller: 'homeCtrl'
+		})
+		.when('/faune', {
 			templateUrl:'templates/faune.html',
 			controller: 'mapCtrl'
 		})
