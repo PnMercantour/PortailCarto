@@ -1,7 +1,7 @@
 var app = angular.module('PortailApp', ['ngRoute']);
 
 /*
- * Configuration de la table de routage
+ * Configuration de la table de routage de l'app
  */
 
 app.config(['$routeProvider',
@@ -14,6 +14,10 @@ app.config(['$routeProvider',
 		.when('/faune', {
 			templateUrl:'templates/faune.html',
 			controller: 'mapCtrl'
+		})
+		.when('/test', {
+			templateUrl:'templates/test.html',
+			controller: 'testCtrl'
 		})
 		.otherwise({
 			redirectTo: '/'

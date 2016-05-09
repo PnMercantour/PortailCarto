@@ -1,26 +1,63 @@
 /*****************HOME************************/
 /*********************************************/
 
+	header.pnf {
+		background: -webkit-linear-gradient(90deg, #78B53C 30%, #9ecf6e 90%); /* Chrome 10+, Saf5.1+ */
+		background:    -moz-linear-gradient(90deg, #78B53C 30%, #9ecf6e 90%); /* FF3.6+ */
+		background:     -ms-linear-gradient(90deg, #78B53C 30%, #9ecf6e 90%); /* IE10 */
+		background:      -o-linear-gradient(90deg, #78B53C 30%, #9ecf6e 90%); /* Opera 11.10+ */
+		background:         linear-gradient(90deg, #78B53C 30%, #9ecf6e 90%); /* W3C */
 
- .logo_spirale_noire {
- 	max-width: 40%;
- 	height: auto;
- }
+		color: #fff;
+		padding: 50px 0;
+		text-align: center;
+	}
+
+	.previews .thumbnail {
+		background-image: url("./img/logos/premium-bg.png");
+		text-align: center;
+	}
+
+	.bg-footer-bottom {
+		background-color: #162029;
+		padding-bottom: 32px;
+		padding-top: 32px;
+		color:white;
+	}
+
+	.copy-left {
+		display: inline-block;
+		text-align: right;
+		margin: 0;
+		-moz-transform: scaleX(-1);
+		-o-transform: scaleX(-1);
+		-webkit-transform: scaleX(-1);
+		transform: scaleX(-1);
+		filter: FlipH;
+		-ms-filter: "FlipH";
+	}
+
+	.logo_spirale_noire {
+		max-width: 40%;
+		height: auto;
+	}
+
+
 
 
 /****************** GENERAL ******************/
 /*********************************************/
 
 	html, body {
-        height: 98%;
+		height: 98%;
 	}
 	#map {
-        width:100%;
-        position: fixed;
-        height:100%;
-        /*margin: 0;
-        padding: 0;*/
-    }
+		width:100%;
+		position: fixed;
+		height:100%;
+		/*margin: 0;
+		padding: 0;*/
+	}
 
 
 /****************** Info Secteur-Communes ******************/
