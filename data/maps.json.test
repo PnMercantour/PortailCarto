@@ -6,7 +6,7 @@
         "imageUrl": "http://i0.wp.com/blog.fabianpiau.com/wp-content/uploads/post/00043/osm-logo.png?resize=146,169",
         "clustering": false,
         "name": "Default Map",
-        "snippet": "Description de la carte ",
+        "snippet": "Description de la carte blabla bla",
         "center": {
             "lat": 44.09413,
             "lng": 6.99029,
