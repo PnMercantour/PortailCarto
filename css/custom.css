@@ -14,7 +14,7 @@
 	}
 
 	.previews .thumbnail {
-		background-image: url("./img/logos/premium-bg.png");
+		background-image: url("../img/logos/premium-bg.png");
 		text-align: center;
 	}
 
@@ -51,7 +51,7 @@
 	html, body {
 		height: 98%;
 	}
-	#map {
+	#mapc {
 		width:100%;
 		position: fixed;
 		height:100%;
