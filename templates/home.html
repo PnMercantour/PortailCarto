@@ -16,24 +16,29 @@
 		</div>
 	</div>
 	<div class="row previews">
-		<!--<div ng-repeat="map in maps | filter:query | orderBy:orderProp"  class="col-lg-4 col-sm-6">
+		<div ng-repeat="map in maps | toArray | filter:query | orderBy:orderProp"  class="col-lg-4 col-sm-6">
 			<div class="thumbnail">
 				<div class="img-overview">
-					<a class="post-image-link" href="#/maps/{{map.id}}">
+					<a class="post-image-link" href="#/{{map.id}}">
 					<img class="img-responsive" alt="{{map.name}}" <img ng-src="{{map.imageUrl}}"></a>
 				</div>
 				<div class="caption">
 					<h3>{{map.name}}</h3>
-					<a class="btn btn-default" href="#/maps/{{map.id}}">Voir la carte</a>
+					<a class="btn btn-default" href="#/{{map.id}}">Voir la carte</a>
 				</div>
 			</div>
-		</div>-->
-
+		</div>
+<br>
+<br>
+<br>
+<br>
 		<div id="">
 			<h1>Page d'accueil</h1>
 			<a href="#/faune">Ouvrir la thématique faune</a>
 			<br>
 			<a href="#/test">Ouvrir une autre thématique en test</a>
+			<br>
+			<br>
 		</div>
 	</div>
 </div>

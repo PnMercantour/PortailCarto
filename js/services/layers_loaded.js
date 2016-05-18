@@ -17,7 +17,8 @@
 				title: 'Plein écran',
 				titleCancel: 'Quitter le mode plein écran'
 			}
-		}).setView([44.09413,6.99029], 9) ;
+		});
+		map.setView([44.09413,6.99029], 9) ;
 		map.options.minZoom = 9;
 		map.options.maxBounds = bounds;
 
