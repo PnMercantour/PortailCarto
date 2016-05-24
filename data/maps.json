@@ -1,0 +1,118 @@
+[
+  {
+		"order" : 1,
+		"id": "faune",
+		"geosearch": true,
+		"imageUrl": "http://www.hotel-la-brigue.fr/images/galeries-photos/faune-mercantour/faune-parc-national-mercantour.jpg",
+		"name": "Faune",
+		"snippet": "Description de la carte faune",
+		"center": {
+			"lat": 44.09413,
+			"lng": 6.99029,
+			"zoom": 9
+		},
+		"legend":"<div id='legend'><nav class='clearfix'><b>Pays</b><div><span style='background: rgb(0, 51, 255);'></span></div></nav></div>",
+		"layers": {
+		  "baselayers": [
+				{
+					"id": "4",
+					"name": "Mapbox",
+					"type": "xyz",
+					"url": "http://api.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFyaW5lbSIsImEiOiJXOW92NVFJIn0.XsgoSQ8l6dGZsnTugVLtOQ",
+					"active": false,
+					"options":{}
+				},
+				{
+					"id": "3",
+					"name": "IGN - ortho",
+					"type": "ign",
+					"layer":"ORTHOIMAGERY.ORTHOPHOTOS",
+					"key":"w9wn74qduiunscklhf1354kc",
+					"url": "https://gpp3-wxs.ign.fr/' + layerdata.key + '/geoportail/wmts?LAYER='+layerdata.layer+'&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
+					"active": false,
+					"options":{}
+				},
+				{
+					"id": "2",
+					"name": "IGN - topo",
+					"type": "ign",
+					"layer":"GEOGRAPHICALGRIDSYSTEMS.MAPS",
+					"key":"w9wn74qduiunscklhf1354kc",
+					"url": "https://gpp3-wxs.ign.fr/' + layerdata.key + '/geoportail/wmts?LAYER='+layerdata.layer+'&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}",
+					"active": false,
+					"options":{}
+				},
+				{
+					"id": "1",
+					"name": "OpenStreetMap",
+					"type": "xyz",
+					"url": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+					"active": true,
+					"options":{}
+				}
+			],
+			"overlays": {
+				"coeur": {
+					"name": "Coeur de Parc",
+					"type": "geojson",
+					"active": true,
+					"champ_geom": "geom",
+					"table": "limregl.pnm_coeur_25topo",
+					"fields": "gid",
+					"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
+				},
+				"aa": {
+					"name": "Aire d'adhésion",
+					"type": "geojson",
+					"active": false,
+					"champ_geom": "geom",
+					"table": "limregl.pnm_aa_25topo",
+					"fields": "gid",
+					"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
+				},
+				"sites_prio" : {
+					"name": "Sites prioritaires",
+					"type": "geojson",
+					"active": false,
+					"champ_geom": "geom",
+					"table": "limregl.site_prio",
+					"fields": "nom_site,url",
+					"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.nom_site+\"</h2>\");  } } }"
+				}
+			}
+		}
+	},{
+		"order" : 2,
+		"id": "test",
+		"geosearch": true,
+		"imageUrl": "http://www.vidourle-sport-nature.fr/img/en_construction.jpg",
+		"name": "En cours...",
+		"snippet": "Description de la carte",
+		"center": {
+			"lat": 44.3266459,
+			"lng": 3.6072651,
+			"zoom": 2
+		},
+		"legend":"<div id='legend'><nav class='clearfix'><b>Pays</b><div><span style='background: rgb(0, 51, 255);'></span></div></nav></div>",
+		"layers": {
+		  "baselayers": [
+			{
+			  "name": "opencyclemap",
+			  "type": "xyz",
+			  "url" : "http://tile.opencyclemap.org/cycle/{z}/{x}/{y}.png",
+			  "active" : false,
+			  "options": {"maxZoom": 12, "minZoom":2, "attribution": "Map data © <a href='http://opencyclemap.org'>opencyclemap</a> contributors"}
+			},{
+			  "name": "OSM",
+			  "type": "xyz",
+			  "url" : "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+			  "active" : true,
+			  "options": {"maxZoom": 12, "minZoom":2, "attribution": "Map data © <a href='http://openstreetmap.org'>OpenStreetMap</a> contributors"}
+			}
+		  ]
+		}
+	}
+]
+
+
+
