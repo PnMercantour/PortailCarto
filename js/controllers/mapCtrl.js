@@ -38,7 +38,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		var lgeojson = new L.geoJson();
 		var feature_group = new L.featureGroup([]);
 			if (value.type == 'geojson' & value.active == true) {
-				$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+'&geotable='+value.table+'&srid=4326').then(
+				$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+'&geotable='+value.table+'&srid=4326', {cache:true}).then(
 					function(results) {
 							var lgeojson = new L.geoJson(results.data,eval("("+(value.options || {}) +")"));
 							feature_group.addLayer(lgeojson);
