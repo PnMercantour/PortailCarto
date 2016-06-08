@@ -64,7 +64,7 @@
 				"aa": {
 					"name": "Aire d'adhésion",
 					"type": "geojson",
-					"active": true,
+					"active": false,
 					"champ_geom": "geom",
 					"table": "limregl.pnm_aa_25topo",
 					"fields": "gid",
@@ -146,7 +146,7 @@
 				"aa": {
 					"name": "Aire d'adhésion",
 					"type": "geojson",
-					"active": false,
+					"active": true,
 					"champ_geom": "geom",
 					"table": "limregl.pnm_aa_25topo",
 					"fields": "gid",
@@ -155,7 +155,7 @@
 				"sites_prio" : {
 					"name": "Sites prioritaires",
 					"type": "geojson",
-					"active": true,
+					"active": false,
 					"champ_geom": "geom",
 					"table": "limregl.site_prio",
 					"fields": "nom_site,url",
