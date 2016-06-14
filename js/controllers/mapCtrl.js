@@ -28,8 +28,9 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 	angular.forEach($scope.mapinfo.layers.overlays, function(value, key) {
 		var lgeojson = new L.geoJson();
 		var feature_group = new L.featureGroup([]);
-			if (value.type == 'geojson' & value.active == true) {
-				$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+'&geotable='+value.table+'&srid=4326', {cache:true}).then(
+			if (value.type === 'geojson' && value.active === true) {
+				$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+'&geotable='+value.table+'&srid=4326', {cache:true})
+				.then(
 					function(results) {
 							var lgeojson = new L.geoJson(results.data,eval("("+(value.options || {}) +")"));
 							feature_group.addLayer(lgeojson);
@@ -38,7 +39,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 							layersControl.addOverlay(feature_group, value.name);
 					});
 			}
-			else if (value.type == 'geojson' & value.active == false) {
+			else if (value.type === 'geojson' && value.active === false) {
 				console.log(value.name);
 				layerscontrol[value.name]=feature_group;
 			}
@@ -87,45 +88,45 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 
 
 	$scope.changeTiles = function(nummap) {
-	  if ($scope.baselayers[nummap].active) {
-		map.removeLayer($scope.baselayers[nummap].map);
-		$scope.baselayers[nummap].active = false;
-	  }
-	  else {
-		$scope.baselayers[nummap].map.addTo(map);
-		$scope.baselayers[nummap].active = true;
-	  }
-	  angular.forEach($scope.baselayers, function(value, key) {
-		if (key != nummap) {
-		  map.removeLayer($scope.baselayers[key].map);
-		  $scope.baselayers[key].active = false;
+		if ($scope.baselayers[nummap].active) {
+			map.removeLayer($scope.baselayers[nummap].map);
+			$scope.baselayers[nummap].active = false;
 		}
-	  });
+		else {
+			$scope.baselayers[nummap].map.addTo(map);
+			$scope.baselayers[nummap].active = true;
+		}
+		angular.forEach($scope.baselayers, function(value, key) {
+			if (key !== nummap) {
+				map.removeLayer($scope.baselayers[key].map);
+				$scope.baselayers[key].active = false;
+			}
+		});
 	};
 
 	$scope.l_prev_sel = null;
 	$scope.$on('feature:click', function(ev, item){
-	   if($scope.l_prev_sel != null && $scope.l_prev_sel.item.feature.geometry.type != "Point"){
+		if($scope.l_prev_sel !== null && $scope.l_prev_sel.item.feature.geometry.type !== "Point"){
 			$scope.l_prev_sel.item.setStyle({color: $scope.l_prev_sel.color, fill: $scope.l_prev_sel.fill});
-	   }
-	   var prev_color = null;
-	   var prev_fill = null;
-	   if (item._layers) {
-		 for(x in item._layers){
-			 prev_color = item._layers[x].options.color;
-			 prev_fill = item._layers[x].options.fill;
-			 break;
-		 }
+		}
+		var prev_color = null;
+		var prev_fill = null;
+		if (item._layers) {
+			for(x in item._layers){
+				prev_color = item._layers[x].options.color;
+				prev_fill = item._layers[x].options.fill;
+				break;
+			}
 		}
 		else {
-		  prev_color = item.options.color;
-		  prev_fill = item.options.fill;
+			prev_color = item.options.color;
+			prev_fill = item.options.fill;
 		}
-	   $scope.l_prev_sel = {item: item, color: prev_color, fill:prev_fill};
-	   if(item.feature.geometry.type != "Point"){
-		  item.setStyle({color: 'yellow'});
+		$scope.l_prev_sel = {item: item, color: prev_color, fill:prev_fill};
+		if(item.feature.geometry.type !== "Point"){
+			item.setStyle({color: 'yellow'});
 		}
 	});
-  }
+	}
 
 ]);
