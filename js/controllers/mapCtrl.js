@@ -73,6 +73,9 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 	//Control Layers
 		var layersControl = L.control.layers({},layerscontrol,{collapsed:true}).addTo(map);
 
+	// Sidebar
+		var sidebar = L.control.sidebar('sidebar').addTo(map);
+
 	//Legend
 		if ($scope.mapinfo.legend) {
 			var legend = L.control({position: 'bottomright'});
