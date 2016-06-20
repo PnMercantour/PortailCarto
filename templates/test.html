@@ -5,7 +5,7 @@
   </div>
 
   <div class="container-fluid">
-    <div id="mapc"></div>
+    <div id="mapx"></div>
     <div style="position: fixed;top: 95%;">
       <button  ng-repeat="(key, baselayer) in baselayers"  ng-click="changeTiles(key)" id="activate-scan-{{key}}" class="btn " ng-class="{false: 'btn-warning', true: 'btn-primary'}[baselayer.active]" >{{baselayer.name}}</button>
     </div>

@@ -20,7 +20,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		if ($scope.map) {
 			map.remove();
 		}
-		map = L.map('mapc', { zoomControl:true });
+		map = L.map('mapx', { zoomControl:true });
 		$scope.map = map;
 
 	//Display layers
