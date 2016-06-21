@@ -20,8 +20,16 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		if ($scope.map) {
 			map.remove();
 		}
-		map = L.map('mapx', { zoomControl:true });
+		var map = L.map('mapx', {
+			zoomControl:true,
+			fullscreenControl: {
+				pseudoFullscreen: true // if true, fullscreen to page width and height
+			}
+		});
 		$scope.map = map;
+
+	// Zoom Control
+	map.zoomControl.setPosition('topright');
 
 	//Display layers
 	layerscontrol = [];
@@ -60,6 +68,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			}
 		});
 
+	/**
 	//Geosearch
 		if (($scope.mapinfo.geosearch) && ($window.innerWidth>1000)) {
 			var osmGeocoder = new L.Control.OSMGeocoder({
@@ -69,6 +78,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			});
 			osmGeocoder.addTo(map);
 		}
+	*/
 
 	//Control Layers
 		var layersControl = L.control.layers({},layerscontrol,{collapsed:true}).addTo(map);
