@@ -21,16 +21,12 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			map.remove();
 		}
 		var map = L.map('mapx', {
+			zoomControl: false,
 			fullscreenControl: {
 				pseudoFullscreen: true // if true, fullscreen to page width and height
 			}
 		});
 		$scope.map = map;
-
-	// Zoom Control
-		L.control.zoom({
-			position: 'topright'
-		}).addTo(map);
 
 	//Display layers
 		layerscontrol = [];
@@ -67,6 +63,11 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		map.options.maxBounds = bounds;
 		map.options.minZoom = $scope.mapinfo.bounds.minZoom;
 		map.options.maxZoom = $scope.mapinfo.bounds.maxZoom;
+
+	// Zoom Control
+		L.control.zoom({
+			position: 'topright'
+		}).addTo(map);
 
 	//baselayers
 		$scope.baselayers = [];
