@@ -21,7 +21,6 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			map.remove();
 		}
 		var map = L.map('mapx', {
-			zoomControl:true,
 			fullscreenControl: {
 				pseudoFullscreen: true // if true, fullscreen to page width and height
 			}
@@ -29,34 +28,45 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		$scope.map = map;
 
 	// Zoom Control
-	map.zoomControl.setPosition('topright');
+		L.control.zoom({
+			position: 'topright'
+		}).addTo(map);
 
 	//Display layers
-	layerscontrol = [];
-	angular.forEach($scope.mapinfo.layers.overlays, function(value, key) {
-		var lgeojson = new L.geoJson();
-		var feature_group = new L.featureGroup([]);
-			if (value.type === 'geojson' && value.active === true) {
-				$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+'&geotable='+value.table+'&srid=4326', {cache:true})
-				.then(
-					function(results) {
-							var lgeojson = new L.geoJson(results.data,eval("("+(value.options || {}) +")"));
-							feature_group.addLayer(lgeojson);
-							map.addLayer(feature_group);
-							layerscontrol[value.name]=feature_group;
-							layersControl.addOverlay(feature_group, value.name);
-					});
-			}
-			else if (value.type === 'geojson' && value.active === false) {
-				console.log(value.name);
-				layerscontrol[value.name]=feature_group;
-			}
-	}, $http);
+		layerscontrol = [];
+		angular.forEach($scope.mapinfo.layers.overlays, function(value, key) {
+			var lgeojson = new L.geoJson();
+			var feature_group = new L.featureGroup([]);
+				if (value.type === 'geojson' && value.active === true) {
+					$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+'&geotable='+value.table+'&srid=4326', {cache:true})
+					.then(
+						function(results) {
+								var lgeojson = new L.geoJson(results.data,eval("("+(value.options || {}) +")"));
+								feature_group.addLayer(lgeojson);
+								map.addLayer(feature_group);
+								layerscontrol[value.name]=feature_group;
+								layersControl.addOverlay(feature_group, value.name);
+						});
+				}
+				else if (value.type === 'geojson' && value.active === false) {
+					console.log(value.name);
+					layerscontrol[value.name]=feature_group;
+				}
+		}, $http);
 
 	//Center
 		if ($scope.mapinfo.center) {
 			map.setView([$scope.mapinfo.center.lat, $scope.mapinfo.center.lng], $scope.mapinfo.center.zoom);
 		}
+
+	// Bounds control and min/max zoom control
+	// Configuré dans le maps.json
+		var southWest = L.latLng($scope.mapinfo.bounds.southWest.lat, $scope.mapinfo.bounds.southWest.long);
+		var northEast = L.latLng($scope.mapinfo.bounds.northEast.lat, $scope.mapinfo.bounds.northEast.long);
+		bounds = L.latLngBounds(southWest, northEast);
+		map.options.maxBounds = bounds;
+		map.options.minZoom = $scope.mapinfo.bounds.minZoom;
+		map.options.maxZoom = $scope.mapinfo.bounds.maxZoom;
 
 	//baselayers
 		$scope.baselayers = [];

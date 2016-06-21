@@ -13,6 +13,18 @@
             "lng": 6.99029,
             "zoom": 9
         },
+        "bounds": {
+            "southWest": {
+                "lat":43.42144,
+                "long":5.13159
+            },
+            "northEast": {
+                "lat":44.84672,
+                "long":9.22737
+            },
+            "minZoom": 9,
+            "maxZoom": 18
+        },
         "legend":"<div id='legend'><nav class='clearfix'><b>Pays</b><div><span style='background: rgb(0, 51, 255);'></span></div></nav></div>",
         "layers": {
             "baselayers": [
