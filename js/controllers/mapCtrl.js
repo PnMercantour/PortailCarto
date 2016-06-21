@@ -20,7 +20,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		if ($scope.map) {
 			map.remove();
 		}
-		var map = L.map('mapx', {
+		map = L.map('mapx', {
 			zoomControl: false,
 			fullscreenControl: {
 				pseudoFullscreen: true // if true, fullscreen to page width and height
