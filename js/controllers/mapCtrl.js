@@ -93,6 +93,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 
 	//Control Layers
 		var layersControl = L.control.layers({},layerscontrol,{collapsed:true}).addTo(map);
+		layersControl._container.remove();
 
 	// Sidebar
 		var sidebar = L.control.sidebar('sidebar').addTo(map);
