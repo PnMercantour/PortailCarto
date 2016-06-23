@@ -1,7 +1,7 @@
-app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices','LeafletServices', '$location',
+app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices','baselayersServices', '$location',
 	'filterFilter','$http','$sce','$rootScope','$window',
 
-	function($scope, $routeParams, MapsServices, LeafletServices, $location, filterFilter, $http, $sce, $rootScope, $window) {
+	function($scope, $routeParams, MapsServices, baselayersServices, $location, filterFilter, $http, $sce, $rootScope, $window) {
 	$scope.mapinfo = MapsServices.getOne($routeParams.mapsId);
 
 	if (! MapsServices.maps.length) {
@@ -72,7 +72,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 	//baselayers
 		$scope.baselayers = [];
 		angular.forEach($scope.mapinfo.layers.baselayers, function(value, key) {
-			var l = LeafletServices.loadData(value);
+			var l = baselayersServices.loadData(value);
 			$scope.baselayers[key] = l;
 			if (value.active) {
 			$scope.baselayers[key].map.addTo(map);

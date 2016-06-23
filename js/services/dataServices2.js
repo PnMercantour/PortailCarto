@@ -35,7 +35,7 @@ app.factory('MapsServices', ['$http', 'filterFilter', '$q', function($http, filt
 }]);
 
 
-app.factory('LeafletServices', ['$http', function($http) {
+app.factory('baselayersServices', ['$http', function($http) {
     return {
       layer : {},
 
