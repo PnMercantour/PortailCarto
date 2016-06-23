@@ -1,7 +1,8 @@
 app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices','baselayersServices', '$location',
 	'filterFilter','$http','$sce','$rootScope','$window',
 
-	function($scope, $routeParams, MapsServices, baselayersServices, $location, filterFilter, $http, $sce, $rootScope, $window) {
+	function($scope, $routeParams, MapsServices, baselayersServices, $location,
+		filterFilter, $http, $sce, $rootScope, $window) {
 	$scope.mapinfo = MapsServices.getOne($routeParams.mapsId);
 
 	if (! MapsServices.maps.length) {
@@ -21,10 +22,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			map.remove();
 		}
 		map = L.map('mapx', {
-			zoomControl: false,
-			fullscreenControl: {
-				pseudoFullscreen: true // if true, fullscreen to page width and height
-			}
+			zoomControl: false
 		});
 		$scope.map = map;
 
@@ -34,7 +32,8 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			var lgeojson = new L.geoJson();
 			var feature_group = new L.featureGroup([]);
 				if (value.type === 'geojson' && value.active === true) {
-					$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+'&geotable='+value.table+'&srid=4326', {cache:true})
+					$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+
+						'&geotable='+value.table+'&srid=4326', {cache:true})
 					.then(
 						function(results) {
 								var lgeojson = new L.geoJson(results.data,eval("("+(value.options || {}) +")"));
@@ -97,6 +96,25 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 
 	// Sidebar
 		var sidebar = L.control.sidebar('sidebar').addTo(map);
+
+	// Control emprise initiale EasyButton
+		L.easyButton({
+			position:"topright",
+			states: [{
+				icon: 'glyphicon glyphicon-home',
+				title: 'Emprise initiale',
+				onClick: function(control) {
+					map.setView([$scope.mapinfo.center.lat, $scope.mapinfo.center.lng], $scope.mapinfo.center.zoom);
+				}
+			}]
+		}).addTo(map);
+
+	// Control FullScreen
+		L.control.fullscreen({
+				pseudoFullscreen: true // if true, fullscreen to page width and height
+		}).addTo(map);
+
+
 
 	//Legend
 		if ($scope.mapinfo.legend) {
