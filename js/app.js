@@ -11,19 +11,15 @@ app.config(['$routeProvider',
 	function($routeProvider){
 	$routeProvider
 		.when('/', {
-			templateUrl:'templates/home.html',
+			templateUrl:'templates/home.htm',
 			controller: 'ListMapController'
 			//controller: 'homeCtrl'
 		})
 		.when('/:mapsId', {
-			templateUrl:'templates/view_map-detail.html',
+			templateUrl:'templates/view_map-detail.htm',
 			controller: 'DetailMapController'
 			//controller: 'mapCtrl'
 		})
-		//.when('/:mapsId', {
-			//templateUrl:'templates/test.html',
-			//controller: 'testCtrl'
-		//})
 		.otherwise({
 			redirectTo: '/'
 		});
