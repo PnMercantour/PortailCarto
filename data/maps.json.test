@@ -30,7 +30,7 @@
 			"baselayers": [
 				{
 					"id": "5",
-					"name": "Parcellaires",
+					"name": "Parcellaires IGN",
 					"type": "ign",
 					"layer":"CADASTRALPARCELS.PARCELS",
 					"key":"nt0tpd7zhtp2zvhpiilqgyzb",
