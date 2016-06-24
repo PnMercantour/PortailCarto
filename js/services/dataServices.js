@@ -46,7 +46,7 @@ app.factory('baselayersServices', ['$http', function($http) {
 
         if (layerdata.type === 'xyz' || layerdata.type === 'ign') {
           if ( layerdata.type === 'ign') {
-            url = 'https://gpp3-wxs.ign.fr/' + layerdata.key + '/geoportail/wmts?LAYER='+layerdata.layer+'&EXCEPTIONS=text/xml&FORMAT=image/jpeg&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE=normal&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}';
+            url = 'https://gpp3-wxs.ign.fr/'+layerdata.key+'/geoportail/wmts?LAYER='+layerdata.layer+'&EXCEPTIONS=text/xml&FORMAT='+layerdata.format+'&SERVICE=WMTS&VERSION=1.0.0&REQUEST=GetTile&STYLE='+layerdata.style+'&TILEMATRIXSET=PM&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}';
           }
           else {
             url = layerdata.url;
