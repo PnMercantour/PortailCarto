@@ -109,6 +109,13 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			}]
 		}).addTo(map);
 
+	// Control échelle
+		L.control.scale({
+			imperial: false,
+			position: 'bottomright',
+			updateWhenIdle: false
+		}).addTo(map);
+
 	// Control FullScreen
 		L.control.fullscreen({
 				pseudoFullscreen: true // if true, fullscreen to page width and height
