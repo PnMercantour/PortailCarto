@@ -1,9 +1,33 @@
-app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices','baselayersServices', '$location',
-	'filterFilter','$http','$sce','$rootScope','$window',
+app.controller('controlLayerCtrl', ['$scope', '$rootScope', function($scope, $rootScope){
 
-	function($scope, $routeParams, MapsServices, baselayersServices, $location,
+	angular.forEach($rootScope.mapinfo.layers.overlays, function(value, key) {
+			console.log(value.active);
+			$scope.checkboxModel = {
+				valueCheckbox : value.active
+			};
+
+	});
+
+
+	$scope.test = function(key){
+		//if (value.type ===)
+		var test2 = key;
+		console.log(test2);
+	};
+
+	//angular.forEach($rootScope.mapinfo.layers.overlays, function(value, key) {
+		//console.log(value.name)
+	//});
+}])
+
+
+
+app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices','baselayersServices',
+	'overlaysServices', '$location', 'filterFilter','$http','$sce','$rootScope','$window',
+
+	function($scope, $routeParams, MapsServices, baselayersServices, overlaysServices, $location,
 		filterFilter, $http, $sce, $rootScope, $window) {
-	$scope.mapinfo = MapsServices.getOne($routeParams.mapsId);
+	$rootScope.mapinfo = MapsServices.getOne($routeParams.mapsId);
 
 	if (! MapsServices.maps.length) {
 		var dfd = MapsServices.loadData();
@@ -27,7 +51,8 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		$scope.map = map;
 
 	//Display layers
-		layerscontrol = [];
+
+/*
 		angular.forEach($scope.mapinfo.layers.overlays, function(value, key) {
 			var lgeojson = new L.geoJson();
 			var feature_group = new L.featureGroup([]);
@@ -48,6 +73,8 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 					layerscontrol[value.name]=feature_group;
 				}
 		}, $http);
+*/
+		console.log("Nombre d'overlays dans le maps.json : " + $rootScope.mapinfo.layers.overlays['length'])
 
 	//Center
 		if ($scope.mapinfo.center) {
@@ -78,6 +105,19 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			}
 		});
 
+	//overlays TEST
+		$scope.overlays = [];
+		angular.forEach($scope.mapinfo.layers.overlays, function(value, key) {
+			var l = overlaysServices.firstLoadOverlays(value);
+			$scope.overlays[key] = l;
+			//if (value.active) {
+			//$scope.overlays[key].map.addTo(map);
+			//}
+		});
+
+
+
+
 	/**
 	//Geosearch
 		if (($scope.mapinfo.geosearch) && ($window.innerWidth>1000)) {
@@ -91,8 +131,8 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 	*/
 
 	//Control Layers
-		var layersControl = L.control.layers({},layerscontrol,{collapsed:true}).addTo(map);
-		layersControl._container.remove();
+		//var layersControl = L.control.layers({},layerscontrol,{collapsed:true}).addTo(map);
+		//layersControl._container.remove();
 
 	// Sidebar
 		var sidebar = L.control.sidebar('sidebar').addTo(map);
