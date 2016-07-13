@@ -63,6 +63,16 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		map.options.minZoom = $scope.mapinfo.bounds.minZoom;
 		map.options.maxZoom = $scope.mapinfo.bounds.maxZoom;
 
+	//Geosearch
+		if (($scope.mapinfo.geosearch) && ($window.innerWidth>800)) {
+			var osmGeocoder = new L.Control.OSMGeocoder({
+				collapsed: false,
+				position: 'topright',
+				text: 'Rechercher',
+			});
+			osmGeocoder.addTo(map);
+		};
+
 	// Zoom Control
 		L.control.zoom({
 			position: 'topright'
@@ -77,18 +87,6 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			$scope.baselayers[key].map.addTo(map);
 			}
 		});
-
-	/**
-	//Geosearch
-		if (($scope.mapinfo.geosearch) && ($window.innerWidth>1000)) {
-			var osmGeocoder = new L.Control.OSMGeocoder({
-				collapsed: false,
-				position: 'topright',
-				text: 'Rechercher',
-			});
-			osmGeocoder.addTo(map);
-		}
-	*/
 
 	//Control Layers
 		var layersControl = L.control.layers({},layerscontrol,{collapsed:true}).addTo(map);
