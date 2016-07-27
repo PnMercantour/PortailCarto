@@ -1,6 +1,6 @@
 app.factory('MapsServices', ['$http', 'filterFilter', '$q', function($http, filterFilter, $q) {
 	return {
-		maps:{},
+		maps: [],
 
 	loadData : function() {
 		self = this;
