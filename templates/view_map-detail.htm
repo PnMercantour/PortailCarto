@@ -20,16 +20,17 @@
 				<div class="sidebar-pane" id="home">
 					<h1 class="sidebar-header">
 						Contrôleur de couche
+						<span ng-if="overlaysLoading">(Loading...)</span>
 						<span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
 					</h1>
 
-					<div class="checkbox" ng-repeat="(key, overlay) in overlays" ng-controller="controlLayerCtrl">
+					<div class="checkbox" ng-repeat="(key, overlay) in overlays">
 						<label>
 							<input
 								type="checkbox"
 								name="test"
-								ng-model="checkboxModel.valueCheckbox"
-								ng-click="test(key)"
+								ng-model="overlay.active"
+								ng-click="toggleOverlay(overlay)"
 							>{{overlay.name}}
 						</label>
 					</div>
