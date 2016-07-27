@@ -66,37 +66,46 @@ app.factory('baselayersServices', ['$http', function($http) {
 }]);
 
 
-app.factory('overlaysServices', ['$http', function($http) {
+app.factory('overlaysServices', ['$http', '$q', function($http, $q) {
+	var overlays = [];
+
+	function loadOverlay(requested) {
+		var overlay = {
+			name: requested.name,
+			active: requested.active
+		};
+
+		if (requested.type === 'geojson') {
+			return $http.get('postgis_geojson.php?fields='+requested.fields+'&geomfield='+requested.champ_geom+
+				'&geotable='+requested.table+'&srid=4326'
+				)
+			.then(
+				function(results) {
+					overlay.feature = new L.geoJson(
+						results.data,
+						eval("("+(requested.options || {}) +")")
+					);
+					overlays.push(overlay);
+					return overlay;
+				}
+			);
+		} else {
+			return $q.reject('overlay is not of type geojson');
+		}
+	}
+
+	function getOverlay(requested) {
+		for (var i = 0; i < overlays.length; i++) {
+			var ov = overlays[i];
+			if (ov.id === requested.id) {
+				return $q.when(ov);
+			}
+		}
+		return loadOverlay(requested);
+	}
 
 	return {
-		overlays : {},
-
-		firstLoadOverlays : function(value) {
-			var layerscontrol = [];
-			var lgeojson = new L.geoJson();
-			var feature_group = new L.featureGroup([]);
-			this.overlays = {};
-			this.overlays.name = value.name;
-			this.overlays.active = value.active;
-
-			if (value.type === 'geojson' && value.active === true) {
-					$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+
-						'&geotable='+value.table+'&srid=4326'//,
-						//{cache:true} // ==> Avec activation du cache de cette manière,
-						//bug "TypeError: Cannot read property min of undefined"... A creuser donc !
-						)
-					.then(
-						function(results) {
-								var lgeojson = new L.geoJson(results.data,eval("("+(value.options || {}) +")"));
-								feature_group.addLayer(lgeojson);
-								map.addLayer(feature_group);
-						});
-				}
-				else if (value.type === 'geojson' && value.active === false) {
-					console.log(value.name);
-					layerscontrol[value.name]=feature_group;
-				}
-			return this.overlays;
-		}
+		overlays: overlays,
+		getOverlay: getOverlay
 	};
 }]);
