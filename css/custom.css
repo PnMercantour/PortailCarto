@@ -196,3 +196,34 @@ sur le milieu du rectangle.
 		line-height: normal;
 		vertical-align:middle;
 	}
+
+/****************** Sidebar ******************/
+/**************************************************************************/
+.overlays-group {
+	margin-top: 3rem;
+}
+
+.overlays-collapser-toggle {
+	background: none;
+	border: none;
+	outline: none;
+	box-shadow: none;
+}
+
+.overlays-group-icon {
+	font-size: 1.8rem;
+	display: inline-block;
+	vertical-align: middle;
+	transition: transform 0.2s ease-out;
+}
+
+.overlays-collapser-toggle.collapsed .overlays-group-icon {
+	transform: rotateZ(-90deg);
+}
+
+.overlays-group-title {
+	font-size: 1.8rem;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0;
+}
