@@ -107,17 +107,21 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			}
 		});
 
-	//overlays TEST
+	//overlays
 		$scope.overlays = [];
-		angular.forEach($scope.mapinfo.layers.overlays, function(value, key) {
-			var l = overlaysServices.firstLoadOverlays(value);
-			$scope.overlays[key] = l;
-			//if (value.active) {
-			//$scope.overlays[key].map.addTo(map);
-			//}
+		$scope.overlaysLoading = true;
+		angular.forEach($scope.mapinfo.overlays, function(value, key) {
+			overlaysServices.getOverlay(value)
+				.then(function (overlay) {
+					$scope.overlays[key] = overlay;
+					if (value.active) {
+						$scope.overlays[key].feature.addTo(map);
+					}
+					if ($scope.mapinfo.overlays.length === $scope.overlays.length) {
+						$scope.overlaysLoading = false;
+					}
+				});
 		});
-
-
 
 
 	/**
