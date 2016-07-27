@@ -182,6 +182,14 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			return $scope;
 	}, true);
 
+	$scope.toggleOverlay = function(overlay) {
+		if (!overlay.active && map.hasLayer(overlay.feature)) {
+			map.removeLayer(overlay.feature);
+		}
+		if (overlay.active && !map.hasLayer(overlay.feature)) {
+			map.addLayer(overlay.feature);
+		}
+	};
 
 	$scope.changeTiles = function(nummap) {
 		if ($scope.baselayers[nummap].active) {
