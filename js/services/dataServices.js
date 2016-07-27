@@ -47,6 +47,7 @@ app.factory('baselayersServices', ['$http', function($http) {
 			this.layer = {};
 			this.layer.name = layerdata.name;
 			this.layer.active = layerdata.active;
+			this.layer.id = layerdata.id;
 
 			if (layerdata.type === 'xyz' || layerdata.type === 'ign') {
 				if ( layerdata.type === 'ign') {
@@ -71,6 +72,7 @@ app.factory('overlaysServices', ['$http', '$q', function($http, $q) {
 
 	function loadOverlay(requested) {
 		var overlay = {
+			id: requested.id,
 			name: requested.name,
 			active: requested.active,
 			group: requested.group

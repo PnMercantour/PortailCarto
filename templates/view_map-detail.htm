@@ -24,13 +24,13 @@
 						<span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
 					</h1>
 
-					<div class="overlays-group" ng-repeat="group in overlaysGroups">
+					<div class="overlays-group" ng-repeat="group in overlaysGroups track by group.id">
 						<button class="overlays-collapser-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{group.id}}" aria-expanded="false" aria-controls="collapse-{{group.id}}">
 							<i class="overlays-group-icon fa fa-caret-down"></i>
 							<h2 class="overlays-group-title">{{group.label}}</h2>
 						</button>
 						<ul  class="collapse overlays-group-values collapsed" id="collapse-{{group.id}}">
-							<li class="checkbox" ng-repeat="overlay in overlays" ng-if="overlay.group && overlay.group === group.id">
+							<li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="overlay.group && overlay.group === group.id">
 								<label>
 									<input
 										type="checkbox"
@@ -48,8 +48,8 @@
 							<i class="overlays-group-icon fa fa-caret-down"></i>
 							<h2 class="overlays-group-title">Autres</h2>
 						</button>
-						<ul  class="collapse overlays-group-values collapsed" id="collapse-other">
-							<li class="checkbox" ng-repeat="overlay in overlays" ng-if="!overlay.group">
+						<ul class="collapse overlays-group-values collapsed" id="collapse-other">
+							<li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="!overlay.group">
 								<label>
 									<input
 										type="checkbox"
@@ -74,7 +74,7 @@
 		<div id="mapx" class="sidebar-map">
 		</div>
 		<div style="position: fixed;top: 95%;">
-			<button  ng-repeat="(key, baselayer) in baselayers"  ng-click="changeTiles(key)" id="activate-scan-{{key}}" class="btn " ng-class="{false: 'btn-warning', true: 'btn-primary'}[baselayer.active]" >{{baselayer.name}}</button>
+			<button  ng-repeat="(key, baselayer) in baselayers track by baselayer.id"  ng-click="changeTiles(key)" id="activate-scan-{{key}}" class="btn " ng-class="{false: 'btn-warning', true: 'btn-primary'}[baselayer.active]" >{{baselayer.name}}</button>
 		</div>
 	</div>
 </div>
