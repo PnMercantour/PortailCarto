@@ -1,27 +1,3 @@
-app.controller('controlLayerCtrl', ['$scope', '$rootScope', function($scope, $rootScope){
-
-	angular.forEach($rootScope.mapinfo.layers.overlays, function(value, key) {
-			console.log(value.active);
-			$scope.checkboxModel = {
-				valueCheckbox : value.active
-			};
-
-	});
-
-
-	$scope.test = function(key){
-		//if (value.type ===)
-		var test2 = key;
-		console.log(test2);
-	};
-
-	//angular.forEach($rootScope.mapinfo.layers.overlays, function(value, key) {
-		//console.log(value.name)
-	//});
-}])
-
-
-
 app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices','baselayersServices',
 	'overlaysServices', '$location', 'filterFilter','$http','$sce','$rootScope','$window',
 
