@@ -164,41 +164,53 @@ De la même manière et à la suite :
 #### 6.3 - La config des couches (overlays)
 
 ```
-	"overlays": [
-		{
-			"id":"coeur",
-			"name": "Coeur de Parc",
-			"type": "geojson",
-			"active": true,
-			"champ_geom": "geom",
-			"table": "limregl.cr_pnm_coeur_cad",
-			"fields": "id",
-			"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
-		},{
-			"id":"aa",
-			"name": "Aire d'adhésion",
-			"type": "geojson",
-			"active": true,
-			"champ_geom": "geom",
-			"table": "limregl.cr_pnm_aa_topo",
-			"fields": "surface",
-			"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
-		},{
-			"id":"aoa",
-			"name": "Aire optimale d'adhésion",
-			"type": "geojson",
-			"active": true,
-			"champ_geom": "geom",
-			"table": "limregl.cr_pnm_aoa_topo",
-			"fields": "id",
-			"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.nom_site+\"</h2>\");  } } }"
-		}
-	]
+	"overlays": {
+		"groups": [
+			{ "id": "groupId1", "label": "Group 1 label" },
+			{ "id": "groupId2", "label": "Group 2 label" }
+		],
+		"values": [
+			{
+				"id":"coeur",
+				"name": "Coeur de Parc",
+				"type": "geojson",
+				"active": true,
+				"champ_geom": "geom",
+				"table": "limregl.cr_pnm_coeur_cad",
+				"fields": "id",
+				"group": "groupId1",
+				"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
+			},
+			{
+				"id":"aa",
+				"name": "Aire d'adhésion",
+				"type": "geojson",
+				"active": true,
+				"champ_geom": "geom",
+				"table": "limregl.cr_pnm_aa_topo",
+				"fields": "surface",
+				"group": "groupId2",
+				"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
+			},
+			{
+				"id":"aoa",
+				"name": "Aire optimale d'adhésion",
+				"type": "geojson",
+				"active": true,
+				"champ_geom": "geom",
+				"table": "limregl.cr_pnm_aoa_topo",
+				"fields": "id",
+				"group": null,
+				"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.nom_site+\"</h2>\");  } } }"
+			}
+		]
+	}
 ```
 
 * Pour le moment seul le type geojson est supporté.
 * La récupération d'au moins 1 champ (fields) est recommandée. Sinon, tous les champs de la table sont récupérés...
 * Les options n'ont pas encore été améliorées, récupération du travail d'Amandine Sahl du Parc des Cévennes : https://github.com/PnCevennes/ng-mapCreator-fp
+* La propriété group est optionnelle. Cependant si elle est renseignée, elle doit correspondre à l'un des groupes déclaré au dessus.
 
 
 #### 6.4 - Récapitulatif du maps.json

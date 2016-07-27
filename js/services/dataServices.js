@@ -72,7 +72,8 @@ app.factory('overlaysServices', ['$http', '$q', function($http, $q) {
 	function loadOverlay(requested) {
 		var overlay = {
 			name: requested.name,
-			active: requested.active
+			active: requested.active,
+			group: requested.group
 		};
 
 		if (requested.type === 'geojson') {

@@ -83,17 +83,20 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			}
 		});
 
+
+
 	//overlays
+		$scope.overlaysGroups = $scope.mapinfo.overlays.groups;
 		$scope.overlays = [];
 		$scope.overlaysLoading = true;
-		angular.forEach($scope.mapinfo.overlays, function(value, key) {
+		angular.forEach($scope.mapinfo.overlays.values, function(value, key) {
 			overlaysServices.getOverlay(value)
 				.then(function (overlay) {
 					$scope.overlays[key] = overlay;
 					if (value.active) {
 						$scope.overlays[key].feature.addTo(map);
 					}
-					if ($scope.mapinfo.overlays.length === $scope.overlays.length) {
+					if ($scope.mapinfo.overlays.values.length === $scope.overlays.length) {
 						$scope.overlaysLoading = false;
 					}
 				});
