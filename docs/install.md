@@ -54,7 +54,6 @@ Pour basculer sur une autre branche :
 ```
 git checkout <MA_BRANCHE>
 ```
-Dans notre cas cela sera la branche ``control_layer``
 
 
 ### 4 - Config lien symbolique dans le rep Apache
@@ -210,60 +209,8 @@ De la même manière et à la suite :
 * Pour le moment seul le type geojson est supporté.
 * La récupération d'au moins 1 champ (fields) est recommandée. Sinon, tous les champs de la table sont récupérés...
 * Les options n'ont pas encore été améliorées, récupération du travail d'Amandine Sahl du Parc des Cévennes : https://github.com/PnCevennes/ng-mapCreator-fp
-* La propriété group est optionnelle. Cependant si elle est renseignée, elle doit correspondre à l'un des groupes déclaré au dessus.
 
 
 #### 6.4 - Récapitulatif du maps.json
 
-Architecture du ``maps.json`` :
-```
-	[
-		{
-			"order" : 1,
-			"id": "limregl",
-			...
-			"center": {
-				"lat": 44.09413,
-				"lng": 6.99029,
-				"zoom": 9
-			},
-			"bounds": {
-				"southWest": {
-					"lat":43.42144,
-					"long":5.13159
-				},
-				"northEast": {
-					"lat":44.84672,
-					"long":9.22737
-				},
-				"minZoom": 9,
-				"maxZoom": 18
-			},
-			"legend":"<div id='legend'><nav class='clearfix'>...</nav></div>",
-			"layers": {
-				"baselayers": [
-					{
-						baselayer2
-					},{
-						baselayer1
-					}
-				],
-				"overlays": {
-					"groups": [
-						{ "id": "groupId1", "label": "Group 1 label" },
-						{ "id": "groupId2", "label": "Group 2 label" }
-					],
-					values: [
-						{
-							overlay1...
-						},{
-							overlay2...
-						}
-					]
-				}
-			}
-		},{
-		"order" : 2,
-		"id": "faune",
-		Deuxième carte .....
-```
+Architecture du ``maps.json`` : se référer au fichier [maps.json.test](data/maps.json.test)
