@@ -248,13 +248,19 @@ Architecture du ``maps.json`` :
 						baselayer1
 					}
 				],
-				"overlays": [
-					{
-						overlay1...
-					},{
-						overlay2...
-					}
-				]
+				"overlays": {
+					"groups": [
+						{ "id": "groupId1", "label": "Group 1 label" },
+						{ "id": "groupId2", "label": "Group 2 label" }
+					],
+					values: [
+						{
+							overlay1...
+						},{
+							overlay2...
+						}
+					]
+				}
 			}
 		},{
 		"order" : 2,
