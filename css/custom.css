@@ -42,6 +42,40 @@
 		height: auto;
 	}
 
+	.fa-spinner {
+		-webkit-animation: rotate 1s linear infinite both;
+	  animation: rotate 1s linear infinite both;
+	}
+
+	@-webkit-keyframes rotate {
+		0% {
+		  -webkit-transform-origin: center;
+		  transform-origin: center;
+		  -webkit-transform: rotate3d(0, 0, 1, -360deg);
+		  transform: rotate3d(0, 0, 1, -360deg);
+	  }
+	  100% {
+		  -webkit-transform-origin: center;
+		  transform-origin: center;
+		  -webkit-transform: none;
+		  transform: none;
+	  }
+	}
+
+	@keyframes rotate {
+	  0% {
+		  -webkit-transform-origin: center;
+		  transform-origin: center;
+		  -webkit-transform: rotate3d(0, 0, 1, -360deg);
+		  transform: rotate3d(0, 0, 1, -360deg);
+	  }
+	  100% {
+		  -webkit-transform-origin: center;
+		  transform-origin: center;
+		  -webkit-transform: none;
+		  transform: none;
+	  }
+  }
 
 
 
@@ -162,3 +196,34 @@ sur le milieu du rectangle.
 		line-height: normal;
 		vertical-align:middle;
 	}
+
+/****************** Sidebar ******************/
+/**************************************************************************/
+.overlays-group {
+	margin-top: 3rem;
+}
+
+.overlays-collapser-toggle {
+	background: none;
+	border: none;
+	outline: none;
+	box-shadow: none;
+}
+
+.overlays-group-icon {
+	font-size: 1.8rem;
+	display: inline-block;
+	vertical-align: middle;
+	transition: transform 0.2s ease-out;
+}
+
+.overlays-collapser-toggle.collapsed .overlays-group-icon {
+	transform: rotateZ(-90deg);
+}
+
+.overlays-group-title {
+	font-size: 1.8rem;
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0;
+}

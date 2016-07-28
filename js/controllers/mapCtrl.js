@@ -1,27 +1,3 @@
-app.controller('controlLayerCtrl', ['$scope', '$rootScope', function($scope, $rootScope){
-
-	angular.forEach($rootScope.mapinfo.layers.overlays, function(value, key) {
-			console.log(value.active);
-			$scope.checkboxModel = {
-				valueCheckbox : value.active
-			};
-
-	});
-
-
-	$scope.test = function(key){
-		//if (value.type ===)
-		var test2 = key;
-		console.log(test2);
-	};
-
-	//angular.forEach($rootScope.mapinfo.layers.overlays, function(value, key) {
-		//console.log(value.name)
-	//});
-}])
-
-
-
 app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices','baselayersServices',
 	'overlaysServices', '$location', 'filterFilter','$http','$sce','$rootScope','$window',
 
@@ -74,7 +50,9 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 				}
 		}, $http);
 */
-		console.log("Nombre d'overlays dans le maps.json : " + $rootScope.mapinfo.layers.overlays['length'])
+		if ($rootScope.mapinfo && $rootScope.mapinfo.layers) {
+			console.log("Nombre d'overlays dans le maps.json : " + $rootScope.mapinfo.layers.overlays['length']);
+		}
 
 	//Center
 		if ($scope.mapinfo.center) {
@@ -105,17 +83,32 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			}
 		});
 
-	//overlays TEST
+
+
+	//overlays
+		var overlaysObject = $scope.mapinfo.layers.overlays;
+		var overlays = overlaysObject ? overlaysObject.values : null;
+		var overlaysGroups = overlaysObject ? overlaysObject.groups : null;
+		$scope.overlaysGroups = [];
+		if (overlaysGroups) {
+			$scope.overlaysGroups = overlaysGroups;
+		}
 		$scope.overlays = [];
-		angular.forEach($scope.mapinfo.layers.overlays, function(value, key) {
-			var l = overlaysServices.firstLoadOverlays(value);
-			$scope.overlays[key] = l;
-			//if (value.active) {
-			//$scope.overlays[key].map.addTo(map);
-			//}
-		});
-
-
+		if (overlays && overlays.length > 0) {
+			$scope.overlaysLoading = true;
+			angular.forEach(overlays, function(value, key) {
+				overlaysServices.getOverlay(value)
+				.then(function (overlay) {
+					$scope.overlays[key] = overlay;
+					if (value.active) {
+						$scope.overlays[key].feature.addTo(map);
+					}
+					if (overlays.length === $scope.overlays.length) {
+						$scope.overlaysLoading = false;
+					}
+				});
+			});
+		}
 
 
 	/**
@@ -176,6 +169,14 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			return $scope;
 	}, true);
 
+	$scope.toggleOverlay = function(overlay) {
+		if (!overlay.active && map.hasLayer(overlay.feature)) {
+			map.removeLayer(overlay.feature);
+		}
+		if (overlay.active && !map.hasLayer(overlay.feature)) {
+			map.addLayer(overlay.feature);
+		}
+	};
 
 	$scope.changeTiles = function(nummap) {
 		if ($scope.baselayers[nummap].active) {

@@ -16,7 +16,7 @@
 		</div>
 	</div>
 	<div class="row previews">
-		<div ng-repeat="map in maps | toArray | filter:query | orderBy:orderProp"  class="col-lg-4 col-sm-6">
+		<div ng-repeat="map in maps | toArray | filter:query | orderBy:orderProp track by map.id"  class="col-lg-4 col-sm-6">
 			<div class="thumbnail">
 				<div class="img-overview">
 					<a class="post-image-link" href="#/{{map.id}}">
@@ -37,13 +37,3 @@
 		<p class="center-text"><span class="copy-left">&copy;</span> - Site réalisé par le Parc National du Mercantour - 2016</p>
 	</div>
 </div>
-
-
-
-
-
-
-
-
-
-
