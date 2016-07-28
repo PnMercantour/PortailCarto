@@ -8,37 +8,73 @@
 
 	<!-- GENERATION DE LA LEGENDE -->
 		<div id="sidebar" class="sidebar collapsed">
-				<!-- Nav tabs -->
-				<div class="sidebar-tabs">
-					<ul role="tablist">
-						<li><a ng-href="#home"><img ng-src="img/icons/layers_26.png"></a></li>
-					</ul>
-				</div>
-
-				<!-- Tab panes -->
-				<div class="sidebar-content">
-					<div class="sidebar-pane" id="home">
-						<h1 class="sidebar-header">
-							Contrôleur de couche
-							<span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
-						</h1>
-
-						<p>A responsive sidebar for mapping libraries like <a href="http://leafletjs.com/">Leaflet</a> or <a href="http://openlayers.org/">OpenLayers</a>.</p>
-
-						<p class="lorem">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
-					</div><!-- FIN DIV sidebar-pane  -->
-				</div><!-- FIN DIV sidebar-content  -->
+			<!-- Nav tabs -->
+			<div class="sidebar-tabs">
+				<ul role="tablist">
+					<li><a ng-href="#home"><img ng-src="img/icons/layers_26.png"></a></li>
+				</ul>
 			</div>
+
+			<!-- Tab panes -->
+			<div class="sidebar-content">
+				<div class="sidebar-pane" id="home">
+					<h1 class="sidebar-header">
+						Contrôleur de couche
+						<i ng-if="overlaysLoading" class="fa fa-spinner" aria-hidden="true"></i>
+						<span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+					</h1>
+
+					<div class="overlays-group" ng-repeat="group in overlaysGroups track by group.id">
+						<button class="overlays-collapser-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{group.id}}" aria-expanded="false" aria-controls="collapse-{{group.id}}">
+							<i class="overlays-group-icon fa fa-caret-down"></i>
+							<h2 class="overlays-group-title">{{group.label}}</h2>
+						</button>
+						<ul  class="collapse overlays-group-values collapsed" id="collapse-{{group.id}}">
+							<li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="overlay.group && overlay.group === group.id">
+								<label>
+									<input
+										type="checkbox"
+										name="test"
+										ng-model="overlay.active"
+										ng-click="toggleOverlay(overlay)"
+									>{{overlay.name}}
+								</label>
+							</li>
+						</ul>
+					</div>
+
+					<div class="overlays-group">
+						<button class="overlays-collapser-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapse-other" aria-expanded="false" aria-controls="collapse-other">
+							<i class="overlays-group-icon fa fa-caret-down"></i>
+							<h2 class="overlays-group-title">Autres</h2>
+						</button>
+						<ul class="collapse overlays-group-values collapsed" id="collapse-other">
+							<li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="!overlay.group">
+								<label>
+									<input
+										type="checkbox"
+										name="test"
+										ng-model="overlay.active"
+										ng-click="toggleOverlay(overlay)"
+									>{{overlay.name}}
+								</label>
+							</li>
+						</ul>
+					</div>
+
+				</div><!-- FIN DIV sidebar-pane  -->
+			</div><!-- FIN DIV sidebar-content  -->
+		</div>
 		<!-- FIN DE GENERATION DE LA LEGENDE -->
 
 
 
 
 
-		<div id="mapx" class="sidebar-map">>
+		<div id="mapx" class="sidebar-map">
 		</div>
 		<div style="position: fixed;top: 95%;">
-			<button  ng-repeat="(key, baselayer) in baselayers"  ng-click="changeTiles(key)" id="activate-scan-{{key}}" class="btn " ng-class="{false: 'btn-warning', true: 'btn-primary'}[baselayer.active]" >{{baselayer.name}}</button>
+			<button  ng-repeat="(key, baselayer) in baselayers track by baselayer.id"  ng-click="changeTiles(key)" id="activate-scan-{{key}}" class="btn " ng-class="{false: 'btn-warning', true: 'btn-primary'}[baselayer.active]" >{{baselayer.name}}</button>
 		</div>
 	</div>
 </div>

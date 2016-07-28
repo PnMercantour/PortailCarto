@@ -4,7 +4,6 @@
 		"id": "test",
 		"geosearch": true,
 		"imageUrl": "http://i0.wp.com/blog.fabianpiau.com/wp-content/uploads/post/00043/osm-logo.png?resize=146,169",
-		"clustering": false,
 		"name": "Default Map",
 		"snippet": "Description de la carte",
 		"center": {
@@ -24,7 +23,7 @@
 			"minZoom": 9,
 			"maxZoom": 18
 		},
-		"legend":"<div id='legend'><nav class='clearfix'><b>Pays</b><div><span style='background: rgb(0, 51, 255);'></span></div></nav></div>",
+		"legend":"<div id='legend'><nav class='clearfix'>A supprimer ?</nav></div>",
 		"layers": {
 			"baselayers": [
 				{
@@ -76,7 +75,47 @@
 					"active": true,
 					"options":{}
 				}
-			]
+			],
+			"overlays": {
+				"groups": [
+					{ "id": "limRegl", "label": "Limites & réglementations PNM" }
+				],
+				"values": [
+					{
+						"id":"coeur",
+						"name": "Coeur de Parc",
+						"type": "geojson",
+						"active": true,
+						"champ_geom": "geom",
+						"table": "limregl.cr_pnm_coeur_cad",
+						"fields": "id",
+						"group": "limRegl",
+						"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
+					},
+					{
+						"id":"aa",
+						"name": "Aire d'adhésion",
+						"type": "geojson",
+						"active": false,
+						"champ_geom": "geom",
+						"table": "limregl.cr_pnm_aa_topo",
+						"fields": "surface",
+						"group": "limRegl",
+						"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
+					},
+					{
+						"id":"aoa",
+						"name": "Aire optimale d'adhésion",
+						"type": "geojson",
+						"active": false,
+						"champ_geom": "geom",
+						"table": "limregl.cr_pnm_aoa_topo",
+						"fields": "id",
+						"group": null,
+						"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.nom_site+\"</h2>\");  } } }"
+					}
+				]
+			}
 		}
 	}
 ]

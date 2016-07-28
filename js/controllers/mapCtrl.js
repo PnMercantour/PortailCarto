@@ -1,9 +1,9 @@
-app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices','baselayersServices', '$location',
-	'filterFilter','$http','$sce','$rootScope','$window',
+app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices','baselayersServices',
+	'overlaysServices', '$location', 'filterFilter','$http','$sce','$rootScope','$window',
 
-	function($scope, $routeParams, MapsServices, baselayersServices, $location,
+	function($scope, $routeParams, MapsServices, baselayersServices, overlaysServices, $location,
 		filterFilter, $http, $sce, $rootScope, $window) {
-	$scope.mapinfo = MapsServices.getOne($routeParams.mapsId);
+	$rootScope.mapinfo = MapsServices.getOne($routeParams.mapsId);
 
 	if (! MapsServices.maps.length) {
 		var dfd = MapsServices.loadData();
@@ -27,7 +27,8 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		$scope.map = map;
 
 	//Display layers
-		layerscontrol = [];
+
+/*
 		angular.forEach($scope.mapinfo.layers.overlays, function(value, key) {
 			var lgeojson = new L.geoJson();
 			var feature_group = new L.featureGroup([]);
@@ -48,6 +49,10 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 					layerscontrol[value.name]=feature_group;
 				}
 		}, $http);
+*/
+		if ($rootScope.mapinfo && $rootScope.mapinfo.layers) {
+			console.log("Nombre d'overlays dans le maps.json : " + $rootScope.mapinfo.layers.overlays['length']);
+		}
 
 	//Center
 		if ($scope.mapinfo.center) {
@@ -88,9 +93,47 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			}
 		});
 
+	//overlays
+		var overlaysObject = $scope.mapinfo.layers.overlays;
+		var overlays = overlaysObject ? overlaysObject.values : null;
+		var overlaysGroups = overlaysObject ? overlaysObject.groups : null;
+		$scope.overlaysGroups = [];
+		if (overlaysGroups) {
+			$scope.overlaysGroups = overlaysGroups;
+		}
+		$scope.overlays = [];
+		if (overlays && overlays.length > 0) {
+			$scope.overlaysLoading = true;
+			angular.forEach(overlays, function(value, key) {
+				overlaysServices.getOverlay(value)
+				.then(function (overlay) {
+					$scope.overlays[key] = overlay;
+					if (value.active) {
+						$scope.overlays[key].feature.addTo(map);
+					}
+					if (overlays.length === $scope.overlays.length) {
+						$scope.overlaysLoading = false;
+					}
+				});
+			});
+		}
+
+
+	/**
+	//Geosearch
+		if (($scope.mapinfo.geosearch) && ($window.innerWidth>1000)) {
+			var osmGeocoder = new L.Control.OSMGeocoder({
+				collapsed: false,
+				position: 'topright',
+				text: 'Rechercher',
+			});
+			osmGeocoder.addTo(map);
+		}
+	*/
+
 	//Control Layers
-		var layersControl = L.control.layers({},layerscontrol,{collapsed:true}).addTo(map);
-		layersControl._container.remove();
+		//var layersControl = L.control.layers({},layerscontrol,{collapsed:true}).addTo(map);
+		//layersControl._container.remove();
 
 	// Sidebar
 		var sidebar = L.control.sidebar('sidebar').addTo(map);
@@ -134,6 +177,14 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 			return $scope;
 	}, true);
 
+	$scope.toggleOverlay = function(overlay) {
+		if (!overlay.active && map.hasLayer(overlay.feature)) {
+			map.removeLayer(overlay.feature);
+		}
+		if (overlay.active && !map.hasLayer(overlay.feature)) {
+			map.addLayer(overlay.feature);
+		}
+	};
 
 	$scope.changeTiles = function(nummap) {
 		if ($scope.baselayers[nummap].active) {
