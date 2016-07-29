@@ -51,7 +51,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		}, $http);
 */
 		if ($rootScope.mapinfo && $rootScope.mapinfo.layers) {
-			console.log("Nombre d'overlays dans le maps.json : " + $rootScope.mapinfo.layers.overlays['length']);
+			console.log("Nombre d'overlays dans le maps.json : " + $scope.mapinfo.layers.overlays.values['length']);
 		}
 
 	//Center
