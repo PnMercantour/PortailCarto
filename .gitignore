@@ -1,5 +1,5 @@
 sftp-config.json
 postgis_geojson.php
 data/*.json
-data/pdf_lacs
+data/media
 _test/*
