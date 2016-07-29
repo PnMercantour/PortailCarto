@@ -12,6 +12,7 @@
 			<div class="sidebar-tabs">
 				<ul role="tablist">
 					<li><a ng-href="#home"><img ng-src="img/icons/layers_26.png"></a></li>
+					<li><a ng-href="#info"><img ng-src="img/icons/info_26.png"></a></li>
 				</ul>
 			</div>
 
@@ -61,8 +62,12 @@
 							</li>
 						</ul>
 					</div>
-
 				</div><!-- FIN DIV sidebar-pane  -->
+					<div class="sidebar-pane" id="info">
+						<h1 class="sidebar-header">Informations<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+						<h4>Description des données affichées :</h4>
+						{{mapinfo.resume}}
+					</div>
 			</div><!-- FIN DIV sidebar-content  -->
 		</div>
 		<!-- FIN DE GENERATION DE LA LEGENDE -->

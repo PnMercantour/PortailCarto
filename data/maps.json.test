@@ -5,7 +5,7 @@
 		"geosearch": true,
 		"imageUrl": "http://i0.wp.com/blog.fabianpiau.com/wp-content/uploads/post/00043/osm-logo.png?resize=146,169",
 		"name": "Default Map",
-		"snippet": "Description de la carte",
+		"resume": "Description de la carte qui s'affichera dans l'onglet d'informations situé dans la sidebar,
 		"center": {
 			"lat": 44.09413,
 			"lng": 6.99029,
