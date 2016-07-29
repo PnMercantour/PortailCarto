@@ -200,7 +200,7 @@ sur le milieu du rectangle.
 /****************** Sidebar ******************/
 /**************************************************************************/
 .overlays-group {
-	margin-top: 3rem;
+	margin-top: 1rem;
 }
 
 .overlays-collapser-toggle {
@@ -222,7 +222,7 @@ sur le milieu du rectangle.
 }
 
 .overlays-group-title {
-	font-size: 1.8rem;
+	font-size: 1.5rem;
 	display: inline-block;
 	vertical-align: middle;
 	margin: 0;
