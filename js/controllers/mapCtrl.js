@@ -9,7 +9,6 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		var dfd = MapsServices.loadData();
 			dfd.then(function() {
 			$scope.mapinfo = MapsServices.getOne($routeParams.mapsId);
-			//$scope.$apply();
 			});
 	}
 
@@ -26,30 +25,7 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		});
 		$scope.map = map;
 
-	//Display layers
 
-/*
-		angular.forEach($scope.mapinfo.layers.overlays, function(value, key) {
-			var lgeojson = new L.geoJson();
-			var feature_group = new L.featureGroup([]);
-				if (value.type === 'geojson' && value.active === true) {
-					$http.get('postgis_geojson.php?fields='+value.fields+'&geomfield='+value.champ_geom+
-						'&geotable='+value.table+'&srid=4326', {cache:true})
-					.then(
-						function(results) {
-								var lgeojson = new L.geoJson(results.data,eval("("+(value.options || {}) +")"));
-								feature_group.addLayer(lgeojson);
-								map.addLayer(feature_group);
-								layerscontrol[value.name]=feature_group;
-								layersControl.addOverlay(feature_group, value.name);
-						});
-				}
-				else if (value.type === 'geojson' && value.active === false) {
-					console.log(value.name);
-					layerscontrol[value.name]=feature_group;
-				}
-		}, $http);
-*/
 		if ($rootScope.mapinfo && $rootScope.mapinfo.layers) {
 			console.log("Nombre d'overlays dans le maps.json : " + $scope.mapinfo.layers.overlays.values['length']);
 		}
@@ -117,23 +93,6 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 				});
 			});
 		}
-
-
-	/**
-	//Geosearch
-		if (($scope.mapinfo.geosearch) && ($window.innerWidth>1000)) {
-			var osmGeocoder = new L.Control.OSMGeocoder({
-				collapsed: false,
-				position: 'topright',
-				text: 'Rechercher',
-			});
-			osmGeocoder.addTo(map);
-		}
-	*/
-
-	//Control Layers
-		//var layersControl = L.control.layers({},layerscontrol,{collapsed:true}).addTo(map);
-		//layersControl._container.remove();
 
 	// Sidebar
 		var sidebar = L.control.sidebar('sidebar').addTo(map);

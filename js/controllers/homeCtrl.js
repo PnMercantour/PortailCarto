@@ -1,10 +1,3 @@
-//app.controller('homeCtrl', ['$scope', '$routeParams',
-//	function ($scope){
-//
-//	}
-//]);
-
-
 app.controller('ListMapController', [ '$scope', '$routeParams',"MapsServices",
   function ($scope, $http, MapsServices) {
     $scope.maps =  MapsServices.maps;
