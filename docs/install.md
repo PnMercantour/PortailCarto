@@ -84,7 +84,7 @@ Controlez éventuellement le port...
 
 ### 6 - Config de l'appli : le fichier de configuration des cartes
 
-L'ensemble des cartes, et des couches présentes dans ces cartes, se configure au niveau d'un seul fichier se situant dans le dossier data et s'appelant maps.json. Un exemple est disponible :  ``data/maps.json.sample``.
+L'ensemble des cartes, et des couches présentes dans ces cartes, se configure au niveau d'un seul fichier se situant dans le dossier data et s'appelant maps.json. Un exemple est disponible : [maps.json.sample](/data/maps.json.sample)
 
 Ce fichier JSON va permettre de controller les couches à afficher/masquer, leur style, etc...
 

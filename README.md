@@ -22,8 +22,7 @@ Cette application se veut le plus générique possible afin que d'autres parcs n
 
 # Installation
 
-Consulter la documentation : ... à venir
-
+Consulter la documentation : [Doc d'installation](docs/install.md)
 # License
 
 * Application développée par Raphaël Chochon et Samuel Priou (Parc National du Mercantour)
