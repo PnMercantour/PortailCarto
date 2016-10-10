@@ -174,6 +174,7 @@ De la même manière et à la suite :
 				"name": "Coeur de Parc",
 				"type": "geojson",
 				"active": true,
+				"thumbnail": "http://rando.mercantour.eu/custom/images/logo_pnam_pnm.jpg",
 				"champ_geom": "geom",
 				"table": "limregl.cr_pnm_coeur_cad",
 				"fields": "id",
