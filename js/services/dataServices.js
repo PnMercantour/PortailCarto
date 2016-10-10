@@ -74,6 +74,7 @@ app.factory('overlaysServices', ['$http', '$q', function($http, $q) {
 		var overlay = {
 			id: requested.id,
 			name: requested.name,
+			thumbnail: requested.thumbnail || null,
 			active: requested.active,
 			group: requested.group
 		};
