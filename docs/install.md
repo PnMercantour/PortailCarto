@@ -214,4 +214,4 @@ De la même manière et à la suite :
 
 #### 6.4 - Récapitulatif du maps.json
 
-Architecture du ``maps.json`` : se référer au fichier [maps.json.test](data/maps.json.test)
+Architecture du ``maps.json`` : se référer au fichier [maps.json.sample](data/maps.json.sample)
