@@ -12,6 +12,9 @@ onEachFeature: function (feature, layer) {
 
 Attention c'est bien sur **layer** qu'il faut appeler bindPopup et non pas sur feature.
 
+Selon le type de la feature, le onEachLayer sera appelé sur tout les sous-éléments
+<br/>(ex: chaque point dans le cas d'un Mutlipoint, soit sur le layer si une seule Gémoétrie existe)
+
 La fonction `bindPopup` prend en paramètre le contenu de la popup. Il peut s'agir aussi bien de **texte** que de **HTML**.
 
 Ainsi, on peut simplement écrire un court texte qui sera rendu tel que :
@@ -55,4 +58,20 @@ Ce qui, une fois sérializé avec les autres propriétés des options donne :
 
 ``` json
 options: "{styles: function () {...}, onEachFeature: function (feature, layer) {layer.bindPopup('Coeur de Parc');}}"
+```
+
+## Utiliser une propriété de la BDD
+
+Pour utiliser une propriété, il suffit que celle-ci existe en base, de l'ajouter à la propriété "field" de l'overlay,
+puis de l'appeler dans le onEachFeature :
+
+``` json
+field: "property_name",
+options: "{onEachFeature: function (feature, layer) {layer.bindPopup(feature.properties.property_name);}}"
+```
+
+Par exemple si la feature contient un **titre** :
+
+``` javascript
+onEachFeature: function (feature, layer) {layer.bindPopup(feature.properties.titre);}
 ```
