@@ -128,13 +128,18 @@
 		position: absolute;
 		background: rgba(0, 0, 0, 0.8);
 		color: white;
-		bottom: 0px;
+		bottom: -100%;
 		left: 15px;
 		width: calc(100% - 15px);
 		max-height: 50vh;
 		padding: 3rem;
 		width: 100%;
 		z-index: 2;
+		transition: bottom 0.2s ease-out;
+	}
+
+	.info-band.active {
+		bottom: 0;
 	}
 
 	.info-band-title {

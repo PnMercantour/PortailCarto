@@ -70,20 +70,28 @@ app.factory('baselayersServices', ['$http', function($http) {
 app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q, $rootScope) {
 	var overlays = [];
 
-	function layerClickEvent(e) {
-		$rootScope.$broadcast('feature:click', {layer: e.target, feature: this});
+	function layerStyleEvent() {
+		$rootScope.$broadcast('feature:click', this);
 	}
 
-	function extendOnEachFeature(options) {
+	function defaultOnEachFeature(feature, layer, infoBand) {
+		layer.on('click', layerStyleEvent, {
+			layer: layer,
+			infoBand: infoBand,
+			feature: feature
+		});
+	}
+
+	function extendOnEachFeature(options, overlay) {
 		if (options && options.onEachFeature) {
 			var customEachFeature = function () {return options.onEachFeature;};
 			options.onEachFeature = function (feature, layer) {
 				customEachFeature(feature, layer);
-				layer.on('click', layerClickEvent, feature);
+				defaultOnEachFeature(feature, layer, overlay.infoBand);
 			};
 		} else {
 			options.onEachFeature = function (feature, layer) {
-				layer.on('click', layerClickEvent, feature);
+				defaultOnEachFeature(feature, layer, overlay.infoBand);
 			};
 		}
 
@@ -101,7 +109,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q
 
 	function getOptions(overlay, customOptions) {
 		var options = parseCustomOptions(customOptions);
-		options = extendOnEachFeature(options);
+		options = extendOnEachFeature(options, overlay);
 
 		return options;
 	}
@@ -112,6 +120,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q
 			name: requested.name,
 			thumbnail: requested.thumbnail || null,
 			active: requested.active,
+			infoBand: requested.infoBand,
 			group: requested.group
 		};
 

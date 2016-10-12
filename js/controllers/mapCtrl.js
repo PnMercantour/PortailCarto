@@ -183,16 +183,46 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		return {layer: newLayer, previousStyle: previousStyle};
 	}
 
+	$scope.closeInfoBand = function closeInfoBand() {
+		$scope.showInfoBand = false;
+	};
+
+	$scope.openInfoBand = function openInfoBand() {
+		$scope.showInfoBand = true;
+	};
+
+	$scope.previousSlide = function previousSlide() {
+		var slider = $('#infoBand-carousel');
+		if (slider) {
+			slider.carousel('prev');
+		}
+	};
+
+	$scope.nextSlide = function nextSlide() {
+		var slider = $('#infoBand-carousel');
+		if (slider) {
+			slider.carousel('next');
+		}
+	};
+
+	$scope.showInfoBand = false;
 	$scope.selected = null;
-	$scope.$on('feature:click', function(ev, element){
-		var layer = element.layer;
-		var feature = element.feature;
+	$scope.infoBand = null;
+	$scope.$on('feature:click', function (ev, element) {
 
-		$scope.selected = updateSelectedLayer($scope.selected, layer);
+		$scope.selected = updateSelectedLayer($scope.selected, element.layer);
 
+		if (element.infoBand) {
+			$scope.infoBand = element.feature.properties;
+			$scope.openInfoBand();
+		} else {
+			$scope.infoBand = null;
+			$scope.closeInfoBand();
+		}
 
-
+		$scope.$apply();
 	});
+
 	}
 
 ]);
