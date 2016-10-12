@@ -146,6 +146,23 @@
 		margin-top: 0;
 	}
 
+	.info-band-close {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		color: white;
+		opacity: 0.7;
+	}
+
+	button.close.info-band-close {
+		color: white;
+		opacity: 0.7;
+	}
+
+	button.close.info-band-close:hover {
+		opacity: 1;
+	}
+
 
 /****************** Info Secteur-Communes ******************/
 /***********************************************************/
