@@ -162,28 +162,36 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		});
 	};
 
-	$scope.l_prev_sel = null;
-	$scope.$on('feature:click', function(ev, item){
-		if($scope.l_prev_sel !== null && $scope.l_prev_sel.item.feature.geometry.type !== "Point"){
-			$scope.l_prev_sel.item.setStyle({color: $scope.l_prev_sel.color, fill: $scope.l_prev_sel.fill});
-		}
-		var prev_color = null;
-		var prev_fill = null;
-		if (item._layers) {
-			for(x in item._layers){
-				prev_color = item._layers[x].options.color;
-				prev_fill = item._layers[x].options.fill;
-				break;
+	function updateSelectedLayer(previouslySelected, newLayer) {
+		var pointTypes = ['Point', 'MultiPoint'];
+		var previousStyle = {};
+		var previousGeometryType;
+
+		if(previouslySelected){
+			previousGeometryType = previouslySelected.layer.feature.geometry.type;
+
+			if (pointTypes.indexOf(previousGeometryType) < 0) {
+				previouslySelected.layer.setStyle(previouslySelected.previousStyle);
 			}
 		}
-		else {
-			prev_color = item.options.color;
-			prev_fill = item.options.fill;
+
+		if(pointTypes.indexOf(newLayer.feature.geometry.type) < 0){
+			previousStyle = newLayer.options.style();
+			newLayer.setStyle({color: 'yellow'});
 		}
-		$scope.l_prev_sel = {item: item, color: prev_color, fill:prev_fill};
-		if(item.feature.geometry.type !== "Point"){
-			item.setStyle({color: 'yellow'});
-		}
+
+		return {layer: newLayer, previousStyle: previousStyle};
+	}
+
+	$scope.selected = null;
+	$scope.$on('feature:click', function(ev, element){
+		var layer = element.layer;
+		var feature = element.feature;
+
+		$scope.selected = updateSelectedLayer($scope.selected, layer);
+
+
+
 	});
 	}
 
