@@ -4,7 +4,7 @@
 
 	</div>
 
-	<div class="container-fluid">
+	<div class="map-container container-fluid">
 
 	<!-- GENERATION DE LA LEGENDE -->
 		<div id="sidebar" class="sidebar collapsed">
@@ -82,14 +82,26 @@
 		</div>
 		<!-- FIN DE GENERATION DE LA LEGENDE -->
 
-
-
-
-
 		<div id="mapx" class="sidebar-map">
 		</div>
-		<div style="position: fixed;top: 95%;">
-			<button  ng-repeat="(key, baselayer) in baselayers track by baselayer.id"  ng-click="changeTiles(key)" id="activate-scan-{{key}}" class="btn " ng-class="{false: 'btn-warning', true: 'btn-primary'}[baselayer.active]" >{{baselayer.name}}</button>
+
+		<div class="info-band">
+			<h2 class="info-band-title">titre</h2>
+			<p class="info-band-description">descript</p>
+			<div class="info-band-carousel">
+				Carousel
+				photo_1, titrepho_1, nompho_1, photo_2, titrepho_2, nompho_2
+			</div>
+			<div class="info-band-download">
+				file
+			</div>
+			<div class="info-band-other">
+				autre
+			</div>
 		</div>
+
+	</div>
+	<div class="baselayers-menu container-fluid">
+		<button  ng-repeat="(key, baselayer) in baselayers track by baselayer.id"  ng-click="changeTiles(key)" id="activate-scan-{{key}}" class="btn " ng-class="{false: 'btn-warning', true: 'btn-primary'}[baselayer.active]" >{{baselayer.name}}</button>
 	</div>
 </div>
