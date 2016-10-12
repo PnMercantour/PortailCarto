@@ -74,12 +74,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q
 		$rootScope.$broadcast('feature:click', {layer: e.target, feature: this});
 	}
 
-	function parseCustomOptions(customOptions) {
-		var optionKey;
-		var options = {};
-		for (optionKey in customOptions) {
-			options[optionKey] = eval('(' + (customOptions[optionKey] || null) + ')');
-		}
+	function extendOnEachFeature(options) {
 		if (options && options.onEachFeature) {
 			var customEachFeature = function () {return options.onEachFeature;};
 			options.onEachFeature = function (feature, layer) {
@@ -91,6 +86,22 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q
 				layer.on('click', layerClickEvent, feature);
 			};
 		}
+
+		return options
+	}
+
+	function parseCustomOptions(customOptions) {
+		var optionKey;
+		var options = {};
+		for (optionKey in customOptions) {
+			options[optionKey] = eval('(' + (customOptions[optionKey] || null) + ')');
+		}
+		return options;
+	}
+
+	function getOptions(overlay, customOptions) {
+		var options = parseCustomOptions(customOptions);
+		options = extendOnEachFeature(options);
 
 		return options;
 	}
@@ -112,7 +123,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q
 				function(results) {
 					overlay.feature = new L.geoJson(
 						results.data,
-						parseCustomOptions(requested.options)
+						getOptions(overlay, requested.options)
 					);
 					overlays.push(overlay);
 					return overlay;
