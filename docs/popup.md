@@ -40,9 +40,9 @@ Actuellement la plateforme accepte les options d'un overlay sous forme d'une *st
 
 Cela implique plusieurs choses pour le code de la popup :
 * Tout le code doit être mis sur une ligne
-* Les charactères à échaper dans le paramètre de `bindPopup` doivent être doublement échapés
+* Les charactères à échaper dans le paramètre de `bindPopup` doivent être doublement échapés (`\\` au lieu de `\`)
 
-Ainsi les exmeples précédens seront écris ainsi :
+Ainsi les exemples précédens seront écris ainsi :
 
 **Texte simple**
 ```
@@ -75,3 +75,13 @@ Par exemple si la feature contient un **titre** :
 ``` javascript
 onEachFeature: function (feature, layer) {layer.bindPopup(feature.properties.titre);}
 ```
+
+Afin d'utiliser plusieurs valeurs, il faut créer une string en concaténant plusieurs éléments.
+La concaténation en JavaScript s'effectue à l'aide du simbole `+`.
+Attention, si les deux éléments cote à cote sont des nombres, ils seront additionnés.
+Dans notre ca ce qui nous intéresse et de créer une string comme celle-ci :
+```
+"Titre : " + feature.properties.title + " - Ma description : " + feature.properties.descriptiozn
+```
+
+Attention, la concaténation n'ajoute pas d'espaces automatiquement, il faut donc penser à l'ajouter sois même entre deux éléments (cf exemple çi-dessus)
