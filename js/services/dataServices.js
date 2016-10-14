@@ -84,7 +84,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q
 
 	function extendOnEachFeature(options, overlay) {
 		if (options && options.onEachFeature) {
-			var customEachFeature = function () {return options.onEachFeature;};
+			var customEachFeature = options.onEachFeature.bind({});
 			options.onEachFeature = function (feature, layer) {
 				customEachFeature(feature, layer);
 				defaultOnEachFeature(feature, layer, overlay.infoBand);
