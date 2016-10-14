@@ -205,13 +205,9 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		}
 	};
 
-	$scope.showInfoBand = false;
-	$scope.selected = null;
-	$scope.infoBand = null;
-	$scope.$on('feature:click', function (ev, element) {
+	function selectLayer(ev, element) {
 
 		$scope.selected = updateSelectedLayer($scope.selected, element.layer);
-
 		if (element.infoBand) {
 			$scope.infoBand = element.feature.properties;
 			$scope.openInfoBand();
@@ -221,7 +217,12 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		}
 
 		$scope.$apply();
-	});
+	};
+
+	$scope.showInfoBand = false;
+	$scope.selected = null;
+	$scope.infoBand = null;
+	$scope.$on('feature:click', selectLayer);
 
 	}
 
