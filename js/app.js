@@ -7,8 +7,8 @@ var app = angular.module('PortailApp', [
  * Configuration de la table de routage de l'app
  */
 
-app.config(['$routeProvider',
-	function($routeProvider){
+app.config(['$routeProvider', '$sceDelegateProvider',
+	function($routeProvider, $sceDelegateProvider){
 	$routeProvider
 		.when('/', {
 			templateUrl:'templates/home.htm',
@@ -23,4 +23,9 @@ app.config(['$routeProvider',
 		.otherwise({
 			redirectTo: '/'
 		});
+
+	$sceDelegateProvider.resourceUrlWhitelist([
+		'self',
+		'https://*.youtube.com/**'
+	]);
 }]);

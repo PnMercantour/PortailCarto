@@ -129,6 +129,9 @@
 					<div ng-if="infoBand.file" class="info-band-download">
 						<a class="info-band-download" href="infoBand.file" target="_blank">Télécharger le fichier associé</a>
 					</div>
+					<div ng-if="infoBand.video" class="info-band-video">
+						<iframe ng-src="{{infoBand.video}}" html="100%" width="100%" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+					</div>
 					<div ng-if="infoBand.other" class="info-band-other">
 						{{infoBand.other}}
 					</div>
