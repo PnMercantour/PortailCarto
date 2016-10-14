@@ -146,10 +146,32 @@
 		margin-top: 0;
 	}
 
+	.info-band-description {
+		font-size: 1.6rem;
+		line-height: 1.6em;
+		margin-bottom: 1rem;
+	}
+
+	.info-band-video iframe {
+		width: 100%;
+		height: auto;
+		margin-bottom: 1rem;
+	}
+
+	.info-band-other {
+		padding-top: 1rem;
+		border-top: 1px solid rgba(255, 255, 255, 0.6);
+		font-style: italic;
+	}
+
+	.info-band-download {
+		margin-top: 1rem;
+	}
+
 	.info-band-close {
 		position: absolute;
 		top: 1rem;
-		right: 1rem;
+		right: 2rem;
 		color: white;
 		opacity: 0.7;
 	}

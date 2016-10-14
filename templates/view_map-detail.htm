@@ -122,13 +122,13 @@
 							</a>
 						</div>
 					</div>
+					<div ng-if="infoBand.file" class="info-band-download">
+						<a class="info-band-download btn btn-primary" href="{{infoBand.file}}" target="_blank">Télécharger le fichier associé</a>
+					</div>
 				</div>
 				<div class="col-md-7">
 					<h2 ng-if="infoBand.title" class="info-band-title">{{infoBand.title}}</h2>
 					<p ng-if="infoBand.descript" class="info-band-description">{{infoBand.descript}}</p>
-					<div ng-if="infoBand.file" class="info-band-download">
-						<a class="info-band-download" href="infoBand.file" target="_blank">Télécharger le fichier associé</a>
-					</div>
 					<div ng-if="infoBand.video" class="info-band-video">
 						<iframe ng-src="{{infoBand.video}}" html="100%" width="100%" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
 					</div>
