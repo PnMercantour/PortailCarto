@@ -87,30 +87,32 @@
 		<div class="info-band" ng-class="{active: infoBand && showInfoBand}">
 			<div class="row">
 				<div class="col-md-5">
-					<div ng-if="false && infoBand.pic_1 || infoBand.pic_2" class="info-band-carousel">
-						<div id="infoBand-carousel" class="carousel slide">
-							<!-- Indicators -->
-							<ol class="carousel-indicators">
-								<li data-target="#infoBand-carousel" data-slide-to="0" class="active"></li>
-								<li data-target="#infoBand-carousel" data-slide-to="1"></li>
-							</ol>
+					<div ng-if="infoBand.pic_1 || infoBand.pic_2" class="info-band-carousel">
+						<div id="infoBand-carousel" class="carousel slide" data-interval="0">
 
 							<!-- Wrapper for slides -->
 							<div class="carousel-inner" role="listbox">
-								<div class="item active">
+								<div ng-if="infoBand.video" class="info-band-video item active">
+									<iframe ng-src="{{infoBand.video}}" html="100%" width="100%" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+								</div>
+								<div ng-if="infoBand.pic_1" class="item" ng-class="{active: !infoBand.video}">
 									<img ng-src="{{infoBand.pic_1}}" alt="{{infoBand.titlepic_1}}">
-									<div class="carousel-caption">
-										{{infoBand.ownerpic_1}}
+									<div class="carousel-caption info-band-carousel-caption">
+										<div class="picture-title">{{infoBand.titlepic_1}}</div>
+										<div class="picture-author">{{infoBand.ownerpic_1}}</div>
 									</div>
 								</div>
-								<div class="item">
+								<div ng-if="infoBand.pic_2" class="item" ng-class="{active: !infoBand.video && !infoBand.pic_1}">
 									<img ng-src="{{infoBand.pic_2}}" alt="{{infoBand.titlepic_2}}">
-									<div class="carousel-caption">
-										{{infoBand.ownerpic_2}}
+									<div class="carousel-caption info-band-carousel-caption">
+										<div class="picture-title">{{infoBand.titlepic_2}}</div>
+										<div class="picture-author">{{infoBand.ownerpic_2}}</div>
 									</div>
 								</div>
 							</div>
+						</div>
 
+						<div class="info-band-carousel-controls">
 							<!-- Controls -->
 							<a class="left carousel-control" role="button" ng-click="previousSlide()">
 								<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
@@ -122,15 +124,12 @@
 							</a>
 						</div>
 					</div>
-					<div ng-if="infoBand.file" class="info-band-download">
-						<a class="info-band-download btn btn-primary" href="{{infoBand.file}}" target="_blank">Télécharger le fichier associé</a>
-					</div>
 				</div>
 				<div class="col-md-7">
 					<h2 ng-if="infoBand.title" class="info-band-title">{{infoBand.title}}</h2>
 					<p ng-if="infoBand.descript" class="info-band-description">{{infoBand.descript}}</p>
-					<div ng-if="infoBand.video" class="info-band-video">
-						<iframe ng-src="{{infoBand.video}}" html="100%" width="100%" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+					<div ng-if="infoBand.file" class="info-band-download">
+						<a class="info-band-download btn btn-primary" href="{{infoBand.file}}" target="_blank">Télécharger le fichier associé</a>
 					</div>
 					<div ng-if="infoBand.other" class="info-band-other">
 						{{infoBand.other}}
