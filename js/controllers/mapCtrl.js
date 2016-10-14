@@ -162,25 +162,29 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		});
 	};
 
-	function updateSelectedLayer(previouslySelected, newLayer) {
-		var pointTypes = ['Point', 'MultiPoint'];
+	function updateSelectedLayer(previouslySelected, newLayer, originalEvent) {
 		var previousStyle = {};
 		var previousGeometryType;
 
-		if(previouslySelected){
+		if (previouslySelected) {
 			previousGeometryType = previouslySelected.layer.feature.geometry.type;
 
-			if (pointTypes.indexOf(previousGeometryType) < 0) {
+			if (overlaysServices.pointTypes.indexOf(previousGeometryType) < 0) {
 				previouslySelected.layer.setStyle(previouslySelected.previousStyle);
+			} else {
+				previouslySelected.markerLayer.setOpacity(0.6);
 			}
 		}
 
-		if(pointTypes.indexOf(newLayer.feature.geometry.type) < 0){
+		if(overlaysServices.pointTypes.indexOf(newLayer.feature.geometry.type) < 0) {
 			previousStyle = newLayer.options.style();
 			newLayer.setStyle({color: 'yellow'});
+		} else {
+			originalEvent.layer.setOpacity(1);
 		}
 
-		return {layer: newLayer, previousStyle: previousStyle};
+
+		return {layer: newLayer, previousStyle: previousStyle, markerLayer: originalEvent.layer};
 	}
 
 	$scope.closeInfoBand = function closeInfoBand() {
@@ -205,9 +209,11 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		}
 	};
 
-	function selectLayer(ev, element) {
+	function selectLayer(ev, contextParams) {
+		var element = contextParams.context;
+		var originalEvent = contextParams.originalEvent;
 
-		$scope.selected = updateSelectedLayer($scope.selected, element.layer);
+		$scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
 		if (element.infoBand) {
 			$scope.infoBand = element.feature.properties;
 			$scope.openInfoBand();

@@ -69,12 +69,21 @@ app.factory('baselayersServices', ['$http', function($http) {
 
 app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q, $rootScope) {
 	var overlays = [];
+	var pointTypes = ['Point', 'MultiPoint'];
 
-	function layerStyleEvent() {
-		$rootScope.$broadcast('feature:click', this);
+	function layerStyleEvent(ev) {
+		$rootScope.$broadcast('feature:click', {originalEvent: ev, context: this});
 	}
 
 	function defaultOnEachFeature(feature, layer, infoBand) {
+		if (pointTypes.indexOf(feature.geometry.type) >= 0) {
+			var markerId;
+			for (markerId in layer._layers) {
+				var marker = layer._layers[markerId];
+				marker.setOpacity(0.6);
+			}
+
+		}
 		layer.on('click', layerStyleEvent, {
 			layer: layer,
 			infoBand: infoBand,
@@ -155,6 +164,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q
 
 	return {
 		overlays: overlays,
-		getOverlay: getOverlay
+		getOverlay: getOverlay,
+		pointTypes: pointTypes
 	};
 }]);
