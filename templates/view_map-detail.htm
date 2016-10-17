@@ -33,12 +33,17 @@
 						<ul  class="collapse overlays-group-values collapsed" id="collapse-{{group.id}}">
 							<li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="overlay.group && overlay.group === group.id">
 								<label>
-									<input
-										type="checkbox"
-										name="test"
-										ng-model="overlay.active"
-										ng-click="toggleOverlay(overlay)"
-									>{{overlay.name}}
+									<div ng-if="overlay.thumbnail"class="overlays-group-values-thumbnail">
+										<img ng-src="{{overlay.thumbnail}}" alt="{{overlay.name}} thumbnail"/>
+									</div>
+									<div>
+										<input
+											type="checkbox"
+											name="test"
+											ng-model="overlay.active"
+											ng-click="toggleOverlay(overlay)"
+										>{{overlay.name}}
+									</div>
 								</label>
 							</li>
 						</ul>
@@ -52,12 +57,17 @@
 						<ul class="collapse overlays-group-values collapsed" id="collapse-other">
 							<li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="!overlay.group">
 								<label>
-									<input
-										type="checkbox"
-										name="test"
-										ng-model="overlay.active"
-										ng-click="toggleOverlay(overlay)"
-									>{{overlay.name}}
+									<div ng-if="overlay.thumbnail"class="overlays-group-values-thumbnail">
+										<img ng-src="{{overlay.thumbnail}}" alt="{{overlay.name}} thumbnail"/>
+									</div>
+									<div>
+										<input
+											type="checkbox"
+											name="test"
+											ng-model="overlay.active"
+											ng-click="toggleOverlay(overlay)"
+										>{{overlay.name}}
+									</div>
 								</label>
 							</li>
 						</ul>

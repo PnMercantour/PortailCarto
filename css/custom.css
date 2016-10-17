@@ -227,3 +227,25 @@ sur le milieu du rectangle.
 	vertical-align: middle;
 	margin: 0;
 }
+
+.overlays-group-values label > * {
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.overlays-group-values-thumbnail {
+	height: 3rem;
+	width: 3rem;
+	margin-left: -58px;
+	margin-right: 2.5rem;
+}
+
+.overlays-group-values-thumbnail img {
+	max-height: 100%;
+	max-width: 100%;
+	width: auto;
+}
+
+.overlays-group-values-thumbnail + input {
+	margin-left: 0;
+}
