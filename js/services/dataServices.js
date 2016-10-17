@@ -67,8 +67,61 @@ app.factory('baselayersServices', ['$http', function($http) {
 }]);
 
 
-app.factory('overlaysServices', ['$http', '$q', function($http, $q) {
+app.factory('overlaysServices', ['$http', '$q', '$rootScope', function($http, $q, $rootScope) {
 	var overlays = [];
+	var pointTypes = ['Point', 'MultiPoint'];
+
+	function layerStyleEvent(ev) {
+		$rootScope.$broadcast('feature:click', {originalEvent: ev, context: this});
+	}
+
+	function defaultOnEachFeature(feature, layer, infoBand) {
+		if (pointTypes.indexOf(feature.geometry.type) >= 0) {
+			var markerId;
+			for (markerId in layer._layers) {
+				var marker = layer._layers[markerId];
+				marker.setOpacity(0.6);
+			}
+
+		}
+		layer.on('click', layerStyleEvent, {
+			layer: layer,
+			infoBand: infoBand,
+			feature: feature
+		});
+	}
+
+	function extendOnEachFeature(options, overlay) {
+		if (options && options.onEachFeature) {
+			var customEachFeature = options.onEachFeature.bind({});
+			options.onEachFeature = function (feature, layer) {
+				customEachFeature(feature, layer);
+				defaultOnEachFeature(feature, layer, overlay.infoBand);
+			};
+		} else {
+			options.onEachFeature = function (feature, layer) {
+				defaultOnEachFeature(feature, layer, overlay.infoBand);
+			};
+		}
+
+		return options
+	}
+
+	function parseCustomOptions(customOptions) {
+		var optionKey;
+		var options = {};
+		for (optionKey in customOptions) {
+			options[optionKey] = eval('(' + (customOptions[optionKey] || null) + ')');
+		}
+		return options;
+	}
+
+	function getOptions(overlay, customOptions) {
+		var options = parseCustomOptions(customOptions);
+		options = extendOnEachFeature(options, overlay);
+
+		return options;
+	}
 
 	function loadOverlay(requested) {
 		var overlay = {
@@ -76,6 +129,7 @@ app.factory('overlaysServices', ['$http', '$q', function($http, $q) {
 			name: requested.name,
 			thumbnail: requested.thumbnail || null,
 			active: requested.active,
+			infoBand: requested.infoBand,
 			group: requested.group
 		};
 
@@ -87,7 +141,7 @@ app.factory('overlaysServices', ['$http', '$q', function($http, $q) {
 				function(results) {
 					overlay.feature = new L.geoJson(
 						results.data,
-						eval("("+(requested.options || {}) +")")
+						getOptions(overlay, requested.options)
 					);
 					overlays.push(overlay);
 					return overlay;
@@ -110,6 +164,7 @@ app.factory('overlaysServices', ['$http', '$q', function($http, $q) {
 
 	return {
 		overlays: overlays,
-		getOverlay: getOverlay
+		getOverlay: getOverlay,
+		pointTypes: pointTypes
 	};
 }]);

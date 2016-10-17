@@ -162,29 +162,74 @@ app.controller('DetailMapController', [ '$scope', '$routeParams','MapsServices',
 		});
 	};
 
-	$scope.l_prev_sel = null;
-	$scope.$on('feature:click', function(ev, item){
-		if($scope.l_prev_sel !== null && $scope.l_prev_sel.item.feature.geometry.type !== "Point"){
-			$scope.l_prev_sel.item.setStyle({color: $scope.l_prev_sel.color, fill: $scope.l_prev_sel.fill});
-		}
-		var prev_color = null;
-		var prev_fill = null;
-		if (item._layers) {
-			for(x in item._layers){
-				prev_color = item._layers[x].options.color;
-				prev_fill = item._layers[x].options.fill;
-				break;
+	function updateSelectedLayer(previouslySelected, newLayer, originalEvent) {
+		var previousStyle = {};
+		var previousGeometryType;
+
+		if (previouslySelected) {
+			previousGeometryType = previouslySelected.layer.feature.geometry.type;
+
+			if (overlaysServices.pointTypes.indexOf(previousGeometryType) < 0) {
+				previouslySelected.layer.setStyle(previouslySelected.previousStyle);
+			} else {
+				previouslySelected.markerLayer.setOpacity(0.6);
 			}
 		}
-		else {
-			prev_color = item.options.color;
-			prev_fill = item.options.fill;
+
+		if(overlaysServices.pointTypes.indexOf(newLayer.feature.geometry.type) < 0) {
+			previousStyle = newLayer.options.style();
+			newLayer.setStyle({color: 'yellow'});
+		} else {
+			originalEvent.layer.setOpacity(1);
 		}
-		$scope.l_prev_sel = {item: item, color: prev_color, fill:prev_fill};
-		if(item.feature.geometry.type !== "Point"){
-			item.setStyle({color: 'yellow'});
+
+
+		return {layer: newLayer, previousStyle: previousStyle, markerLayer: originalEvent.layer};
+	}
+
+	$scope.closeInfoBand = function closeInfoBand() {
+		$scope.showInfoBand = false;
+	};
+
+	$scope.openInfoBand = function openInfoBand() {
+		$scope.showInfoBand = true;
+	};
+
+	$scope.previousSlide = function previousSlide() {
+		var slider = $('#infoBand-carousel');
+		if (slider) {
+			slider.carousel('prev');
 		}
-	});
+	};
+
+	$scope.nextSlide = function nextSlide() {
+		var slider = $('#infoBand-carousel');
+		if (slider) {
+			slider.carousel('next');
+		}
+	};
+
+	function selectLayer(ev, contextParams) {
+		var element = contextParams.context;
+		var originalEvent = contextParams.originalEvent;
+
+		$scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
+		if (element.infoBand) {
+			$scope.infoBand = element.feature.properties;
+			$scope.openInfoBand();
+		} else {
+			$scope.infoBand = null;
+			$scope.closeInfoBand();
+		}
+
+		$scope.$apply();
+	};
+
+	$scope.showInfoBand = false;
+	$scope.selected = null;
+	$scope.infoBand = null;
+	$scope.$on('feature:click', selectLayer);
+
 	}
 
 ]);

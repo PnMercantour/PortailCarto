@@ -40,7 +40,7 @@ Actuellement la plateforme accepte les options d'un overlay sous forme d'une *st
 
 Cela implique plusieurs choses pour le code de la popup :
 * Tout le code doit être mis sur une ligne
-* Les charactères à échaper dans le paramètre de `bindPopup` doivent être doublement échapés (`\\` au lieu de `\`)
+* Toutes les strings dans la fonction devront être encapsulée par `\"` ou `'` afin de ne pas entrer en conflit avec les guillemets d'encapsulation de la propriété.
 
 Ainsi les exemples précédens seront écris ainsi :
 
@@ -51,13 +51,13 @@ onEachFeature: function (feature, layer) {layer.bindPopup('Coeur de Parc');}
 
 **HTML**
 ```
-onEachFeature: function (feature, layer) {layer.bindPopup('<h2>Coeur de Parc</h2><p>Ceci est un paragraphe expliquant ce qu\\'est le coeur de parc !</p>')}
+onEachFeature: function (feature, layer) {layer.bindPopup(\"<h2>Coeur de Parc</h2><p>Ceci est un paragraphe expliquant ce qu'est le coeur de parc !</p>\")}
 ```
 
 Ce qui, une fois sérializé avec les autres propriétés des options donne :
 
 ``` json
-options: "{styles: function () {...}, onEachFeature: function (feature, layer) {layer.bindPopup('Coeur de Parc');}}"
+"options": "{styles: function () {...}, onEachFeature: function (feature, layer) {layer.bindPopup('Coeur de Parc');}}"
 ```
 
 ## Utiliser une propriété de la BDD
@@ -67,7 +67,7 @@ puis de l'appeler dans le onEachFeature :
 
 ``` json
 field: "property_name",
-options: "{onEachFeature: function (feature, layer) {layer.bindPopup(feature.properties.property_name);}}"
+"options": "{onEachFeature: function (feature, layer) {layer.bindPopup(feature.properties.property_name);}}"
 ```
 
 Par exemple si la feature contient un **titre** :

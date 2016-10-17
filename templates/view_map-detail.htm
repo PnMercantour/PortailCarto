@@ -4,7 +4,7 @@
 
 	</div>
 
-	<div class="container-fluid">
+	<div class="map-container container-fluid">
 
 	<!-- GENERATION DE LA LEGENDE -->
 		<div id="sidebar" class="sidebar collapsed">
@@ -82,14 +82,65 @@
 		</div>
 		<!-- FIN DE GENERATION DE LA LEGENDE -->
 
-
-
-
-
 		<div id="mapx" class="sidebar-map">
 		</div>
-		<div style="position: fixed;top: 95%;">
-			<button  ng-repeat="(key, baselayer) in baselayers track by baselayer.id"  ng-click="changeTiles(key)" id="activate-scan-{{key}}" class="btn " ng-class="{false: 'btn-warning', true: 'btn-primary'}[baselayer.active]" >{{baselayer.name}}</button>
+		<div class="info-band" ng-class="{active: infoBand && showInfoBand}">
+			<div class="row">
+				<div class="col-lg-4 col-md-5">
+					<div ng-if="infoBand.pic_1 || infoBand.pic_2" class="info-band-carousel">
+						<div id="infoBand-carousel" class="carousel slide" data-interval="0">
+
+							<!-- Wrapper for slides -->
+							<div class="carousel-inner" role="listbox">
+								<div ng-if="infoBand.video" class="info-band-video item active">
+									<iframe ng-src="{{infoBand.video}}" html="100%" width="100%" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+								</div>
+								<div ng-if="infoBand.pic_1" class="item" ng-class="{active: !infoBand.video}">
+									<img ng-src="{{infoBand.pic_1}}" alt="{{infoBand.titlepic_1}}">
+									<div class="carousel-caption info-band-carousel-caption">
+										<div class="picture-title">{{infoBand.titlepic_1}}</div>
+										<div class="picture-author">{{infoBand.ownerpic_1}}</div>
+									</div>
+								</div>
+								<div ng-if="infoBand.pic_2" class="item" ng-class="{active: !infoBand.video && !infoBand.pic_1}">
+									<img ng-src="{{infoBand.pic_2}}" alt="{{infoBand.titlepic_2}}">
+									<div class="carousel-caption info-band-carousel-caption">
+										<div class="picture-title">{{infoBand.titlepic_2}}</div>
+										<div class="picture-author">{{infoBand.ownerpic_2}}</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="info-band-carousel-controls">
+								<!-- Controls -->
+								<a class="left carousel-control" role="button" ng-click="previousSlide()">
+									<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+									<span class="sr-only">Previous</span>
+								</a>
+								<a class="right carousel-control" role="button" ng-click="nextSlide()">
+									<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+									<span class="sr-only">Next</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-8 col-md-7">
+					<h2 ng-if="infoBand.title" class="info-band-title">{{infoBand.title}}</h2>
+					<p ng-if="infoBand.descript" class="info-band-description">{{infoBand.descript}}</p>
+					<div ng-if="infoBand.file" class="info-band-download">
+						<a class="info-band-download btn btn-primary" href="{{infoBand.file}}" target="_blank">Télécharger le fichier associé</a>
+					</div>
+					<div ng-if="infoBand.other" class="info-band-other">
+						{{infoBand.other}}
+					</div>
+				</div>
+			</div>
+			<button type="button" class="info-band-close close" ng-click="closeInfoBand()"><span aria-hidden="true">×</span></button>
 		</div>
+
+	</div>
+	<div class="baselayers-menu container-fluid">
+		<button  ng-repeat="(key, baselayer) in baselayers track by baselayer.id"  ng-click="changeTiles(key)" id="activate-scan-{{key}}" class="btn " ng-class="{false: 'btn-warning', true: 'btn-primary'}[baselayer.active]" >{{baselayer.name}}</button>
 	</div>
 </div>
