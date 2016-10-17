@@ -158,9 +158,11 @@
 	}
 
 	.info-band-carousel-controls {
-		position: relative;
-		height: 4rem;
+		height: 8rem;
 		width: 100%;
+		position: absolute;
+		top: 50%;
+		margin-top: -4rem;
 	}
 
 	.info-band-carousel-caption {
