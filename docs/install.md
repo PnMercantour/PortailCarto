@@ -91,7 +91,7 @@ Ce fichier JSON va permettre de controller les couches à afficher/masquer, leur
 
 #### 6.1 - La config générale d'une carte
 
-```
+``` json
 	"order" : 1,
 	"id": "limregl",
 	"geosearch": true,
@@ -126,7 +126,7 @@ Enfin la partie ``bounds`` sert à bloquer l'emprise de la carte, ainsi que le z
 
 De la même manière et à la suite :
 
-```
+``` json
 	"baselayers": [
 		{
 			"id": "3",
@@ -162,11 +162,12 @@ De la même manière et à la suite :
 
 #### 6.3 - La config des couches (overlays)
 
-```
+``` json
 	"overlays": {
 		"groups": [
 			{ "id": "groupId1", "label": "Group 1 label" },
-			{ "id": "groupId2", "label": "Group 2 label" }
+			{ "id": "groupId2", "label": "Group 2 label" },
+			{ "id": "tourism", "label": "Tourisme" }
 		],
 		"values": [
 			{
@@ -179,7 +180,10 @@ De la même manière et à la suite :
 				"table": "limregl.cr_pnm_coeur_cad",
 				"fields": "id",
 				"group": "groupId1",
-				"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
+				"options": {
+					"style": "function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; }",
+					"onEachFeature": "function (feature, layer) { layer.bindPopup(\"Texte d'exemple dans la popup\"); }"
+				}
 			},
 			{
 				"id":"aa",
@@ -188,9 +192,12 @@ De la même manière et à la suite :
 				"active": true,
 				"champ_geom": "geom",
 				"table": "limregl.cr_pnm_aa_topo",
-				"fields": "surface",
+				"fields": "surface, name",
 				"group": "groupId2",
-				"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.name+\"</h2>\");  } } }"
+				"options": {
+					"style": "function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; }",
+					"onEachFeature": "function (feature, layer) {layer.bindTooltip(\"<h2>\"+feature.properties.name+\"</h2>\"); }"
+				}
 			},
 			{
 				"id":"aoa",
@@ -201,7 +208,23 @@ De la même manière et à la suite :
 				"table": "limregl.cr_pnm_aoa_topo",
 				"fields": "id",
 				"group": null,
-				"options":"{style: function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; } , onEachFeature: function (feature, layer) {layer.on('click', function(e){$rootScope.$apply($rootScope.$broadcast(\"feature:click\", layer));}); if (feature.properties, {noHide:false}) { layer.bindPopup(\"<h2>\"+feature.properties.nom_site+\"</h2>\");  } } }"
+				"options": {
+					"style": "function (feature) { return { color:'#0033ff',  fill:'#0033ff', opacity: 0.4, fillOpacity: 0.2}; }",
+				}
+			},
+			{
+				"id":"must-see",
+				"name": "Incontournables",
+				"type": "geojson",
+				"active": true,
+				"infoBand": true,
+				"champ_geom": "geom",
+				"table": "tourisme.sites_incontournables",
+				"fields": "id, title, descript, file, other, pic_1, titlepic_1, ownerpic_1, pic_2, titlepic_2, ownerpic_2, video",
+				"group": "tourism",
+				"options": {
+					"onEachFeature": "function (feature, layer) {layer.bindTooltip('<h2>' + feature.properties.title + '</h2>');}"
+				}
 			}
 		]
 	}
