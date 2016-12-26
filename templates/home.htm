@@ -1,39 +1,40 @@
 <header class="pnf">
-	<div class="container">
-		<p><img id="main-logo" class="logo_spirale_noire" alt="logo PNF" src="./img/logos/Spirale_noire.png"></p>
-		<span class="brand-name">Parc national du Mercantour</span>
-		<h1>Cartothèque</h1>
-	</div>
+  <div class="container">
+    <p><img id="main-logo" class="logo_spirale_noire" alt="logo PNF" src="./img/logos/Spirale_noire.png"></p>
+    <span class="brand-name">Parc national du Mercantour</span>
+    <h1>Cartothèque</h1>
+  </div>
 </header>
 <div class="container">
-	<div class="row home-intro text-center">
-		<div class="col-lg-12">
-			<h2 class="tagline">Liste des cartes</h2>
-			<p class="lead">
-				Les cartes présentées permettent la consultation des données selon la thématique choisie.
-			</p>
-		<hr class="small">
-		</div>
-	</div>
-	<div class="row previews">
-		<div ng-repeat="map in maps | toArray | filter:query | orderBy:orderProp track by map.id"  class="col-lg-4 col-sm-6">
-			<div class="thumbnail">
-				<div class="img-overview">
-					<a class="post-image-link" href="#/{{map.id}}">
-					<img class="img-responsive" alt="{{map.name}}" <img ng-src="{{map.imageUrl}}"></a>
-				</div>
-				<div class="caption">
-					<h3>{{map.name}}</h3>
-					<a class="btn btn-default" href="#/{{map.id}}">Voir la carte</a>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="row home-intro text-center">
+    <div class="col-lg-12">
+      <h2 class="tagline">Liste des cartes</h2>
+      <p class="lead">
+        Les cartes présentées permettent la consultation des données selon la thématique choisie.
+      </p>
+      <hr class="small">
+    </div>
+  </div>
+  <div class="row previews">
+    <div ng-repeat="map in maps | toArray | filter:query | orderBy:orderProp track by map.id" class="col-lg-4 col-sm-6">
+      <div class="thumbnail">
+        <div class="img-overview">
+          <a class="post-image-link" href="#/{{map.id}}">
+            <img class="img-responsive" alt="{{map.name}}" <img ng-src="{{map.imageUrl}}">
+          </a>
+        </div>
+        <div class="caption">
+          <h3>{{map.name}}</h3>
+          <a class="btn btn-default" href="#/{{map.id}}">Voir la carte</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Footer -->
 <div id="footer" class="bg-footer-bottom">
-	<div class="container">
-		<p class="center-text"><span class="copy-left">&copy;</span> - Site réalisé par le Parc National du Mercantour - 2016</p>
-	</div>
+  <div class="container">
+    <p class="center-text"><span class="copy-left">&copy;</span> - Site réalisé par le Parc National du Mercantour - 2016</p>
+  </div>
 </div>
