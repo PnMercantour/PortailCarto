@@ -137,10 +137,15 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
         )
         .then(
           function (results) {
-            overlay.feature = new L.geoJson(
+            layer = new L.geoJson(
               results.data,
               getOptions(overlay, requested.options)
             );
+            if (requested.cluster) {
+              overlay.feature = new L.markerClusterGroup().addLayer(layer);
+            } else {
+              overlay.feature = layer;
+            }
             overlays.push(overlay);
             return overlay;
           }
