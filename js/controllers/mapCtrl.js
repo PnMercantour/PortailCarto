@@ -18,12 +18,12 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       }
 
       if ($scope.map) {
-        map.remove();
+        $scope.map.remove();
+        $scope.map = null;
       }
-      map = L.map('mapx', {
+      $scope.map = L.map('mapx', {
         zoomControl: false
       });
-      $scope.map = map;
 
 
       if ($rootScope.mapinfo && $rootScope.mapinfo.layers && $rootScope.mapinfo.layers.overlays) {
@@ -32,7 +32,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
 
       //Center
       if ($scope.mapinfo.center) {
-        map.setView([$scope.mapinfo.center.lat, $scope.mapinfo.center.lng], $scope.mapinfo.center.zoom);
+        $scope.map.setView([$scope.mapinfo.center.lat, $scope.mapinfo.center.lng], $scope.mapinfo.center.zoom);
       }
 
       // Bounds control and min/max zoom control
@@ -40,9 +40,9 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       var southWest = L.latLng($scope.mapinfo.bounds.southWest.lat, $scope.mapinfo.bounds.southWest.long);
       var northEast = L.latLng($scope.mapinfo.bounds.northEast.lat, $scope.mapinfo.bounds.northEast.long);
       bounds = L.latLngBounds(southWest, northEast);
-      map.options.maxBounds = bounds;
-      map.options.minZoom = $scope.mapinfo.bounds.minZoom;
-      map.options.maxZoom = $scope.mapinfo.bounds.maxZoom;
+      $scope.map.options.maxBounds = bounds;
+      $scope.map.options.minZoom = $scope.mapinfo.bounds.minZoom;
+      $scope.map.options.maxZoom = $scope.mapinfo.bounds.maxZoom;
 
       //Geosearch
       if (($scope.mapinfo.geosearch) && ($window.innerWidth > 800)) {
@@ -51,13 +51,13 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
           position: 'topright',
           text: 'Rechercher',
         });
-        osmGeocoder.addTo(map);
+        osmGeocoder.addTo($scope.map);
       };
 
       // Zoom Control
       L.control.zoom({
         position: 'topright'
-      }).addTo(map);
+      }).addTo($scope.map);
 
       //baselayers
       $scope.baselayers = [];
@@ -65,7 +65,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         var l = baselayersServices.loadData(value);
         $scope.baselayers[key] = l;
         if (value.active) {
-          $scope.baselayers[key].map.addTo(map);
+          $scope.baselayers[key].map.addTo($scope.map);
         }
       });
 
@@ -87,10 +87,9 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
           }
           overlaysServices.getOverlay(value)
             .then(function (overlay) {
-              console.log(overlay);
               $scope.overlays[key] = overlay;
               if (value.active) {
-                $scope.overlays[key].feature.addTo(map);
+                $scope.overlays[key].feature.addTo($scope.map);
               }
               if (overlays.length === $scope.overlays.length) {
                 $scope.overlaysLoading = false;
@@ -100,7 +99,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       }
 
       // Sidebar
-      var sidebar = L.control.sidebar('sidebar').addTo(map);
+      var sidebar = L.control.sidebar('sidebar').addTo($scope.map);
 
       // Control emprise initiale EasyButton
       L.easyButton({
@@ -109,58 +108,58 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
           icon: 'glyphicon glyphicon-home',
           title: 'Emprise initiale',
           onClick: function (control) {
-            map.setView([$scope.mapinfo.center.lat, $scope.mapinfo.center.lng], $scope.mapinfo.center.zoom);
+            $scope.map.setView([$scope.mapinfo.center.lat, $scope.mapinfo.center.lng], $scope.mapinfo.center.zoom);
           }
         }]
-      }).addTo(map);
+      }).addTo($scope.map);
 
       // Control échelle
       L.control.scale({
         imperial: false,
         position: 'bottomright',
         updateWhenIdle: false
-      }).addTo(map);
+      }).addTo($scope.map);
 
       // Control FullScreen
       L.control.fullscreen({
         pseudoFullscreen: true // if true, fullscreen to page width and height
-      }).addTo(map);
+      }).addTo($scope.map);
 
 
 
       //Legend
       if ($scope.mapinfo.legend) {
         var legend = L.control({ position: 'bottomright' });
-        legend.onAdd = function (map) {
+        legend.onAdd = function () {
           var div = L.DomUtil.create('div', 'info legend  visible-lg');
           div.innerHTML = $sce.trustAsHtml($scope.mapinfo.legend);
           return div;
         };
-        legend.addTo(map);
+        legend.addTo($scope.map);
       }
       return $scope;
     }, true);
 
     $scope.toggleOverlay = function (overlay) {
-      if (!overlay.active && map.hasLayer(overlay.feature)) {
-        map.removeLayer(overlay.feature);
+      if (!overlay.active && $scope.map.hasLayer(overlay.feature)) {
+        $scope.map.removeLayer(overlay.feature);
       }
       if (overlay.active && !map.hasLayer(overlay.feature)) {
-        map.addLayer(overlay.feature);
+        $scope.map.addLayer(overlay.feature);
       }
     };
 
     $scope.changeTiles = function (nummap) {
       if ($scope.baselayers[nummap].active) {
-        map.removeLayer($scope.baselayers[nummap].map);
+        $scope.map.removeLayer($scope.baselayers[nummap].map);
         $scope.baselayers[nummap].active = false;
       } else {
-        $scope.baselayers[nummap].map.addTo(map);
+        $scope.baselayers[nummap].map.addTo($scope.map);
         $scope.baselayers[nummap].active = true;
       }
       angular.forEach($scope.baselayers, function (value, key) {
         if (key !== nummap) {
-          map.removeLayer($scope.baselayers[key].map);
+          $scope.map.removeLayer($scope.baselayers[key].map);
           $scope.baselayers[key].active = false;
         }
       });
@@ -233,6 +232,13 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
     $scope.selected = null;
     $scope.infoBand = null;
     $scope.$on('feature:click', selectLayer);
+    $scope.$on('$destroy', function iVeBeenDismissed() {
+      if ($scope.map) {
+        $scope.map.remove();
+        $scope.map = null;
+      }
+    })
+
 
   }
 
