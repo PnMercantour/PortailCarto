@@ -105,6 +105,15 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
     return options
   }
 
+  function extendGeoJSONMarkers(featureData, latlng) {
+    if (!featureData.properties.icon) {
+      return L.marker(latlng);
+    }
+    var iconProperties = JSON.parse(featureData.properties.icon);
+    var customIcon = new L.Icon(iconProperties);
+    return new L.marker(latlng, {icon: customIcon});
+  };
+
   function parseCustomOptions(customOptions) {
     var optionKey;
     var options = {};
@@ -137,9 +146,11 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
         )
         .then(
           function (results) {
+            var options = getOptions(overlay, requested.options);
+            options.pointToLayer = extendGeoJSONMarkers;
             layer = new L.geoJson(
               results.data,
-              getOptions(overlay, requested.options)
+              options
             );
             if (requested.cluster) {
               overlay.feature = new L.markerClusterGroup().addLayer(layer);
