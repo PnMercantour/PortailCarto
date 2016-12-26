@@ -26,7 +26,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       $scope.map = map;
 
 
-      if ($rootScope.mapinfo && $rootScope.mapinfo.layers) {
+      if ($rootScope.mapinfo && $rootScope.mapinfo.layers && $rootScope.mapinfo.layers.overlays) {
         console.log("Nombre d'overlays dans le maps.json : " + $scope.mapinfo.layers.overlays.values['length']);
       }
 
