@@ -77,12 +77,17 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       if (overlaysGroups) {
         $scope.overlaysGroups = overlaysGroups;
       }
+      $scope.showOtherGroup = false;
       $scope.overlays = [];
       if (overlays && overlays.length > 0) {
         $scope.overlaysLoading = true;
         angular.forEach(overlays, function (value, key) {
+          if (!value.group) {
+            $scope.showOtherGroup = true;
+          }
           overlaysServices.getOverlay(value)
             .then(function (overlay) {
+              console.log(overlay);
               $scope.overlays[key] = overlay;
               if (value.active) {
                 $scope.overlays[key].feature.addTo(map);
