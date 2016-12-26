@@ -144,7 +144,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       if (!overlay.active && $scope.map.hasLayer(overlay.feature)) {
         $scope.map.removeLayer(overlay.feature);
       }
-      if (overlay.active && !map.hasLayer(overlay.feature)) {
+      if (overlay.active && !$scope.map.hasLayer(overlay.feature)) {
         $scope.map.addLayer(overlay.feature);
       }
     };
