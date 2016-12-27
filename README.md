@@ -18,7 +18,7 @@ Cette application se veut le plus générique possible afin que d'autres parcs n
 
 # Fonctionnalités
 
-... à venir
+Consulter les fonctionnalités : (https://github.com/PnMercantour/PortailCarto/tree/master/docs)
 
 # Installation
 
