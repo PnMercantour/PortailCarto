@@ -20,7 +20,7 @@ Cette application se veut le plus générique possible afin que d'autres parcs n
 
 Consulter les fonctionnalités :
 
-[Fonctionnement du clustering] (docs/cluster.md)
+* Fonctionnement du clustering [Fonctionnement du clustering] (docs/cluster.md)
 [Fonctionnement du bandeau d'information en bas de page] (docs/info-band.md)
 [Ajouter une popup à un layer] (docs/popup.md)
 
