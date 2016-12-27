@@ -147,15 +147,26 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
         .then(
           function (results) {
             var options = getOptions(overlay, requested.options);
-            options.pointToLayer = extendGeoJSONMarkers;
-            layer = new L.geoJson(
-              results.data,
-              options
-            );
+
             if (requested.cluster) {
+              // If we use Clustering, GeoJSON group doesn't apply onEachFeature,
+              // so we need to use it manually on each point
+              options.pointToLayer = function (featureData, latlng) {
+                var marker = extendGeoJSONMarkers(featureData, latlng);
+                options.onEachFeature(featureData, marker);
+                return marker;
+              };
+              var layer  = new L.geoJson(
+                results.data,
+                options
+              );
               overlay.feature = new L.markerClusterGroup().addLayer(layer);
             } else {
-              overlay.feature = layer;
+              options.pointToLayer = extendGeoJSONMarkers;
+              overlay.feature = new L.geoJson(
+                results.data,
+                options
+              );
             }
             overlays.push(overlay);
             return overlay;
