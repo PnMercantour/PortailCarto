@@ -18,7 +18,10 @@ Cette application se veut le plus générique possible afin que d'autres parcs n
 
 # Fonctionnalités
 
-Consulter les fonctionnalités : (https://github.com/PnMercantour/PortailCarto/tree/master/docs)
+Consulter les fonctionnalités :
+
+* [Fonctionnement du clustering] (docs/cluster.md),
+* [Fonctionnement du bandeau d'information] (docs/info-band.md),
 
 # Installation
 
