@@ -20,14 +20,15 @@ Cette application se veut le plus générique possible afin que d'autres parcs n
 
 Consulter les fonctionnalités :
 
-[Ajouter une popup à un layer] (docs/popup.md)
-[Fonctionnement du clustering]  (docs/cluster.md)
+[Ajouter une popup à un layer] (docs/popup.md)  
+[Fonctionnement du clustering]  (docs/cluster.md) 
 [Fonctionnement du bandeau d'information en bas de page] (docs/info-band.md)
 
 
 # Installation
 
 Consulter la documentation : [Doc d'installation](docs/install.md)
+
 # License
 
 * Application développée par Raphaël Chochon et Samuel Priou (Parc National du Mercantour)
