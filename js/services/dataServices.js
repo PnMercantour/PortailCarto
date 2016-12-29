@@ -78,7 +78,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
       var markerId;
       for (markerId in layer._layers) {
         var marker = layer._layers[markerId];
-        marker.setOpacity(0.6);
+        marker.setOpacity(0.8);
       }
 
     }
