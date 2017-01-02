@@ -219,6 +219,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       $scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
       if (element.infoBand) {
         $scope.infoBand = element.feature.properties;
+        $scope.infoBand.descript = $sce.trustAsHtml(element.feature.properties.descript);
         $scope.openInfoBand();
       } else {
         $scope.infoBand = null;
