@@ -138,8 +138,25 @@
         <div class="col-lg-8 col-md-7">
           <h2 ng-if="infoBand.title" class="info-band-title">{{infoBand.title}}</h2>
           <p ng-if="infoBand.descript" class="info-band-description" ng-bind-html="infoBand.descript"></p>
+          <p ng-if="infoBand.website" class="info-band-download">
+            <a class="info-band-download btn btn-primary" href="{{infoBand.website}}" target="_blank" rel="noopener noreferrer">
+              Site web
+            </a>
+          </p>
+          <p ng-if="infoBand.email"> E-mail :
+            <a href="mailto:{{infoBand.email}}" 
+               class="info-band-email">
+              {{infoBand.email}}
+            </a>
+          </p>
+          <p ng-if="infoBand.phone"> N° de téléphone :
+               <class="info-band-phone">
+              {{infoBand.phone}}
+          </p>
+          
+      
           <div ng-if="infoBand.file" class="info-band-download">
-            <a class="info-band-download btn btn-primary" href="{{infoBand.file}}" target="_blank">
+            <a class="info-band-download btn btn-primary" href="{{infoBand.file}}" target="_blank" rel="noopener noreferrer">
 							Télécharger le fichier associé
 						</a>
           </div>
