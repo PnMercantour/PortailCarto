@@ -36,10 +36,20 @@ Faire les MAJ de la distribution :
 ### 2 - Installation d'Apache, php5 et php5-pgsql
 
 ```
-	sudo apt-get install apache2 php5 php5-pgsql git
+	sudo apt-get install apache2 php5 php5-pgsql libapache2-mod-php git
 	sudo /etc/init.d/apache2 restart
 ```
 
+On ubuntu 16.04:
+
+    
+    sudo service nginx stop  # if nginx is installed
+    sudo add-apt-repository ppa:ondrej/php
+    sudo apt update
+    sudo apt install libapache2-mod-php5.6 php5.6-pgsql
+    sudo a2enmod php5.6
+    sudo  service apache2 restart
+    
 
 ### 3 - Installation
 
