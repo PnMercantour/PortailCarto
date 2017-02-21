@@ -25,11 +25,6 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         zoomControl: false
       });
 
-
-      if ($rootScope.mapinfo && $rootScope.mapinfo.layers && $rootScope.mapinfo.layers.overlays) {
-        console.log("Nombre d'overlays dans le maps.json : " + $scope.mapinfo.layers.overlays.values['length']);
-      }
-
       //Center
       if ($scope.mapinfo.center) {
         $scope.map.setView([$scope.mapinfo.center.lat, $scope.mapinfo.center.lng], $scope.mapinfo.center.zoom);
@@ -49,10 +44,10 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         var osmGeocoder = new L.Control.OSMGeocoder({
           collapsed: false,
           position: 'topright',
-          text: 'Rechercher',
+          text: 'Rechercher'
         });
         osmGeocoder.addTo($scope.map);
-      };
+      }
 
       // Zoom Control
       L.control.zoom({
@@ -62,8 +57,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       //baselayers
       $scope.baselayers = [];
       angular.forEach($scope.mapinfo.layers.baselayers, function (value, key) {
-        var l = baselayersServices.loadData(value);
-        $scope.baselayers[key] = l;
+        $scope.baselayers[key] = baselayersServices.loadData(value);
         if (value.active) {
           $scope.baselayers[key].map.addTo($scope.map);
         }
@@ -107,7 +101,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         states: [{
           icon: 'glyphicon glyphicon-home',
           title: 'Emprise initiale',
-          onClick: function (control) {
+          onClick: function () {
             $scope.map.setView([$scope.mapinfo.center.lat, $scope.mapinfo.center.lng], $scope.mapinfo.center.zoom);
           }
         }]
@@ -186,7 +180,6 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         originalEvent.layer.setOpacity(1);
       }
 
-
       return { layer: newLayer, previousStyle: previousStyle, markerLayer: originalEvent.layer };
     }
 
@@ -219,7 +212,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       $scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
       if (element.infoBand) {
         $scope.infoBand = element.feature.properties;
-        $scope.infoBand.descript = $sce.trustAsHtml(element.feature.properties.descript);
+        $scope.infoBandDescript = $sce.trustAsHtml(element.feature.properties.descript);
         $scope.openInfoBand();
       } else {
         $scope.infoBand = null;
@@ -227,19 +220,24 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       }
 
       $scope.$apply();
-    };
+    }
 
     $scope.showInfoBand = false;
     $scope.selected = null;
     $scope.infoBand = null;
+    $scope.infoBandDescript = null;
     $scope.$on('feature:click', selectLayer);
     $scope.$on('$destroy', function iVeBeenDismissed() {
       if ($scope.map) {
+        $scope.infoBand = null;
+        $scope.infoBandDescript = null;
         $scope.map.remove();
         $scope.map = null;
+        $scope.selected = null;
+        $rootScope.mapinfo = null;
+        $scope.mapinfo = null;
       }
     })
-
 
   }
 

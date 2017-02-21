@@ -94,7 +94,7 @@
 
     <div id="mapx" class="sidebar-map">
     </div>
-    <div class="info-band" ng-class="{active: infoBand && showInfoBand}">
+    <div class="info-band" ng-class="{active: showInfoBand}" ng-if="infoBand">
       <div class="row">
         <div class="col-lg-4 col-md-5">
           <div ng-if="infoBand.pic_1 || infoBand.pic_2" class="info-band-carousel">
@@ -137,14 +137,14 @@
         </div>
         <div class="col-lg-8 col-md-7">
           <h2 ng-if="infoBand.title" class="info-band-title">{{infoBand.title}}</h2>
-          <p ng-if="infoBand.descript" class="info-band-description" ng-bind-html="infoBand.descript"></p>
+          <p ng-if="infoBandDescript" class="info-band-description" ng-bind-html="infoBandDescript"></p>
           <p ng-if="infoBand.website" class="info-band-download">
             <a class="info-band-download btn btn-primary" href="{{infoBand.website}}" target="_blank" rel="noopener noreferrer">
               Site web
             </a>
           </p>
           <p ng-if="infoBand.email"> E-mail :
-            <a href="mailto:{{infoBand.email}}" 
+            <a href="mailto:{{infoBand.email}}"
                class="info-band-email">
               {{infoBand.email}}
             </a>
@@ -153,8 +153,8 @@
                <class="info-band-phone">
               {{infoBand.phone}}
           </p>
-          
-      
+
+
           <div ng-if="infoBand.file" class="info-band-download">
             <a class="info-band-download btn btn-primary" href="{{infoBand.file}}" target="_blank" rel="noopener noreferrer">
 							Télécharger le fichier associé
