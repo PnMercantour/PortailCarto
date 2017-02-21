@@ -3,7 +3,7 @@ app.factory('MapsServices', ['$http', 'filterFilter', '$q', function ($http, fil
     maps: [],
 
     loadData: function () {
-      self = this;
+      var self = this;
 
       var deferred = $q.defer();
       $http.get('data/maps.json')
@@ -32,7 +32,7 @@ app.factory('MapsServices', ['$http', 'filterFilter', '$q', function ($http, fil
 
     getOne: function (sname) {
       return filterFilter(this.maps, { id: sname })[0];
-    },
+    }
 
 
   };
@@ -66,7 +66,7 @@ app.factory('baselayersServices', ['$http', function ($http) {
 
 
 app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
-  var overlays = [];
+  var overlays = [];  // a cache of requested overlays
   var pointTypes = ['Point', 'MultiPoint'];
 
   function layerStyleEvent(ev) {
@@ -112,7 +112,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
     var iconProperties = JSON.parse(featureData.properties.icon);
     var customIcon = new L.Icon(iconProperties);
     return new L.marker(latlng, {icon: customIcon});
-  };
+  }
 
   function parseCustomOptions(customOptions) {
     var optionKey;
@@ -137,6 +137,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
       thumbnail: requested.thumbnail || null,
       active: requested.active,
       infoBand: requested.infoBand,
+      fields: requested.fields,
       group: requested.group
     };
 
@@ -168,7 +169,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
                 options
               );
             }
-            overlays.push(overlay);
+            overlays.push(overlay);  // cache overlay
             return overlay;
           }
         );
@@ -180,7 +181,8 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
   function getOverlay(requested) {
     for (var i = 0; i < overlays.length; i++) {
       var ov = overlays[i];
-      if (ov.id === requested.id) {
+      // prefer cached overlay which have same id and fields
+      if (ov.id === requested.id && ov.fields === requested.fields && ov.infoBand === requested.infoBand) {
         return $q.when(ov);
       }
     }
