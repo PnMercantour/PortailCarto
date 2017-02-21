@@ -229,9 +229,10 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
     $scope.selected = null;
     $scope.infoBand = null;
     $scope.infoBandDescript = null;
-    $scope.$on('feature:click', selectLayer);
+    var unregisterFeatureClick = $scope.$on('feature:click', selectLayer);
     $scope.$on('$destroy', function iVeBeenDismissed() {
       if ($scope.map) {
+        unregisterFeatureClick();
         $scope.infoBand = null;
         $scope.infoBandDescript = null;
         $scope.map.remove();
