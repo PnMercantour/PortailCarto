@@ -207,19 +207,22 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
 
     function selectLayer(ev, contextParams) {
       var element = contextParams.context;
-      var originalEvent = contextParams.originalEvent;
+      if (element.feature) {
+          var originalEvent = contextParams.originalEvent;
 
-      $scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
-      if (element.infoBand) {
-        $scope.infoBand = element.feature.properties;
-        $scope.infoBandDescript = $sce.trustAsHtml(element.feature.properties.descript);
-        $scope.openInfoBand();
-      } else {
-        $scope.infoBand = null;
-        $scope.closeInfoBand();
+          $scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
+          if (element.infoBand) {
+            $scope.infoBand = element.feature.properties;
+            $scope.infoBandDescript = $sce.trustAsHtml(element.feature.properties.descript);
+            $scope.openInfoBand();
+          } else {
+            $scope.infoBand = null;
+            $scope.closeInfoBand();
+          }
+
+          $scope.$apply();
       }
 
-      $scope.$apply();
     }
 
     $scope.showInfoBand = false;
