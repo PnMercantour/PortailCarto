@@ -14,7 +14,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       });
     }
 
-    $scope.$watch('mapinfo', function (scope) {
+    $scope.$watch('mapinfo', function () {
       if (!$scope.mapinfo) {
         return;
       }
@@ -208,11 +208,16 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
     };
 
     function selectLayer(ev, contextParams) {
-      var element = contextParams.context;
-      if (element.feature) {
-          var originalEvent = contextParams.originalEvent;
-
+        var element = contextParams.context;
+        var originalEvent = contextParams.originalEvent;
+        var changed = false;
+        if (element.layer.feature) {
           $scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
+          changed = true;
+        }
+
+        if (element.feature) {
+          changed = true;
           if (element.infoBand) {
             $scope.infoBand = element.feature.properties;
             $scope.infoBandDescript = $sce.trustAsHtml(element.feature.properties.descript);
@@ -221,9 +226,10 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
             $scope.infoBand = null;
             $scope.closeInfoBand();
           }
-
+        }
+        if (changed) {
           $scope.$apply();
-      }
+        }
 
     }
 
