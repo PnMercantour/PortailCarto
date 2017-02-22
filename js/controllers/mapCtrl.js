@@ -5,10 +5,12 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
     filterFilter, $http, $sce, $rootScope, $window) {
     $rootScope.mapinfo = MapsServices.getOne($routeParams.mapsId);
 
+    $scope.maps = MapsServices.maps;
     if (!MapsServices.maps.length) {
       var dfd = MapsServices.loadData();
       dfd.then(function () {
         $scope.mapinfo = MapsServices.getOne($routeParams.mapsId);
+        $scope.maps = MapsServices.maps;
       });
     }
 
@@ -241,8 +243,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         $rootScope.mapinfo = null;
         $scope.mapinfo = null;
       }
-    })
-
+    });
   }
 
 ]);

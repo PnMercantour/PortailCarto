@@ -98,15 +98,16 @@
 /*********************************************/
 
   .navbar {
-    margin-bottom: 15px;
+    margin-bottom: 15px;  /* smaller margin bottom */
   }
 
 	#map-title {
 		color:white;
+    float: left;
 	}
 
   .map-container {
-    height: calc(100vh - 60px - 30px);  /* navbar + margins */
+    height: calc(100vh - 100px);  /* navbar + margins */
     width: 100%;
     position: relative;
     overflow: hidden;

@@ -1,11 +1,44 @@
 <div>
   <div class="navbar navbar-inverse" role="navigation">
     <a href="#/" class="navbar-brand">
-      <img id="nav-logo-home" class="img-responsive center-block" alt="hom pnc" src="img/logos/Spirale_vert.png" style="height:30px">
+      <span>
+        <img id="nav-logo-home"
+             class="img-responsive center-block"
+             alt="hom pnc"
+             src="img/logos/Spirale_vert.png"
+             style="height:30px"/>
+        </span>
     </a>
-    <h3 id="map-title">{{mapinfo.name}}</h3>
-    </li>
+    <h3 href="#/" id="map-title">{{mapinfo.name}}</h3>
 
+    <div class="navbar-header">
+      <button type="button"
+              class="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <div class="navbar-collapse collapse navbar-right" id="navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="navbar-item"
+            ng-repeat="map in maps | toArray | filter:query | orderBy:orderProp track by map.id"
+            ng-class="{active: map.id == mapinfo.id}">
+          <a class="navbar-link"
+             class="post-image-link nav-item"
+             ng-href="#/{{map.id}}"
+             ng-attr-title="{{map.name}}"
+          ><img ng-attr-alt="{{map.name}}"
+                ng-src="img/icons/{{map.icon}}" style="height:30px; width: 30px;"/>
+            <span class="navbar-text hidden-sm hidden-md hidden-lg">{{map.name}}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div class="map-container container-fluid">
