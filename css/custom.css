@@ -181,6 +181,10 @@
 		background: rgba(0, 0, 0, 0.6);
 	}
 
+	.carousel-control {
+		margin-top: 25%;
+    margin-bottom: 25%;
+	}
 	.carousel-control .glyphicon-chevron-left,
 	.carousel-control .glyphicon-chevron-right,
 	.carousel-control .icon-next,
