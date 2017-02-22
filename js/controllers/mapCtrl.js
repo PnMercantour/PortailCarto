@@ -46,7 +46,8 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         var osmGeocoder = new L.Control.OSMGeocoder({
           collapsed: false,
           position: 'topright',
-          text: 'Rechercher'
+          text: 'Rechercher',
+          placeholder: 'Rechercher un lieu...'
         });
         osmGeocoder.addTo($scope.map);
       }
