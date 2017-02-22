@@ -3,3 +3,4 @@ postgis_geojson.php
 data/*.json
 data/media
 _test/*
+.idea/

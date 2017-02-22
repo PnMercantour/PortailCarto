@@ -5,14 +5,16 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
     filterFilter, $http, $sce, $rootScope, $window) {
     $rootScope.mapinfo = MapsServices.getOne($routeParams.mapsId);
 
+    $scope.maps = MapsServices.maps;
     if (!MapsServices.maps.length) {
       var dfd = MapsServices.loadData();
       dfd.then(function () {
         $scope.mapinfo = MapsServices.getOne($routeParams.mapsId);
+        $scope.maps = MapsServices.maps;
       });
     }
 
-    $scope.$watch('mapinfo', function (scope) {
+    $scope.$watch('mapinfo', function () {
       if (!$scope.mapinfo) {
         return;
       }
@@ -24,11 +26,6 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       $scope.map = L.map('mapx', {
         zoomControl: false
       });
-
-
-      if ($rootScope.mapinfo && $rootScope.mapinfo.layers && $rootScope.mapinfo.layers.overlays) {
-        console.log("Nombre d'overlays dans le maps.json : " + $scope.mapinfo.layers.overlays.values['length']);
-      }
 
       //Center
       if ($scope.mapinfo.center) {
@@ -49,10 +46,10 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         var osmGeocoder = new L.Control.OSMGeocoder({
           collapsed: false,
           position: 'topright',
-          text: 'Rechercher',
+          text: 'Rechercher'
         });
         osmGeocoder.addTo($scope.map);
-      };
+      }
 
       // Zoom Control
       L.control.zoom({
@@ -62,8 +59,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       //baselayers
       $scope.baselayers = [];
       angular.forEach($scope.mapinfo.layers.baselayers, function (value, key) {
-        var l = baselayersServices.loadData(value);
-        $scope.baselayers[key] = l;
+        $scope.baselayers[key] = baselayersServices.loadData(value);
         if (value.active) {
           $scope.baselayers[key].map.addTo($scope.map);
         }
@@ -107,7 +103,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         states: [{
           icon: 'glyphicon glyphicon-home',
           title: 'Emprise initiale',
-          onClick: function (control) {
+          onClick: function () {
             $scope.map.setView([$scope.mapinfo.center.lat, $scope.mapinfo.center.lng], $scope.mapinfo.center.zoom);
           }
         }]
@@ -186,7 +182,6 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         originalEvent.layer.setOpacity(1);
       }
 
-
       return { layer: newLayer, previousStyle: previousStyle, markerLayer: originalEvent.layer };
     }
 
@@ -213,34 +208,48 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
     };
 
     function selectLayer(ev, contextParams) {
-      var element = contextParams.context;
-      var originalEvent = contextParams.originalEvent;
+        var element = contextParams.context;
+        var originalEvent = contextParams.originalEvent;
+        var changed = false;
+        if (element.layer.feature) {
+          $scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
+          changed = true;
+        }
 
-      $scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
-      if (element.infoBand) {
-        $scope.infoBand = element.feature.properties;
-        $scope.infoBand.descript = $sce.trustAsHtml(element.feature.properties.descript);
-        $scope.openInfoBand();
-      } else {
-        $scope.infoBand = null;
-        $scope.closeInfoBand();
-      }
+        if (element.feature) {
+          changed = true;
+          if (element.infoBand) {
+            $scope.infoBand = element.feature.properties;
+            $scope.infoBandDescript = $sce.trustAsHtml(element.feature.properties.descript);
+            $scope.openInfoBand();
+          } else {
+            $scope.infoBand = null;
+            $scope.closeInfoBand();
+          }
+        }
+        if (changed) {
+          $scope.$apply();
+        }
 
-      $scope.$apply();
-    };
+    }
 
     $scope.showInfoBand = false;
     $scope.selected = null;
     $scope.infoBand = null;
-    $scope.$on('feature:click', selectLayer);
+    $scope.infoBandDescript = null;
+    var unregisterFeatureClick = $scope.$on('feature:click', selectLayer);
     $scope.$on('$destroy', function iVeBeenDismissed() {
       if ($scope.map) {
+        unregisterFeatureClick();
+        $scope.infoBand = null;
+        $scope.infoBandDescript = null;
         $scope.map.remove();
         $scope.map = null;
+        $scope.selected = null;
+        $rootScope.mapinfo = null;
+        $scope.mapinfo = null;
       }
-    })
-
-
+    });
   }
 
 ]);

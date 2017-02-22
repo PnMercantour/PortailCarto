@@ -97,16 +97,28 @@
 /****************** VIEW - MAPS ******************/
 /*********************************************/
 
-	#map-title {
-		color:white;
+  .navbar {
+    margin-bottom: 15px;  /* smaller margin bottom */
+  }
+
+	.sidebar-left ~ .sidebar-map {
+			margin-left: 0px !important;  /* Sidebar over map even on small screens */
+	}
+	.sidebar-left {
+			left: 20px !important;
 	}
 
-	.map-container {
-		height: 80vh;
-		width: 100%;
-		position: relative;
-		overflow: hidden;
+	#map-title {
+		color:white;
+    float: left;
 	}
+
+  .map-container {
+    height: calc(100vh - 100px);  /* navbar + margins */
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
 
 	#mapx {
 		width: 100%;
@@ -118,24 +130,26 @@
 		top: 10px;
 	}
 
-	.baselayers-menu {
-		padding-top: 15px;
-		padding-bottom: 15px;
-	}
+  .baselayers-menu {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    z-index: 3;
+    left: 25px;
+  }
 
-	.info-band {
-		z-index: 2;
-		position: absolute;
-		background: rgba(0, 0, 0, 0.8);
-		color: white;
-		bottom: -100%;
-		left: 15px;
-		width: calc(100% - 30px);
-		max-height: 50vh;
-		padding: 3rem;
-		z-index: 2;
-		transition: bottom 0.2s ease-out;
-	}
+  .info-band {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    bottom: -100%;
+    left: 15px;
+    width: calc(100% - 30px);
+    max-height: 50vh;
+    padding: 3rem;
+    z-index: 4;
+    transition: bottom 0.2s ease-out;
+  }
 
 	.info-band.active {
 		bottom: 0;
@@ -157,14 +171,6 @@
 		margin-bottom: 3rem;
 	}
 
-	.info-band-carousel-controls {
-		height: 8rem;
-		width: 100%;
-		position: absolute;
-		top: 50%;
-		margin-top: -4rem;
-	}
-
 	.info-band-carousel-caption {
 		bottom: 0;
 		left: 0;
@@ -175,10 +181,14 @@
 		background: rgba(0, 0, 0, 0.6);
 	}
 
-	.info-band-carousel-controls .carousel-control .glyphicon-chevron-left,
-	.info-band-carousel-controls .carousel-control .glyphicon-chevron-right,
-	.info-band-carousel-controls .carousel-control .icon-next,
-	.info-band-carousel-controls .carousel-control .icon-prev {
+	.carousel-control {
+		margin-top: 25%;
+    margin-bottom: 25%;
+	}
+	.carousel-control .glyphicon-chevron-left,
+	.carousel-control .glyphicon-chevron-right,
+	.carousel-control .icon-next,
+	.carousel-control .icon-prev {
 		font-size: 2rem;
 	}
 
