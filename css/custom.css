@@ -101,6 +101,13 @@
     margin-bottom: 15px;  /* smaller margin bottom */
   }
 
+	.sidebar-left ~ .sidebar-map {
+			margin-left: 0px !important;  /* Sidebar over map even on small screens */
+	}
+	.sidebar-left {
+			left: 20px !important;
+	}
+
 	#map-title {
 		color:white;
     float: left;
