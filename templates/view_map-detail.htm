@@ -66,6 +66,7 @@
             <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
           </h1>
 
+         <div ng-if="!overlaysLoading">
           <div class="overlays-group" ng-repeat="group in overlaysGroups track by group.id">
             <button class="overlays-collapser-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{group.id}}"
                     aria-expanded="false" aria-controls="collapse-{{group.id}}">
@@ -115,6 +116,7 @@
               </li>
             </ul>
           </div>
+         </div>
         </div>
         <!-- FIN DIV sidebar-pane  -->
         <div class="sidebar-pane" id="info">
@@ -193,9 +195,9 @@
             </a>
           </p>
           <p ng-if="infoBand.phone"> N° de téléphone :
-            <class
-            ="info-band-phone">
-            {{infoBand.phone}}
+            <span class="info-band-phone">
+              {{infoBand.phone}}
+            </span>
           </p>
 
 

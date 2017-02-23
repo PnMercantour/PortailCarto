@@ -46,7 +46,8 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
         var osmGeocoder = new L.Control.OSMGeocoder({
           collapsed: false,
           position: 'topright',
-          text: 'Rechercher'
+          text: 'Rechercher',
+          placeholder: 'Rechercher un lieu...'
         });
         osmGeocoder.addTo($scope.map);
       }
@@ -77,6 +78,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       $scope.overlays = [];
       if (overlays && overlays.length > 0) {
         $scope.overlaysLoading = true;
+        var counter = 0;
         angular.forEach(overlays, function (value, key) {
           if (!value.group) {
             $scope.showOtherGroup = true;
@@ -87,7 +89,8 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
               if (value.active) {
                 $scope.overlays[key].feature.addTo($scope.map);
               }
-              if (overlays.length === $scope.overlays.length) {
+              counter += 1;
+              if (counter === overlays.length) {
                 $scope.overlaysLoading = false;
               }
             });
