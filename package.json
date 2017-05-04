@@ -9,7 +9,9 @@
   "dependencies": {},
   "devDependencies": {
     "gulp": "3.9.1",
+    "gulp-cachebust": "0.0.6",
     "gulp-clean-css": "3.0.4",
+    "gulp-clean-dest": "^0.2.0",
     "gulp-concat": "2.6.1",
     "gulp-inject": "4.2.0",
     "gulp-rename": "1.2.2",

@@ -4,9 +4,13 @@ var rename = require('gulp-rename');
 var inject = require('gulp-inject');
 var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
+var CacheBuster = require('gulp-cachebust');
+var cleanDest = require('gulp-clean-dest');
+var cachebuster = new CacheBuster();
 
-var buildDest = 'build/';
-var publishDest = 'assets/';
+
+var buildDest = 'build';
+var publishDest = 'assets';
 
 var pluginsJsFiles = [
     'vendors/leaflet/js/leaflet-search.min.js',
@@ -83,14 +87,19 @@ gulp.task('build', ['angular.dist.js', 'plugins.js', 'scripts.js', 'styles.css',
 
 gulp.task('vendor-images', function () {
     return gulp.src(imageFiles)
+        .pipe(cleanDest(publishDest, {extension: '.png'}))
         .pipe(gulp.dest(publishDest));
 });
 
-var jsStream = gulp.src(['./build/*.js'])
-  .pipe(gulp.dest(publishDest));
+var jsStream = gulp.src([buildDest + '/*.js'])
+    .pipe(cleanDest(publishDest, {extension: '.js'}))
+    .pipe(cachebuster.resources())
+    .pipe(gulp.dest(publishDest));
 
-var cssStream = gulp.src(['./build/*.css'])
-  .pipe(gulp.dest(publishDest));
+var cssStream = gulp.src([buildDest + '/*.css'])
+    .pipe(cleanDest(publishDest, {extension: '.css'}))
+    .pipe(cachebuster.resources())
+    .pipe(gulp.dest(publishDest));
 
 gulp.task('index.html', function () {
     return gulp.src('./index-src.html')
