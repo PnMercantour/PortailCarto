@@ -65,6 +65,12 @@ Pour basculer sur une autre branche :
 git checkout <MA_BRANCHE>
 ```
 
+#### Génération de l'application
+
+Il vous faut générer les assets optimisés, pour cela, depuis le dossier /home/MON_USER/PortailCarto:
+    
+    npm install
+    npm run build
 
 ### 4 - Config lien symbolique dans le rep Apache
 
@@ -73,6 +79,10 @@ sudo ln -s /home/MON_USER/PortailCarto/ /var/www/html/portail
 ```
 
 On vérifie le fonctionnement dans le navigateur à l'adresse : http://localhost/portail
+
+L'adresse en mode développement est:
+
+    http://localhost/portail/index-src.html
 
 
 ### 5 - Config de l'appli : la connexion à la BDD

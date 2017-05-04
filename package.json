@@ -1,0 +1,32 @@
+{
+  "name": "portail-carto",
+  "version": "1.0.0",
+  "description": "Portail carto est une application WEB développée par Le parc national du Mercantour d'après un développement initial du parc national des Cévennes.",
+  "main": "gulpfile.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "3.9.1",
+    "gulp-clean-css": "3.0.4",
+    "gulp-concat": "2.6.1",
+    "gulp-inject": "4.2.0",
+    "gulp-rename": "1.2.2",
+    "gulp-uglify": "2.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tdesvenain/PortailCarto.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tdesvenain/PortailCarto/issues"
+  },
+  "homepage": "https://github.com/tdesvenain/PortailCarto#readme"
+}
