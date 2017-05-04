@@ -5,7 +5,8 @@ var inject = require('gulp-inject');
 var uglify = require('gulp-uglify');
 var cleanCSS = require('gulp-clean-css');
 
-var dest = 'assets/';
+var buildDest = 'build/';
+var publishDest = 'assets/';
 
 var pluginsJsFiles = [
     'vendors/leaflet/js/leaflet-search.min.js',
@@ -33,52 +34,70 @@ var imageFiles = [
 ];
 
 
+/* BUILD OPTIMIZED RESOURCES */
+
 gulp.task('plugins.js', function () {
     return gulp.src(pluginsJsFiles)
         .pipe(concat('plugins.js'))
         .pipe(uglify())
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(buildDest));
 });
 
 gulp.task('plugins.css', function () {
     return gulp.src(pluginsCssFiles)
         .pipe(concat('plugins.css'))
         .pipe(cleanCSS())
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(buildDest));
 });
 
 gulp.task('angular.dist.js', function () {
     return gulp.src(angularFiles)
         .pipe(concat('angular.dist.js'))
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(buildDest));
 });
 
 gulp.task('scripts.js', function () {
     return gulp.src(scriptsFiles)
         .pipe(concat('scripts.js'))
         .pipe(uglify())
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(buildDest));
 });
 
 gulp.task('styles.css', function () {
     return gulp.src(cssFiles)
         .pipe(concat('styles.css'))
         .pipe(cleanCSS())
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(buildDest));
 });
+
+gulp.task('assets', function () {
+
+});
+
+
+gulp.task('build', ['angular.dist.js', 'plugins.js', 'scripts.js', 'styles.css', 'plugins.css']);
+
+
+/* PUBLISH */
+
 
 gulp.task('vendor-images', function () {
     return gulp.src(imageFiles)
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(publishDest));
 });
+
+var jsStream = gulp.src(['./build/*.js'])
+  .pipe(gulp.dest(publishDest));
+
+var cssStream = gulp.src(['./build/*.css'])
+  .pipe(gulp.dest(publishDest));
 
 gulp.task('index.html', function () {
     return gulp.src('./index-src.html')
-        .pipe(inject(gulp.src(['./assets/*.js'])))
-        .pipe(inject(gulp.src(['./assets/*.css'])))
+        .pipe(inject(jsStream))
+        .pipe(inject(cssStream))
         .pipe(rename('index.html'))
-        .pipe(gulp.dest('.'));
+        .pipe(gulp.dest('.'))
 });
 
-
-gulp.task('default', ['angular.dist.js', 'plugins.js', 'scripts.js', 'styles.css', 'plugins.css', 'vendor-images', 'index.html']);
+gulp.task('publish', ['index.html', 'vendor-images']);
