@@ -40,7 +40,6 @@
       </ul>
     </div>
   </div>
-
   <div class="map-container container-fluid">
 
     <!-- GENERATION DE LA LEGENDE -->
@@ -66,57 +65,57 @@
             <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
           </h1>
 
-         <div ng-if="!overlaysLoading">
-          <div class="overlays-group" ng-repeat="group in overlaysGroups track by group.id">
-            <button class="overlays-collapser-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{group.id}}"
-                    aria-expanded="false" aria-controls="collapse-{{group.id}}">
-              <i class="overlays-group-icon fa fa-caret-down"></i>
-              <h2 class="overlays-group-title">{{group.label}}</h2>
-            </button>
-            <ul class="collapse overlays-group-values collapsed" id="collapse-{{group.id}}">
-              <li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="overlay.group && overlay.group === group.id">
-                <label>
-                  <div ng-if="overlay.thumbnail" class="overlays-group-values-thumbnail">
-                    <img ng-src="{{overlay.thumbnail}}" alt="{{overlay.name}} thumbnail"/>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name="test"
-                      ng-model="overlay.active"
-                      ng-click="toggleOverlay(overlay)"
-                    >{{overlay.name}}
-                  </div>
-                </label>
-              </li>
-            </ul>
-          </div>
+          <div ng-if="!overlaysLoading">
+            <div class="overlays-group" ng-repeat="group in overlaysGroups track by group.id">
+              <button class="overlays-collapser-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapse-{{group.id}}"
+                      aria-expanded="false" aria-controls="collapse-{{group.id}}">
+                <i class="overlays-group-icon fa fa-caret-down"></i>
+                <h2 class="overlays-group-title">{{group.label}}</h2>
+              </button>
+              <ul class="collapse overlays-group-values collapsed" id="collapse-{{group.id}}">
+                <li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="overlay.group && overlay.group === group.id">
+                  <label>
+                    <div ng-if="overlay.thumbnail" class="overlays-group-values-thumbnail">
+                      <img ng-src="{{overlay.thumbnail}}" alt="{{overlay.name}} thumbnail"/>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        name="test"
+                        ng-model="overlay.active"
+                        ng-click="toggleOverlay(overlay)"
+                      >{{overlay.name}}
+                    </div>
+                  </label>
+                </li>
+              </ul>
+            </div>
 
-          <div class="overlays-group" ng-if="showOtherGroup">
-            <button class="overlays-collapser-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapse-other"
-                    aria-expanded="false" aria-controls="collapse-other">
-              <i class="overlays-group-icon fa fa-caret-down"></i>
-              <h2 class="overlays-group-title">Autres</h2>
-            </button>
-            <ul class="collapse overlays-group-values collapsed" id="collapse-other">
-              <li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="overlay && !overlay.group">
-                <label>
-                  <div ng-if="overlay.thumbnail" class="overlays-group-values-thumbnail">
-                    <img ng-src="{{overlay.thumbnail}}" alt="{{overlay.name}} thumbnail"/>
-                  </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      name="test"
-                      ng-model="overlay.active"
-                      ng-click="toggleOverlay(overlay)"
-                    >{{overlay.name}}
-                  </div>
-                </label>
-              </li>
-            </ul>
+            <div class="overlays-group" ng-if="showOtherGroup">
+              <button class="overlays-collapser-toggle collapsed" type="button" data-toggle="collapse" data-target="#collapse-other"
+                      aria-expanded="false" aria-controls="collapse-other">
+                <i class="overlays-group-icon fa fa-caret-down"></i>
+                <h2 class="overlays-group-title">Autres</h2>
+              </button>
+              <ul class="collapse overlays-group-values collapsed" id="collapse-other">
+                <li class="checkbox" ng-repeat="overlay in overlays track by overlay.id" ng-if="overlay && !overlay.group">
+                  <label>
+                    <div ng-if="overlay.thumbnail" class="overlays-group-values-thumbnail">
+                      <img ng-src="{{overlay.thumbnail}}" alt="{{overlay.name}} thumbnail"/>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        name="test"
+                        ng-model="overlay.active"
+                        ng-click="toggleOverlay(overlay)"
+                      >{{overlay.name}}
+                    </div>
+                  </label>
+                </li>
+              </ul>
+            </div>
           </div>
-         </div>
         </div>
         <!-- FIN DIV sidebar-pane  -->
         <div class="sidebar-pane" id="info">
@@ -168,20 +167,21 @@
                 </div>
               </div>
 
-                <!-- Controls -->
-                <a class="left carousel-control" role="button" ng-click="previousSlide()">
-                  <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                  <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control" role="button" ng-click="nextSlide()">
-                  <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                  <span class="sr-only">Next</span>
-                </a>
+              <!-- Controls -->
+              <a class="left carousel-control" role="button" ng-click="previousSlide()">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="right carousel-control" role="button" ng-click="nextSlide()">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
             </div>
           </div>
         </div>
         <div class="col-lg-8 col-md-7">
           <h2 ng-if="infoBand.title" class="info-band-title">{{infoBand.title}}</h2>
+
           <p ng-if="infoBandDescript" class="info-band-description" ng-bind-html="infoBandDescript"></p>
           <p ng-if="infoBand.website" class="info-band-download">
             <a class="info-band-download btn btn-primary" href="{{infoBand.website}}" target="_blank" rel="noopener noreferrer">
@@ -200,7 +200,6 @@
             </span>
           </p>
 
-
           <div ng-if="infoBand.file" class="info-band-download">
             <a class="info-band-download btn btn-primary" href="{{infoBand.file}}" target="_blank" rel="noopener noreferrer">
               Télécharger le fichier associé
@@ -211,10 +210,25 @@
           </div>
         </div>
       </div>
-      <button type="button" class="info-band-close close" ng-click="closeInfoBand()">
-        <span aria-hidden="true">×</span>
-      </button>
-
+      <div class="info-band-actions">
+        <button type="button" class="info-band-close close" ng-click="closeInfoBand()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <button type="button"
+                title="Voir le point d'intérêt suivant"
+                class="info-band-next"
+                ng-if="hasPOINavigation"
+                ng-click="changePOI('next')">
+          Suivant&nbsp;&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>
+        </button>
+        <button type="button"
+                title="Voir le point d'intérêt précédent"
+                class="info-band-previous"
+                ng-if="hasPOINavigation"
+                ng-click="changePOI('previous')">
+          <i class="glyphicon glyphicon-arrow-left"></i>&nbsp;&nbsp;Précédent
+        </button>
+      </div>
     </div>
 
   </div>

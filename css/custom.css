@@ -145,7 +145,7 @@
     bottom: -100%;
     left: 15px;
     width: calc(100% - 30px);
-    max-height: 50vh;
+    max-height: 45vh;
     padding: 3rem;
     z-index: 4;
     transition: bottom 0.2s ease-out;
@@ -218,20 +218,36 @@
 		margin-bottom: 1rem;
 	}
 
-	.info-band-close {
+	.info-band-actions {
 		position: absolute;
 		top: -4rem;
 		right: 0;
 	}
 
-	button.close.info-band-close {
+	.info-band-next, .info-band-previous {
+		float: right;
+    background: black;
+    color: white;
+    opacity: 0.8;
+    padding: 1rem 2rem;
+    border: 0;
+	}
+
+	.info-band-next button:focus,
+	.info-band-next button:active,
+	.info-band-previous button:focus,
+	.info-band-previous button:active {
+		outline:0 !important;
+	}
+
+	.info-band-actions button {
 		background: black;
 		color: white;
 		opacity: 0.8;
 		padding: 1rem 2rem;
 	}
 
-	button.close.info-band-close:hover {
+	.info-band-actions button:hover {
 		opacity: 1;
 	}
 

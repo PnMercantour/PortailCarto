@@ -31,7 +31,7 @@ app.factory('MapsServices', ['$http', 'filterFilter', '$q', function ($http, fil
     },
 
     getOne: function (sname) {
-      return filterFilter(this.maps, { id: sname })[0];
+      return filterFilter(this.maps, {id: sname})[0];
     }
 
 
@@ -70,10 +70,11 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
   var pointTypes = ['Point', 'MultiPoint'];
 
   function layerStyleEvent(ev) {
-    $rootScope.$broadcast('feature:click', { originalEvent: ev, context: this });
+    $rootScope.$broadcast('feature:click', {originalEvent: ev, context: this});
   }
 
   function defaultOnEachFeature(feature, layer, infoBand) {
+    layer.featureIndex = feature.properties.index;
     if (pointTypes.indexOf(feature.geometry.type) >= 0) {
       var markerId;
       for (markerId in layer._layers) {
@@ -143,10 +144,22 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
 
     if (requested.type === 'geojson') {
       return $http.get('postgis_geojson.php?fields=' + requested.fields + '&geomfield=' + requested.champ_geom +
-          '&geotable=' + requested.table + '&srid=4326'
-        )
+        '&geotable=' + requested.table + '&srid=4326'
+      )
         .then(
           function (results) {
+            if (requested.infoBand) {
+              // sort features
+              var features = results.data.features;
+              results.data.features = features.sort(function (feature1, feature2) {
+                return feature1.geometry.coordinates[0][0] - feature2.geometry.coordinates[0][0];
+              });
+
+              // add an index on each feature to allow navigation between
+              for (var i = 0; i < results.data.features.length; i++) {
+                results.data.features[i].properties.index = i;
+              }
+            }
             var options = getOptions(overlay, requested.options);
 
             if (requested.cluster) {
@@ -157,7 +170,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
                 options.onEachFeature(featureData, marker);
                 return marker;
               };
-              var layer  = new L.geoJson(
+              var layer = new L.geoJson(
                 results.data,
                 options
               );
