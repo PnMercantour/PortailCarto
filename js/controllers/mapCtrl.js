@@ -15,6 +15,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       });
     }
 
+    /* Update value that is checked to display next / previous buttons in info overlay */
     function updateHasPOINavigation() {
       if (!$scope.mapinfo) {
         $scope.hasPOINavigation = false;
@@ -24,6 +25,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
           mapId === 'LacsRemarquables'
           || mapId === 'Sommetsemblematiques'
           || mapId === 'SitesIncontournables'
+          || mapId === 'Vallees'
           || mapId === 'point_info';
       }
     }
@@ -313,17 +315,22 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
           }, 1000, false)
         }
       } else if (layers.marker) {
-        var latng = layers.marker.getLatLng();
-        var zoom = ($scope.map.getZoom() < 12) ? 12 : $scope.map.getZoom();
-        var offset;  // latitude offset to prevent point from being under overlay
-        if (zoom <= 13) {
-          offset = 0.02;
-        } else if (zoom <= 15) {
-          offset = 0.01;
-        } else {
-          offset = 0.00
+        var latng;
+        if (layers.marker.getLatLng) {  // marker
+          latng = layers.marker.getLatLng();
+          var zoom = ($scope.map.getZoom() < 12) ? 12 : $scope.map.getZoom();
+          var offset;  // latitude offset to prevent point from being under overlay
+          if (zoom <= 13) {
+            offset = 0.02;
+          } else if (zoom <= 15) {
+            offset = 0.01;
+          } else {
+            offset = 0.00
+          }
+          $scope.map.setView([latng.lat - offset, latng.lng], zoom);
+        } else if (layers.marker.getBounds) {  // polygon
+          $scope.map.setView(layers.marker.getBounds().getCenter());
         }
-        $scope.map.setView([latng.lat - offset, latng.lng], zoom);
         updateOverlay(layers.marker);
       }
     }

@@ -74,6 +74,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
   }
 
   function defaultOnEachFeature(feature, layer, infoBand) {
+    // we set a featureIndex which will be used by next / previous navigation between points
     layer.featureIndex = feature.properties.index;
     if (pointTypes.indexOf(feature.geometry.type) >= 0) {
       var markerId;
