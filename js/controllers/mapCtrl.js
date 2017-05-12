@@ -1,6 +1,7 @@
 app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'MapsServices', 'baselayersServices',
   'overlaysServices', '$location', 'filterFilter', '$http', '$sce', '$rootScope', '$window',
 
+
   function ($scope, $routeParams, $timeout, MapsServices, baselayersServices, overlaysServices, $location,
             filterFilter, $http, $sce, $rootScope, $window) {
     $rootScope.mapinfo = MapsServices.getOne($routeParams.mapsId);
@@ -332,39 +333,39 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       ev.preventDefault();
       var selectedElement = contextParams.context;
 
-      $scope.featureIndex = selectedElement.feature.properties.index;
-
       var originalEvent = contextParams.originalEvent;
+      var selectedLayer = selectedElement.layer;
+
       var changed = false;
-      if (selectedElement.layer.featureIndex
-        && !selectedElement.layer.feature
-        && selectedElement.layer.featureIndex === selectedElement.feature.properties.index) {
-        selectedElement.layer.feature = selectedElement.feature;
-      }
-      if (selectedElement.layer.feature) {
-        $scope.selected = updateSelectedLayer($scope.selected, selectedElement, originalEvent);
-        changed = true;
+      if (selectedLayer.featureIndex
+        && selectedLayer.featureIndex === selectedElement.feature.properties.index
+        && !selectedLayer.feature) {
+        selectedLayer.feature = selectedElement.feature;
       }
 
-      if (selectedElement.feature) {
+      var selectedFeature = selectedElement.feature;
+      $scope.featureIndex = selectedFeature.properties.index;
+      if (selectedFeature) {
+        var markerLayer = originalEvent.layer || selectedLayer;
+        $scope.selected = updateSelectedLayer($scope.selected, selectedLayer, markerLayer);
         changed = true;
+
         if (selectedElement.infoBand) {
           $scope.infoBand = selectedElement.feature.properties;
-          $scope.infoBandDescript = $sce.trustAsHtml(selectedElement.feature.properties.descript);
+          $scope.infoBandDescript = $sce.trustAsHtml(selectedFeature.properties.descript);
           $scope.openInfoBand();
         } else {
           $scope.infoBand = null;
           $scope.closeInfoBand();
         }
       }
+
       if (changed) {
         $scope.$apply();
       }
     }
 
-    function updateSelectedLayer(previouslySelected, selectedElement, originalEvent) {
-      var newLayer = selectedElement.layer;
-      var markerLayer = originalEvent.layer || newLayer;
+    function updateSelectedLayer(previouslySelected, newLayer, markerLayer) {
       var previousStyle = {};
       var previousGeometryType;
 
@@ -407,5 +408,4 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       }
     });
   }
-
 ]);
