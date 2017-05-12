@@ -179,30 +179,6 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       });
     };
 
-    function updateSelectedLayer(previouslySelected, newLayer, originalEvent) {
-      var previousStyle = {};
-      var previousGeometryType;
-
-      if (previouslySelected) {
-        previousGeometryType = previouslySelected.layer.feature.geometry.type;
-
-        if (overlaysServices.pointTypes.indexOf(previousGeometryType) < 0) {
-          previouslySelected.layer.setStyle(previouslySelected.previousStyle);
-        } else {
-          previouslySelected.markerLayer.setOpacity(0.6);
-        }
-      }
-
-      if (overlaysServices.pointTypes.indexOf(newLayer.feature.geometry.type) < 0) {
-        previousStyle = newLayer.options.style();
-        newLayer.setStyle({color: 'yellow'});
-      } else {
-        originalEvent.layer.setOpacity(1);
-      }
-
-      return {layer: newLayer, previousStyle: previousStyle, markerLayer: originalEvent.layer};
-    }
-
     $scope.closeInfoBand = function closeInfoBand() {
       $scope.showInfoBand = false;
     };
@@ -379,6 +355,30 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       if (changed) {
         $scope.$apply();
       }
+    }
+
+    function updateSelectedLayer(previouslySelected, newLayer, originalEvent) {
+      var previousStyle = {};
+      var previousGeometryType;
+
+      if (previouslySelected) {
+        previousGeometryType = previouslySelected.layer.feature.geometry.type;
+
+        if (overlaysServices.pointTypes.indexOf(previousGeometryType) < 0) {
+          previouslySelected.layer.setStyle(previouslySelected.previousStyle);
+        } else {
+          previouslySelected.markerLayer.setOpacity(0.6);
+        }
+      }
+
+      if (overlaysServices.pointTypes.indexOf(newLayer.feature.geometry.type) < 0) {
+        previousStyle = newLayer.options.style();
+        newLayer.setStyle({color: 'yellow'});
+      } else {
+        originalEvent.layer.setOpacity(1);
+      }
+
+      return {layer: newLayer, previousStyle: previousStyle, markerLayer: originalEvent.layer};
     }
 
     $scope.showInfoBand = false;
