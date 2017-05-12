@@ -354,22 +354,22 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
 
     function selectLayer(ev, contextParams) {
       ev.preventDefault();
-      var element = contextParams.context;
+      var selectedElement = contextParams.context;
 
-      $scope.featureIndex = element.feature.properties.index;
+      $scope.featureIndex = selectedElement.feature.properties.index;
 
       var originalEvent = contextParams.originalEvent;
       var changed = false;
-      if (element.layer.feature) {
-        $scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
+      if (selectedElement.layer.feature) {
+        $scope.selected = updateSelectedLayer($scope.selected, selectedElement.layer, originalEvent);
         changed = true;
       }
 
-      if (element.feature) {
+      if (selectedElement.feature) {
         changed = true;
-        if (element.infoBand) {
-          $scope.infoBand = element.feature.properties;
-          $scope.infoBandDescript = $sce.trustAsHtml(element.feature.properties.descript);
+        if (selectedElement.infoBand) {
+          $scope.infoBand = selectedElement.feature.properties;
+          $scope.infoBandDescript = $sce.trustAsHtml(selectedElement.feature.properties.descript);
           $scope.openInfoBand();
         } else {
           $scope.infoBand = null;
