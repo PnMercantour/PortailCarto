@@ -336,6 +336,11 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
 
       var originalEvent = contextParams.originalEvent;
       var changed = false;
+      if (selectedElement.layer.featureIndex
+        && !selectedElement.layer.feature
+        && selectedElement.layer.featureIndex === selectedElement.feature.properties.index) {
+        selectedElement.layer.feature = selectedElement.feature;
+      }
       if (selectedElement.layer.feature) {
         $scope.selected = updateSelectedLayer($scope.selected, selectedElement, originalEvent);
         changed = true;
@@ -359,6 +364,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
 
     function updateSelectedLayer(previouslySelected, selectedElement, originalEvent) {
       var newLayer = selectedElement.layer;
+      var markerLayer = originalEvent.layer || newLayer;
       var previousStyle = {};
       var previousGeometryType;
 
@@ -372,14 +378,15 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
         }
       }
 
+
       if (overlaysServices.pointTypes.indexOf(newLayer.feature.geometry.type) < 0) {
         previousStyle = newLayer.options.style();
         newLayer.setStyle({color: 'yellow'});
       } else {
-        originalEvent.layer.setOpacity(1);
+        markerLayer.setOpacity(1);
       }
 
-      return {layer: newLayer, previousStyle: previousStyle, markerLayer: originalEvent.layer};
+      return {layer: newLayer, previousStyle: previousStyle, markerLayer: markerLayer};
     }
 
     $scope.showInfoBand = false;
