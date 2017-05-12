@@ -337,7 +337,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       var originalEvent = contextParams.originalEvent;
       var changed = false;
       if (selectedElement.layer.feature) {
-        $scope.selected = updateSelectedLayer($scope.selected, selectedElement.layer, originalEvent);
+        $scope.selected = updateSelectedLayer($scope.selected, selectedElement, originalEvent);
         changed = true;
       }
 
@@ -357,7 +357,8 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       }
     }
 
-    function updateSelectedLayer(previouslySelected, newLayer, originalEvent) {
+    function updateSelectedLayer(previouslySelected, selectedElement, originalEvent) {
+      var newLayer = selectedElement.layer;
       var previousStyle = {};
       var previousGeometryType;
 
