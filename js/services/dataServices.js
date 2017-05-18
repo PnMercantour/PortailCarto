@@ -68,6 +68,7 @@ app.factory('baselayersServices', ['$http', function ($http) {
 app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $q, $rootScope) {
   var overlays = [];  // a cache of requested overlays
   var pointTypes = ['Point', 'MultiPoint'];
+  var defaultOpacity = 0.7;
 
   function layerStyleEvent(ev) {
     $rootScope.$broadcast('feature:click', {originalEvent: ev, context: this});
@@ -80,7 +81,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
       var markerId;
       for (markerId in layer._layers) {
         var marker = layer._layers[markerId];
-        marker.setOpacity(0.8);
+        marker.setOpacity(defaultOpacity);
       }
 
     }
@@ -206,6 +207,7 @@ app.factory('overlaysServices', ['$http', '$q', '$rootScope', function ($http, $
   return {
     overlays: overlays,
     getOverlay: getOverlay,
-    pointTypes: pointTypes
+    pointTypes: pointTypes,
+    defaultOpacity: defaultOpacity
   };
 }]);

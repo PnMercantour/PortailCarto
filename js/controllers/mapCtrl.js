@@ -375,7 +375,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
         if (overlaysServices.pointTypes.indexOf(previousGeometryType) < 0) {
           previouslySelected.layer.setStyle(previouslySelected.previousStyle);
         } else {
-          previouslySelected.markerLayer.setOpacity(0.6);
+          previouslySelected.markerLayer.setOpacity(overlaysServices.defaultOpacity);
         }
       }
 
