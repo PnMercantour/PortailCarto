@@ -1,17 +1,34 @@
-app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices', 'baselayersServices',
+app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'MapsServices', 'baselayersServices',
   'overlaysServices', '$location', 'filterFilter', '$http', '$sce', '$rootScope', '$window',
 
-  function ($scope, $routeParams, MapsServices, baselayersServices, overlaysServices, $location,
-    filterFilter, $http, $sce, $rootScope, $window) {
-    $rootScope.mapinfo = MapsServices.getOne($routeParams.mapsId);
 
+  function ($scope, $routeParams, $timeout, MapsServices, baselayersServices, overlaysServices, $location,
+            filterFilter, $http, $sce, $rootScope, $window) {
+    $rootScope.mapinfo = MapsServices.getOne($routeParams.mapsId);
+    updateHasPOINavigation();
     $scope.maps = MapsServices.maps;
     if (!MapsServices.maps.length) {
       var dfd = MapsServices.loadData();
       dfd.then(function () {
         $scope.mapinfo = MapsServices.getOne($routeParams.mapsId);
         $scope.maps = MapsServices.maps;
+        updateHasPOINavigation();
       });
+    }
+
+    /* Update value that is checked to display next / previous buttons in info overlay */
+    function updateHasPOINavigation() {
+      if (!$scope.mapinfo) {
+        $scope.hasPOINavigation = false;
+      } else {
+        var mapId = $scope.mapinfo.id;
+        $scope.hasPOINavigation =
+          mapId === 'LacsRemarquables'
+          || mapId === 'Sommetsemblematiques'
+          || mapId === 'SitesIncontournables'
+          || mapId === 'Vallees'
+          || mapId === 'point_info';
+      }
     }
 
     $scope.$watch('mapinfo', function () {
@@ -86,7 +103,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
           overlaysServices.getOverlay(value)
             .then(function (overlay) {
               $scope.overlays[key] = overlay;
-              if (value.active) {
+              if (value.active && $scope.map) {
                 $scope.overlays[key].feature.addTo($scope.map);
               }
               counter += 1;
@@ -125,10 +142,9 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       }).addTo($scope.map);
 
 
-
       //Legend
       if ($scope.mapinfo.legend) {
-        var legend = L.control({ position: 'bottomright' });
+        var legend = L.control({position: 'bottomright'});
         legend.onAdd = function () {
           var div = L.DomUtil.create('div', 'info legend  visible-lg');
           div.innerHTML = $sce.trustAsHtml($scope.mapinfo.legend);
@@ -164,30 +180,6 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       });
     };
 
-    function updateSelectedLayer(previouslySelected, newLayer, originalEvent) {
-      var previousStyle = {};
-      var previousGeometryType;
-
-      if (previouslySelected) {
-        previousGeometryType = previouslySelected.layer.feature.geometry.type;
-
-        if (overlaysServices.pointTypes.indexOf(previousGeometryType) < 0) {
-          previouslySelected.layer.setStyle(previouslySelected.previousStyle);
-        } else {
-          previouslySelected.markerLayer.setOpacity(0.6);
-        }
-      }
-
-      if (overlaysServices.pointTypes.indexOf(newLayer.feature.geometry.type) < 0) {
-        previousStyle = newLayer.options.style();
-        newLayer.setStyle({ color: 'yellow' });
-      } else {
-        originalEvent.layer.setOpacity(1);
-      }
-
-      return { layer: newLayer, previousStyle: previousStyle, markerLayer: originalEvent.layer };
-    }
-
     $scope.closeInfoBand = function closeInfoBand() {
       $scope.showInfoBand = false;
     };
@@ -210,30 +202,192 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       }
     };
 
-    function selectLayer(ev, contextParams) {
-        var element = contextParams.context;
-        var originalEvent = contextParams.originalEvent;
-        var changed = false;
-        if (element.layer.feature) {
-          $scope.selected = updateSelectedLayer($scope.selected, element.layer, originalEvent);
-          changed = true;
-        }
+    /* Change selected point of interest
+     * method can be 'next' or 'previous';
+     */
+    $scope.changePOI = function (method) {
+      if (!(method === 'previous' || method === 'next')) {
+        throw Error('changePOI takes argument: "next" or "previous"')
+      }
 
-        if (element.feature) {
-          changed = true;
-          if (element.infoBand) {
-            $scope.infoBand = element.feature.properties;
-            $scope.infoBandDescript = $sce.trustAsHtml(element.feature.properties.descript);
-            $scope.openInfoBand();
-          } else {
-            $scope.infoBand = null;
-            $scope.closeInfoBand();
+      // get index of last feature for circular navigation
+      var maxFeatureIndex = 0;
+      $scope.map.eachLayer(function (layer) {
+        layer.fire('mouseout');  // Hide popup on previous POI
+        if (layer.featureIndex) {
+          if (layer.featureIndex > maxFeatureIndex) {
+            maxFeatureIndex = layer.featureIndex;
           }
         }
-        if (changed) {
-          $scope.$apply();
+      });
+
+      var layers = {};
+      var featureIndex = $scope.featureIndex;
+      var looped = false;
+      while (layers.marker === undefined) {
+        // try to get next or previous available marker
+        if (method === 'previous') {
+          featureIndex -= 1;
+
+          // check if we have to loop now
+          if (featureIndex < 0) {
+            if (looped) {
+              break;
+            } else {
+              featureIndex = maxFeatureIndex;
+              looped = true;
+            }
+          }
+        } else if (method === 'next') {
+          featureIndex += 1;
+
+          // check if we have to loop now
+          if (featureIndex > maxFeatureIndex) {
+            if (looped) {
+              break;
+            } else {
+              featureIndex = 0;
+              looped = true;
+            }
+          }
         }
 
+        layers = getLayersByFeatureIndex(featureIndex);
+      }
+
+      if (layers.marker) {
+        moveToLayers(layers);
+      }
+    };
+
+    /*
+     * get cluster and marker of feature by index
+     */
+    function getLayersByFeatureIndex(featureIndex) {
+      var featureMarker;
+      var featureMarkerCluster;
+      var layerNum = 0;
+      $scope.map.eachLayer(function (layer) {
+        layerNum += 1;
+        if (isMarkerOfFeature(layer, featureIndex)) {
+          featureMarker = layer;
+        } else if (isCluster(layer)) {
+          layer.getAllChildMarkers().map(function (marker) {
+            if (isMarkerOfFeature(marker, featureIndex)) {
+              featureMarkerCluster = layer;
+              featureMarker = marker;
+            }
+          })
+        }
+      });
+      return {'marker': featureMarker, 'cluster': featureMarkerCluster}
+    }
+
+    function moveToLayers(layers) {
+      if (layers.cluster) {
+        layers.cluster.zoomToBounds();
+        if (layers.marker) {
+          $timeout(function () {
+            updateOverlay(layers.marker)
+          }, 1000, false)
+        }
+      } else if (layers.marker) {
+        var latng;
+        if (layers.marker.getLatLng) {  // marker
+          latng = layers.marker.getLatLng();
+          var zoom = ($scope.map.getZoom() < 12) ? 12 : $scope.map.getZoom();
+          var offset;  // latitude offset to prevent point from being under overlay
+          if (zoom <= 13) {
+            offset = 0.02;
+          } else if (zoom <= 15) {
+            offset = 0.01;
+          } else {
+            offset = 0.00
+          }
+          $scope.map.setView([latng.lat - offset, latng.lng], zoom);
+        } else if (layers.marker.getBounds) {  // polygon
+          $scope.map.setView(layers.marker.getBounds().getCenter());
+        }
+        updateOverlay(layers.marker);
+      }
+    }
+
+    function isCluster(layer) {
+      return layer._markers !== undefined;
+    }
+
+    /*
+     * return true if the layer is the marker of the feature by featureIndex
+     */
+    function isMarkerOfFeature(layer, featureIndex) {
+      return (layer.featureIndex && layer.featureIndex === featureIndex);
+    }
+
+    function updateOverlay(marker) {
+      $timeout(function () {
+        marker.fire('click');
+      }, 0, false);
+    }
+
+    function selectLayer(ev, contextParams) {
+      ev.preventDefault();
+      var selectedElement = contextParams.context;
+
+      var originalEvent = contextParams.originalEvent;
+      var selectedLayer = selectedElement.layer;
+
+      var changed = false;
+      if (selectedLayer.featureIndex
+        && selectedLayer.featureIndex === selectedElement.feature.properties.index
+        && !selectedLayer.feature) {
+        selectedLayer.feature = selectedElement.feature;
+      }
+
+      var selectedFeature = selectedElement.feature;
+      $scope.featureIndex = selectedFeature.properties.index;
+      if (selectedFeature) {
+        var markerLayer = originalEvent.layer || selectedLayer;
+        $scope.selected = updateSelectedLayer($scope.selected, selectedLayer, markerLayer);
+        changed = true;
+
+        if (selectedElement.infoBand) {
+          $scope.infoBand = selectedElement.feature.properties;
+          $scope.infoBandDescript = $sce.trustAsHtml(selectedFeature.properties.descript);
+          $scope.openInfoBand();
+        } else {
+          $scope.infoBand = null;
+          $scope.closeInfoBand();
+        }
+      }
+
+      if (changed) {
+        $scope.$apply();
+      }
+    }
+
+    function updateSelectedLayer(previouslySelected, newLayer, markerLayer) {
+      var previousStyle = {};
+      var previousGeometryType;
+
+      if (previouslySelected) {
+        previousGeometryType = previouslySelected.layer.feature.geometry.type;
+
+        if (overlaysServices.pointTypes.indexOf(previousGeometryType) < 0) {
+          previouslySelected.layer.setStyle(previouslySelected.previousStyle);
+        } else {
+          previouslySelected.markerLayer.setOpacity(overlaysServices.defaultOpacity);
+        }
+      }
+
+
+      if (overlaysServices.pointTypes.indexOf(newLayer.feature.geometry.type) < 0) {
+        previousStyle = newLayer.options.style();
+        newLayer.setStyle({color: 'yellow'});
+      } else {
+        markerLayer.setOpacity(1);
+      }
+
+      return {layer: newLayer, previousStyle: previousStyle, markerLayer: markerLayer};
     }
 
     $scope.showInfoBand = false;
@@ -241,7 +395,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
     $scope.infoBand = null;
     $scope.infoBandDescript = null;
     var unregisterFeatureClick = $scope.$on('feature:click', selectLayer);
-    $scope.$on('$destroy', function iVeBeenDismissed() {
+    $scope.$on('$destroy', function () {
       if ($scope.map) {
         unregisterFeatureClick();
         $scope.infoBand = null;
@@ -254,5 +408,4 @@ app.controller('DetailMapController', ['$scope', '$routeParams', 'MapsServices',
       }
     });
   }
-
 ]);

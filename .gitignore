@@ -4,3 +4,9 @@ data/*.json
 data/media
 _test/*
 .idea/
+
+## generated resources
+node_modules
+assets
+build
+index.html

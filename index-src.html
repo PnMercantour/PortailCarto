@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Portail PNM</title>
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon.png">
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  <!-- fa -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+        integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+          integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+  <!-- Piwik -->
+  <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["setDomains", ["*.51.254.17.149/portail"]]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function () {
+          var u = "//51.254.17.149/piwik/";
+          _paq.push(['setTrackerUrl', u + 'piwik.php']);
+          _paq.push(['setSiteId', '1']);
+          var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+          g.type = 'text/javascript';
+          g.async = true;
+          g.defer = true;
+          g.src = u + 'piwik.js';
+          s.parentNode.insertBefore(g, s);
+      })();
+  </script>
+  <noscript><p><img src="//51.254.17.149/piwik/piwik.php?idsite=1" style="border:0;" alt=""/></p></noscript>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.0.0/dist/leaflet.js"></script>
+
+
+  <!-- inject:css -->
+  <link rel="stylesheet" href="vendors/leaflet-plugin/Sidebar/css/leaflet-sidebar.css"/>
+  <link rel="stylesheet" href="vendors/leaflet-plugin/ControlFullScreen/leaflet.fullscreen.css"/>
+  <link rel="stylesheet" href="vendors/leaflet-plugin/EasyButton/easy-button.css"/>
+  <link rel="stylesheet" href="vendors/leaflet-plugin/OSMGeocoder/Control.OSMGeocoder.css"/>
+  <link rel="stylesheet" href="css/custom.css"/>
+  <link rel="stylesheet" href="vendors/leaflet-plugin/MarkerCluster/MarkerCluster.css"/>
+  <link rel="stylesheet" href="vendors/leaflet-plugin/MarkerCluster/MarkerCluster.Default.css"/>
+  <link rel="stylesheet" href="vendors/leaflet/css/leaflet-search.min.css"/>
+  <link rel="stylesheet" href="vendors/leaflet/css/Control.Opacity.css"/>
+  <link rel="stylesheet" href="vendors/leaflet/css/leaflet.rrose.css"/>
+
+  <!-- endinject -->
+
+  <!-- inject:js -->
+
+  <!-- Angular -->
+  <script src="vendors/angular/angular-1.5.5.min.js"></script>
+  <script src="vendors/angular/angular-route.min.js"></script>
+  <script src="vendors/angular/correctif/toArrayFilter.js"></script>
+
+  <!-- Plugin Leaflet -->
+  <script src="vendors/leaflet/js/leaflet-search.min.js"></script>
+  <script src="vendors/leaflet/js/Control.Opacity.js"></script>
+  <script src="vendors/leaflet/js/leaflet.rrose-src.js"></script>
+  <script src="vendors/leaflet/js/Leaflet-WFST.src.js"></script>
+  <script src="vendors/leaflet-plugin/MarkerCluster/leaflet.markercluster.js"></script>
+  <script src="vendors/leaflet-plugin/Sidebar/js/jquery-sidebar.min.js"></script>
+  <script src="vendors/leaflet-plugin/Sidebar/js/leaflet-sidebar.js"></script>
+  <script src="vendors/leaflet-plugin/ControlFullScreen/Leaflet.fullscreen.js"></script>
+  <script src="vendors/leaflet-plugin/EasyButton/easy-button.js"></script>
+  <script src="vendors/leaflet-plugin/OSMGeocoder/Control.OSMGeocoder.js"></script>
+
+  <!-- Modules -->
+  <script src="js/app.js"></script>
+  <script src="js/services/dataServices.js"></script>
+  <script src="js/controllers/homeCtrl.js"></script>
+  <script src="js/controllers/mapCtrl.js"></script>
+
+  <!-- endinject -->
+
+  <!-- Balises META -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+</head>
+
+<body ng-app="PortailApp">
+<div ng-view></div>
+</body>
+</html>
