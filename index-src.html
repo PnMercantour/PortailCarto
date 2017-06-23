@@ -2,8 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <title>Portail PNM</title>
+  <title>Portail du Parc National du Mercantour</title>
   <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon.png">
+
+  <meta name="og:description"
+        content="Un patrimoine paysager et naturel riche. Visualisez des photos, vidéos ou fichiers selon le thème choisi : lacs remarquables, sommets emblématiques, sites incontournables, vallées, points d'informations....">
+  <meta name="og:image" content="assets/default-homepage-banner.jpg">
+  <meta name="og:title" content="Portail du Parc National du Mercantour">
 
   <!-- jQuery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -93,6 +98,121 @@
 </head>
 
 <body ng-app="PortailApp">
-<div ng-view></div>
+<div ng-view>
+
+  <!-- HERE WE COPY PASTE CONTENT FOR SEO -->
+
+  <header class="pnf ng-scope">
+    <div class="container">
+      <p><img id="main-logo" class="logo_spirale_noire" alt="logo PNF" src="./img/logos/Spirale_noire.png"></p>
+      <span class="brand-name">Parc national du Mercantour</span>
+      <h1>Accueil et découverte</h1>
+    </div>
+  </header>
+  <div class="container ng-scope">
+    <div class="row home-intro text-center">
+      <div class="col-lg-12">
+        <h2 class="tagline">Un patrimoine paysager et naturel riche</h2>
+        <p class="lead">Visualisez des photos, vidéos ou fichiers selon le thème choisi.</p>
+        <hr class="small">
+      </div>
+    </div>
+    <div class="row previews">
+      <!-- ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/LacsRemarquables">
+              <img class="img-responsive" alt="Lacs remarquables"
+                   src="/media/projets/home/40461_C_GOURON.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Lacs remarquables</h3>
+            <a class="btn btn-default" href="#/LacsRemarquables">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/Sommetsemblematiques">
+              <img class="img-responsive" alt="Sommets emblématiques"
+                   src="/media/projets/home/cimes_pnm.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Sommets emblématiques</h3>
+            <a class="btn btn-default" href="#/Sommetsemblematiques">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/SitesIncontournables">
+              <img class="img-responsive" alt="Sites incontournables"
+                   src="/media/projets/home/sommets_emblematiques.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Sites incontournables</h3>
+            <a class="btn btn-default" href="#/SitesIncontournables">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/Vallees">
+              <img class="img-responsive" alt="Vallées"
+                   src="/media/projets/home/40214_C_GOURON.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Vallées</h3>
+            <a class="btn btn-default" href="#/Vallees">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/point_info">
+              <img class="img-responsive" alt="Points d'informations "
+                   src="/media/projets/home/point_info.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Points d'informations </h3>
+            <a class="btn btn-default" href="#/point_info">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/limites">
+              <img class="img-responsive" alt="Limites réglementaires"
+                   src="/media/projets/home/limregl.png">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Limites réglementaires</h3>
+            <a class="btn btn-default" href="#/limites">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer" class="bg-footer-bottom ng-scope">
+    <div class="container">
+      <p class="left-text">© - Site réalisé par le parc national du Mercantour à partir d'un développement initial du parc national des Cévennes -
+        2016</p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
