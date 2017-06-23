@@ -141,7 +141,7 @@
 
     <div class="info-band" ng-class="{active: showInfoBand}" ng-if="infoBand">
       <div class="row">
-        <div class="col-lg-4 col-md-5">
+        <div class="col-lg-4 col-md-5 info-band-media">
           <div ng-if="infoBand.pic_1 || infoBand.pic_2" class="info-band-carousel">
             <div id="infoBand-carousel" class="carousel slide" data-interval="0">
 
@@ -179,7 +179,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-8 col-md-7">
+        <div class="col-lg-8 col-md-7 info-band-content">
           <h2 ng-if="infoBand.title" class="info-band-title">{{infoBand.title}}</h2>
 
           <p ng-if="infoBandDescript" class="info-band-description" ng-bind-html="infoBandDescript"></p>
