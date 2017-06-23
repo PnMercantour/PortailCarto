@@ -105,6 +105,9 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
               $scope.overlays[key] = overlay;
               if (value.active && $scope.map) {
                 $scope.overlays[key].feature.addTo($scope.map);
+                if (overlay.infoBand) {
+                    setInfoBandLayersList(overlay);
+                }
               }
               counter += 1;
               if (counter === overlays.length) {
@@ -161,6 +164,9 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       }
       if (overlay.active && !$scope.map.hasLayer(overlay.feature)) {
         $scope.map.addLayer(overlay.feature);
+        if (overlay.infoBand) {
+            setInfoBandLayersList(overlay);
+        }
       }
     };
 
@@ -210,60 +216,51 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
         throw Error('changePOI takes argument: "next" or "previous"')
       }
 
-      // get index of last feature for circular navigation
-      var maxFeatureIndex = 0;
       $scope.map.eachLayer(function (layer) {
         layer.fire('mouseout');  // Hide popup on previous POI
-        if (layer.featureIndex) {
-          if (layer.featureIndex > maxFeatureIndex) {
-            maxFeatureIndex = layer.featureIndex;
-          }
-        }
       });
 
-      var layers = {};
+      var layersInfo = {};
       var featureIndex = $scope.featureIndex;
-      var looped = false;
-      while (layers.marker === undefined) {
+      var maxFeatureIndex = $scope.infoBandLayers.length - 1;
+      while (layersInfo.notClusterLayer === undefined) {
         // try to get next or previous available marker
         if (method === 'previous') {
           featureIndex -= 1;
 
           // check if we have to loop now
           if (featureIndex < 0) {
-            if (looped) {
-              break;
-            } else {
               featureIndex = maxFeatureIndex;
-              looped = true;
-            }
           }
         } else if (method === 'next') {
           featureIndex += 1;
 
           // check if we have to loop now
           if (featureIndex > maxFeatureIndex) {
-            if (looped) {
-              break;
-            } else {
               featureIndex = 0;
-              looped = true;
-            }
           }
         }
 
-        layers = getLayersByFeatureIndex(featureIndex);
+        if ($scope.infoBandLayers[featureIndex].getLatLng) {
+          /* because of markercluster plugin,
+             we have to center the map on the marker position
+             to be able to get the layer later...
+          */
+          moveToMarker($scope.infoBandLayers[featureIndex]);
+        }
+        // try to get layer and eventually cluster in the context
+        layersInfo = getMapLayersByFeatureIndex(featureIndex);
       }
 
-      if (layers.marker) {
-        moveToLayers(layers);
+      if (layersInfo.notClusterLayer) {
+        moveToLayer(layersInfo);
       }
-    };
+    }
 
     /*
-     * get cluster and marker of feature by index
+     * get cluster and marker of feature by index on VISIBLE map
      */
-    function getLayersByFeatureIndex(featureIndex) {
+    function getMapLayersByFeatureIndex(featureIndex) {
       var featureMarker;
       var featureMarkerCluster;
       var layerNum = 0;
@@ -280,36 +277,41 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
           })
         }
       });
-      return {'marker': featureMarker, 'cluster': featureMarkerCluster}
+      return {'notClusterLayer': featureMarker, 'clusterLayer': featureMarkerCluster}
     }
 
-    function moveToLayers(layers) {
-      if (layers.cluster) {
-        layers.cluster.zoomToBounds();
-        if (layers.marker) {
+    function moveToLayer(layersInfo) {
+      if (layersInfo.clusterLayer) {
+        layersInfo.clusterLayer.zoomToBounds();
+        if (layersInfo.notClusterLayer) {
           $timeout(function () {
-            updateOverlay(layers.marker)
-          }, 1000, false)
+            moveToMarker(layersInfo.notClusterLayer);
+            updateInfoBand(layersInfo.notClusterLayer);
+          }, 1500, false)
         }
-      } else if (layers.marker) {
-        var latng;
-        if (layers.marker.getLatLng) {  // marker
-          latng = layers.marker.getLatLng();
-          var zoom = ($scope.map.getZoom() < 12) ? 12 : $scope.map.getZoom();
-          var offset;  // latitude offset to prevent point from being under overlay
-          if (zoom <= 13) {
-            offset = 0.02;
-          } else if (zoom <= 15) {
-            offset = 0.01;
-          } else {
-            offset = 0.00
-          }
-          $scope.map.setView([latng.lat - offset, latng.lng], zoom);
-        } else if (layers.marker.getBounds) {  // polygon
-          $scope.map.setView(layers.marker.getBounds().getCenter());
+      } else if (layersInfo.notClusterLayer) {
+        if (layersInfo.notClusterLayer.getLatLng) {  // marker
+          moveToMarker(layersInfo.notClusterLayer);
+        } else if (layersInfo.notClusterLayer.getBounds) {  // polygon
+          $scope.map.setView(layersInfo.notClusterLayer.getBounds().getCenter());
         }
-        updateOverlay(layers.marker);
+        updateInfoBand(layersInfo.notClusterLayer);
       }
+    }
+
+    function moveToMarker(marker) {
+      var latng;
+      latng = marker.getLatLng();
+      var zoom = ($scope.map.getZoom() < 12) ? 12 : $scope.map.getZoom();
+      var offset;  // latitude offset to prevent point from being under overlay
+      if (zoom <= 13) {
+        offset = 0.02;
+      } else if (zoom <= 15) {
+        offset = 0.01;
+      } else {
+        offset = 0.00
+      }
+      $scope.map.setView([latng.lat - offset, latng.lng], zoom);
     }
 
     function isCluster(layer) {
@@ -323,7 +325,7 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       return (layer.featureIndex && layer.featureIndex === featureIndex);
     }
 
-    function updateOverlay(marker) {
+    function updateInfoBand(marker) {
       $timeout(function () {
         marker.fire('click');
       }, 0, false);
@@ -379,7 +381,6 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
         }
       }
 
-
       if (overlaysServices.pointTypes.indexOf(newLayer.feature.geometry.type) < 0) {
         previousStyle = newLayer.options.style();
         newLayer.setStyle({color: 'yellow'});
@@ -388,6 +389,14 @@ app.controller('DetailMapController', ['$scope', '$routeParams', '$timeout', 'Ma
       }
 
       return {layer: newLayer, previousStyle: previousStyle, markerLayer: markerLayer};
+    }
+
+    /* Set the list of layers we loop over with info band next / previous, from overlay object */
+    function setInfoBandLayersList(overlay) {
+      $scope.infoBandLayers = [];
+      overlay.feature.eachLayer(function(layer) {
+        $scope.infoBandLayers.push(layer)
+      })
     }
 
     $scope.showInfoBand = false;
