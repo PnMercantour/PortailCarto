@@ -101,9 +101,13 @@ var cssStream = gulp.src([buildDest + '/*.css'])
     .pipe(cachebuster.resources())
     .pipe(gulp.dest(publishDest));
 
+var injectJsTransform = function (filepath, file, i, length) {
+    return '<script defer src="' + filepath + '"></script>';
+};
+
 gulp.task('index.html', function () {
     return gulp.src('./index-src.html')
-        .pipe(inject(jsStream))
+        .pipe(inject(jsStream, {transform: injectJsTransform}))
         .pipe(inject(cssStream))
         .pipe(rename('index.html'))
         .pipe(gulp.dest('.'))

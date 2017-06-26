@@ -2,11 +2,15 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <title>Portail PNM</title>
+  <title>Portail du Parc National du Mercantour</title>
   <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon.png">
 
+  <meta name="og:description"
+        content="Un patrimoine paysager et naturel riche. Visualisez des photos, vidéos ou fichiers selon le thème choisi : lacs remarquables, sommets emblématiques, sites incontournables, vallées, points d'informations....">
+  <meta name="og:title" content="Portail du Parc National du Mercantour">
+
   <!-- jQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
   <!-- fa -->
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
@@ -18,17 +22,17 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
         integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+  <script defer src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
           integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
   <!-- Piwik -->
   <script type="text/javascript">
       var _paq = _paq || [];
-      _paq.push(["setDomains", ["*.51.254.17.149/portail"]]);
+      _paq.push(["setDomains", ["portailcarto.mercantour-parcnational.fr"]]);
       _paq.push(['trackPageView']);
       _paq.push(['enableLinkTracking']);
       (function () {
-          var u = "//51.254.17.149/piwik/";
+          var u = "//portailcarto.mercantour-parcnational.fr/piwik/";
           _paq.push(['setTrackerUrl', u + 'piwik.php']);
           _paq.push(['setSiteId', '1']);
           var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
@@ -39,11 +43,11 @@
           s.parentNode.insertBefore(g, s);
       })();
   </script>
-  <noscript><p><img src="//51.254.17.149/piwik/piwik.php?idsite=1" style="border:0;" alt=""/></p></noscript>
+  <noscript><p><img src="/piwik/piwik.php?idsite=1" style="border:0;" alt=""/></p></noscript>
 
   <!-- Leaflet -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css"/>
-  <script src="https://unpkg.com/leaflet@1.0.0/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+  <script defer src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 
 
   <!-- inject:css -->
@@ -63,27 +67,27 @@
   <!-- inject:js -->
 
   <!-- Angular -->
-  <script src="vendors/angular/angular-1.5.5.min.js"></script>
-  <script src="vendors/angular/angular-route.min.js"></script>
-  <script src="vendors/angular/correctif/toArrayFilter.js"></script>
+  <script defer src="vendors/angular/angular-1.5.5.min.js"></script>
+  <script defer src="vendors/angular/angular-route.min.js"></script>
+  <script defer src="vendors/angular/correctif/toArrayFilter.js"></script>
 
   <!-- Plugin Leaflet -->
-  <script src="vendors/leaflet/js/leaflet-search.min.js"></script>
-  <script src="vendors/leaflet/js/Control.Opacity.js"></script>
-  <script src="vendors/leaflet/js/leaflet.rrose-src.js"></script>
-  <script src="vendors/leaflet/js/Leaflet-WFST.src.js"></script>
-  <script src="vendors/leaflet-plugin/MarkerCluster/leaflet.markercluster.js"></script>
-  <script src="vendors/leaflet-plugin/Sidebar/js/jquery-sidebar.min.js"></script>
-  <script src="vendors/leaflet-plugin/Sidebar/js/leaflet-sidebar.js"></script>
-  <script src="vendors/leaflet-plugin/ControlFullScreen/Leaflet.fullscreen.js"></script>
-  <script src="vendors/leaflet-plugin/EasyButton/easy-button.js"></script>
-  <script src="vendors/leaflet-plugin/OSMGeocoder/Control.OSMGeocoder.js"></script>
+  <script defer src="vendors/leaflet/js/leaflet-search.min.js"></script>
+  <script defer src="vendors/leaflet/js/Control.Opacity.js"></script>
+  <script defer src="vendors/leaflet/js/leaflet.rrose-src.js"></script>
+  <script defer src="vendors/leaflet/js/Leaflet-WFST.src.js"></script>
+  <script defer src="vendors/leaflet-plugin/MarkerCluster/leaflet.markercluster.js"></script>
+  <script defer src="vendors/leaflet-plugin/Sidebar/js/jquery-sidebar.min.js"></script>
+  <script defer src="vendors/leaflet-plugin/Sidebar/js/leaflet-sidebar.js"></script>
+  <script defer src="vendors/leaflet-plugin/ControlFullScreen/Leaflet.fullscreen.js"></script>
+  <script defer src="vendors/leaflet-plugin/EasyButton/easy-button.js"></script>
+  <script defer src="vendors/leaflet-plugin/OSMGeocoder/Control.OSMGeocoder.js"></script>
 
   <!-- Modules -->
-  <script src="js/app.js"></script>
-  <script src="js/services/dataServices.js"></script>
-  <script src="js/controllers/homeCtrl.js"></script>
-  <script src="js/controllers/mapCtrl.js"></script>
+  <script defer src="js/app.js"></script>
+  <script defer src="js/services/dataServices.js"></script>
+  <script defer src="js/controllers/homeCtrl.js"></script>
+  <script defer src="js/controllers/mapCtrl.js"></script>
 
   <!-- endinject -->
 
@@ -93,6 +97,121 @@
 </head>
 
 <body ng-app="PortailApp">
-<div ng-view></div>
+<div ng-view>
+
+  <!-- HERE WE COPY PASTE CONTENT FOR SEO -->
+
+  <header class="pnf ng-scope">
+    <div class="container">
+      <p><img id="main-logo" class="logo_spirale_noire" alt="logo PNF" src="./img/logos/Spirale_noire.png"></p>
+      <span class="brand-name">Parc national du Mercantour</span>
+      <h1>Accueil et découverte</h1>
+    </div>
+  </header>
+  <div class="container ng-scope">
+    <div class="row home-intro text-center">
+      <div class="col-lg-12">
+        <h2 class="tagline">Un patrimoine paysager et naturel riche</h2>
+        <p class="lead">Visualisez des photos, vidéos ou fichiers selon le thème choisi.</p>
+        <hr class="small">
+      </div>
+    </div>
+    <div class="row previews">
+      <!-- ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/LacsRemarquables">
+              <img class="img-responsive" alt="Lacs remarquables"
+                   src="/media/projets/home/lacs_remarquables_thumb.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Lacs remarquables</h3>
+            <a class="btn btn-default" href="#/LacsRemarquables">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/Sommetsemblematiques">
+              <img class="img-responsive" alt="Sommets emblématiques"
+                   src="/media/projets/home/cimes_pnm_thumb.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Sommets emblématiques</h3>
+            <a class="btn btn-default" href="#/Sommetsemblematiques">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/SitesIncontournables">
+              <img class="img-responsive" alt="Sites incontournables"
+                   src="/media/projets/home/sommets_emblematiques_thumb.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Sites incontournables</h3>
+            <a class="btn btn-default" href="#/SitesIncontournables">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/Vallees">
+              <img class="img-responsive" alt="Vallées"
+                   src="/media/projets/home/40214_C_GOURON.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Vallées</h3>
+            <a class="btn btn-default" href="#/Vallees">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/point_info">
+              <img class="img-responsive" alt="Points d'informations "
+                   src="/media/projets/home/point_info_thumb.jpg">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Points d'informations </h3>
+            <a class="btn btn-default" href="#/point_info">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+      <div>
+        <div class="thumbnail">
+          <div class="img-overview">
+            <a class="post-image-link" href="#/limites">
+              <img class="img-responsive" alt="Limites réglementaires"
+                   src="/media/projets/home/limregl.png">
+            </a>
+          </div>
+          <div class="caption">
+            <h3 class="ng-binding">Limites réglementaires</h3>
+            <a class="btn btn-default" href="#/limites">Voir la carte</a>
+          </div>
+        </div>
+      </div><!-- end ngRepeat: map in maps | toArray | filter:query | orderBy:orderProp track by map.id -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div id="footer" class="bg-footer-bottom ng-scope">
+    <div class="container">
+      <p class="left-text">© - Site réalisé par le parc national du Mercantour à partir d'un développement initial du parc national des Cévennes -
+        2016</p>
+    </div>
+  </div>
+</div>
 </body>
 </html>
